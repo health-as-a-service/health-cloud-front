@@ -39,10 +39,26 @@ export const ROUTES: RouteInfo[] = [
       badgeClass: "",
       role: [""],
       submenu: [],
-    },]
-  },
+    },
+    {
+      path: "/admin/day-off/all-day-offs",
+      title: "All dayoffs",
+      moduleName: "day-offs",
+      iconType: "",
+      icon: "",
+      class: "ml-menu",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      role: [""],
+      submenu: [],
+    }
+  ]
+
+
+},
   {
-    
+
     path: "",
     title: "MENUITEMS.DASHBOARD.TEXT",
     moduleName: "dashboard",

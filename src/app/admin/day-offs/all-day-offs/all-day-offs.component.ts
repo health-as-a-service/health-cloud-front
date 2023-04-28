@@ -14,14 +14,12 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { DayOffDetailsDialogComponent } from '../all-day-offs/dialogs/day-off-details/day-off-details.component';
 
 
-
-
 @Component({
-  selector: 'app-pending',
-  templateUrl: './pending.component.html',
-  styleUrls: ['./pending.component.sass']
+  selector: 'app-all-day-offs',
+  templateUrl: './all-day-offs.component.html',
+  styleUrls: ['./all-day-offs.component.sass']
 })
-export class PendingComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class AllDayOffsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   displayedColumns = [
     "id",
     "img",
@@ -31,13 +29,12 @@ export class PendingComponent extends UnsubscribeOnDestroyAdapter implements OnI
     "reason",
     "actions",
   ];
-
   exampleDatabase: DayOffsService | null;
   dataSource: ExampleDataSource | null;
   selection = new SelectionModel<DayOff>(true, []);
   index: number;
   id: string;
-  pendings: DayOff | null;
+  dayOff: DayOff | null;
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
@@ -47,35 +44,20 @@ export class PendingComponent extends UnsubscribeOnDestroyAdapter implements OnI
     super();
   }
 
-
-
+  
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("filter", { static: true }) filter: ElementRef;
+
 
   ngOnInit(): void {
     this.loadData();
     this.dayOffsService.dayOffStatusUpdated.subscribe(() => {
       this.refreshTable();
     });
-
   }
   refresh() {
     this.loadData();
-  }
-
-  onAcceptClick(id: string) {
-   this.dayOffsService.updateDayOffStatus(id, "approved", () => {
-      this.refresh();
-      this.refreshTable()
-    });
-  }
-
-  onRejectClick(id: string) {
-    this.dayOffsService.updateDayOffStatus(id, "rejected", () => {
-      this.refresh();
-      this.refreshTable()
-    });
   }
   openDetailsDialog(row) {
     const dialogRef = this.dialog.open(DayOffDetailsDialogComponent, {
@@ -92,7 +74,6 @@ export class PendingComponent extends UnsubscribeOnDestroyAdapter implements OnI
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
-
 
   public loadData() {
     this.exampleDatabase = new DayOffsService(this.httpClient);
@@ -111,7 +92,12 @@ export class PendingComponent extends UnsubscribeOnDestroyAdapter implements OnI
     );
   }
 
+
+
+
+
 }
+
 export class ExampleDataSource extends DataSource<DayOff> {
   filterChange = new BehaviorSubject("");
   get filter(): string {
@@ -141,7 +127,7 @@ export class ExampleDataSource extends DataSource<DayOff> {
       this.paginator.page,
     ];
 
-    this.exampleDatabase.getPendingDayOffs();
+    this.exampleDatabase.getAllDayOffs();
     console.log(this.renderedData)
     return merge(...displayDataChanges).pipe(
       map(() => {

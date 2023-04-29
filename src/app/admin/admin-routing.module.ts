@@ -18,7 +18,7 @@ const routes: Routes = [
       import("./operations/operations.module").then((m) => m.OperationsModule),
   },
   {
-    path: "logistique",
+    path: "logistics",
     loadChildren: () =>
       import("./logistics/logistics.module").then((m) => m.LogisticsModule),
   },

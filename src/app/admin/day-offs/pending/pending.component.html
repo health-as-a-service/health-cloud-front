@@ -75,7 +75,8 @@
                 </ng-container>
                 <ng-container matColumnDef="dateDebut">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Period</mat-header-cell>
-                  <mat-cell *matCellDef="let row"> From {{row.startDate | date: 'dd/MM/yyyy'}} <br>To {{row.endDate | date: 'dd/MM/yyyy'}}</mat-cell>
+                  <mat-cell *matCellDef="let row"> From {{row.startDate | date: 'dd/MM/yyyy'}} <br>To {{row.endDate |
+                    date: 'dd/MM/yyyy'}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="reason">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Reason</mat-header-cell>
@@ -87,11 +88,11 @@
                 <ng-container matColumnDef="actions">
                   <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
                   <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                    <button mat-raised-button color="primary" (click)="$event.stopPropagation()" (click)="onAcceptClick(row.id)"
-                      class="tbl-action-btn"> Accept
+                    <button mat-raised-button color="primary" (click)="$event.stopPropagation()"
+                      (click)="onAcceptClick(row.id)" class="tbl-action-btn"> Accept
                     </button>
-                    <button mat-raised-button color="warn" (click)="$event.stopPropagation()" (click)="onRejectClick(row.id)" 
-                    class="tbl-action-btn"> Reject
+                    <button mat-raised-button color="warn" (click)="$event.stopPropagation()"
+                      (click)="onRejectClick(row.id)" class="tbl-action-btn"> Reject
                     </button>
                   </mat-cell>
                 </ng-container>

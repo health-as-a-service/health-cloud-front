@@ -6,13 +6,14 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { delay, map } from "rxjs/operators";
+import { DeleteDialogComponent } from "./dialogs/delete/delete.component";
 import { DataSource } from "@angular/cdk/collections";
 import { BehaviorSubject, fromEvent, merge, Observable } from "rxjs";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { SelectionModel } from "@angular/cdk/collections";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { DayOffDetailsDialogComponent } from '../all-day-offs/dialogs/day-off-details/day-off-details.component';
-
+import { FormDialogComponent } from "../all-day-offs/dialogs/form-dialog/form-dialog.component";
 
 @Component({
   selector: 'app-all-day-offs',
@@ -69,12 +70,83 @@ export class AllDayOffsComponent extends UnsubscribeOnDestroyAdapter implements 
       console.log('The dialog was closed');
     });
   }
+  showNotification(colorName, text, placementFrom, placementAlign) {
+    this.snackBar.open(text, "", {
+      duration: 2000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: colorName,
+    });
+  }
 
+  deleteItem(row) {
+    this.id = row.id;
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+          (x) => x.id === this.id
+        );
+        // for delete we use splice in order to remove single object from DataService
+        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+        this.refreshTable();
+        this.showNotification(
+          "snackbar-danger",
+          "Delete Record Successfully...!!!",
+          "bottom",
+          "center"
+        );
+      }
+    });
+  }
 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
-
+  editCall(row) {
+    this.id = row.id;
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+    const dialogRef = this.dialog.open(FormDialogComponent, {
+      data: {
+        dayOff: row,
+        action: "edit",
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+          (x) => x.id === this.id
+        );
+        // Then you update that record using data from dialogData (values you enetered)
+        this.exampleDatabase.dataChange.value[foundIndex] =
+          this.dayOffsService.getDialogData();
+        // And lastly refresh table
+        this.refreshTable();
+        this.showNotification(
+          "black",
+          "Edit Record Successfully...!!!",
+          "bottom",
+          "center"
+        );
+      }
+    });
+  }
   public loadData() {
     this.exampleDatabase = new DayOffsService(this.httpClient);
     this.dataSource = new ExampleDataSource(
@@ -91,11 +163,6 @@ export class AllDayOffsComponent extends UnsubscribeOnDestroyAdapter implements 
       }
     );
   }
-
-
-
-
-
 }
 
 export class ExampleDataSource extends DataSource<DayOff> {

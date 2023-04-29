@@ -1,6 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { BehaviorSubject } from "rxjs";
 import { DayOff } from "./day-offs.model";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
@@ -9,7 +8,7 @@ import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroy
 export class DayOffsService extends UnsubscribeOnDestroyAdapter{
   isTblLoading = true;
   dialogData: any;
-  private readonly url = 'http://localhost:8082/api/day-offs'
+  private readonly url = 'http://localhost:8082/api/day-offs/'
   dataChange: BehaviorSubject<DayOff[]> = new BehaviorSubject<DayOff[]>([]);
  
   constructor(private http: HttpClient ) { 
@@ -34,7 +33,7 @@ export class DayOffsService extends UnsubscribeOnDestroyAdapter{
   );
 }
 getPendingDayOffs(): void{
-  this.subs.sink = this.http.get<DayOff[]>(this.url+"/pending").subscribe(
+  this.subs.sink = this.http.get<DayOff[]>(this.url+"pending").subscribe(
   (data) => {
     this.isTblLoading = false;
     this.dataChange.next(data);
@@ -48,7 +47,7 @@ getPendingDayOffs(): void{
 
 public dayOffStatusUpdated = new EventEmitter<void>();
  updateDayOffStatus(id: string, newStatus: string, callback: () => void): void{
-    const url = this.url+`/${id}/status`;
+    const url = this.url+`${id}/status`;
     const params = new HttpParams()
   .set('newStatus', newStatus);
     this.http.put(url, null,{ params }).subscribe(
@@ -69,32 +68,38 @@ public dayOffStatusUpdated = new EventEmitter<void>();
     );  }
 
 
-
 addDayOff(dayOff: DayOff): void {
   this.dialogData = dayOff;
 
-  /*  this.httpClient.post(this.API_URL, appointment).subscribe(data => {
-    this.dialogData = appointment;
+    this.http.post(this.url, dayOff).subscribe(data => {
+    this.dialogData = dayOff;
     },
     (err: HttpErrorResponse) => {
    // error code here
-  });*/
+  });
+}
+
+updateDayOff(dayOff: DayOff): void {
+  this.dialogData = dayOff;
+
+  this.http.put(this.url + dayOff.id, dayOff).subscribe(data => {
+    this.dialogData = dayOff;
+  },
+  (err: HttpErrorResponse) => {
+    // error code here
+  }
+);
 }
 
 deleteDayOff(id: string):void{
   console.log(id)
-       this.http.delete(this.url + `/${id}`).subscribe(data => {
+       this.http.delete(this.url + `${id}`).subscribe(data => {
       console.log(id);
       },
       (err: HttpErrorResponse) => {
-
       }
     );
 
 }
-
-  getPendingDayOffRequests(): Observable<DayOff[]>{
-    return this.http.get<DayOff[]>(this.url+'pending')
-  }
 
 }

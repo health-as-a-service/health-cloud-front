@@ -1,9 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { PendingComponent } from './pending/pending.component';
-import { DayOffsRoutingModule } from './day-offs-routing.module'
-import { SharedModule } from "src/app/shared/shared.module";
-import { ComponentsModule } from "src/app/shared/components/components.module";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
@@ -23,15 +19,23 @@ import { MaterialFileInputModule } from "ngx-material-file-input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 
-
+import { SharedModule } from "src/app/shared/shared.module";
+import { ComponentsModule } from "src/app/shared/components/components.module";
+import { DayOffsRoutingModule } from "./day-offs-routing.module";
+import { PendingComponent } from "./pending/pending.component";
 import { DayOffsService } from "./day-offs.service";
-import { AllDayOffsComponent } from './all-day-offs/all-day-offs.component';
-import {DayOffDetailsDialogComponent} from './all-day-offs/dialogs/day-off-details/day-off-details.component'
+import { AllDayOffsComponent } from "./all-day-offs/all-day-offs.component";
+import { DayOffDetailsDialogComponent } from "./all-day-offs/dialogs/day-off-details/day-off-details.component";
+import { DeleteDialogComponent } from "./all-day-offs/dialogs/delete/delete.component";
+import { FormDialogComponent } from './all-day-offs/dialogs/form-dialog/form-dialog.component';
+
 @NgModule({
   declarations: [
     PendingComponent,
     AllDayOffsComponent,
-    DayOffDetailsDialogComponent
+    DayOffDetailsDialogComponent,
+    DeleteDialogComponent,
+    FormDialogComponent
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -39,26 +43,26 @@ import {DayOffDetailsDialogComponent} from './all-day-offs/dialogs/day-off-detai
     MatCheckboxModule,
     MatRadioModule,
     MatTableModule,
-  MatPaginatorModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatSnackBarModule,
-  MatButtonModule,
-  MatIconModule,
-  MatDialogModule,
-  MatSortModule,
-  MatToolbarModule,
-  MatSelectModule,
-  MatDatepickerModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSortModule,
+    MatToolbarModule,
+    MatSelectModule,
+    MatDatepickerModule,
     CommonModule,
     DayOffsRoutingModule,
     SharedModule,
     ComponentsModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     MatIconModule,
     MatInputModule,
   ],
-  providers:[DayOffsService]
+  providers: [DayOffsService],
 })
 export class DayOffsModule {}

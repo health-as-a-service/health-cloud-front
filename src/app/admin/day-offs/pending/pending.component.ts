@@ -86,6 +86,16 @@ export class PendingComponent extends UnsubscribeOnDestroyAdapter implements OnI
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+    dialogRef.componentInstance.statusUpdated.subscribe((status: string) => {
+      // refresh the table
+      this.refresh();
+      this.refreshTable();
+
+      // show a snackbar message
+      this.snackBar.open(`Day off ${status} successfully`, "Close", {
+        duration: 2000,
+      });
+    });
   }
 
 

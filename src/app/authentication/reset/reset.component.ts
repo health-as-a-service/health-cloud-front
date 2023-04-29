@@ -1,43 +1,52 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ForgotPassword } from "./forgot-password.service";
+import { ResetPass } from "./reset.service"
 
 
 @Component({
-  selector: "app-forgot-password",
-  templateUrl: "./forgot-password.component.html",
-  styleUrls: ["./forgot-password.component.scss"],
+  selector: 'app-reset',
+  templateUrl: './reset.component.html',
+  styleUrls: ['./reset.component.sass']
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ResetComponent implements OnInit {
   authForm: FormGroup;
   submitted = false;
   loading = false;
-  
+  hide = true;
   returnUrl: string;
+  errormessage: String;
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private ForgotPassword:ForgotPassword,
+    private resetpass: ResetPass
     
+  ) {
     
-  ) {}
-  ngOnInit() {
+   }
+
+  ngOnInit(): void {
     this.authForm = this.formBuilder.group({
-      emailUser: [
+      email: [
         "",
         [Validators.required, Validators.email, Validators.minLength(5)],
       ],
-    });
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+      newPassword:[Validators.required],
+      confirmPassword:[Validators.required],
+      
+
+    })
+    ;
+  
   }
   get f() {
     return this.authForm.controls;
   }
-  onSubmit() {
-    
+  
+  onSubmit(): void {
+     
     this.submitted = true;
 
     if (this.authForm.invalid) {
@@ -45,7 +54,7 @@ export class ForgotPasswordComponent implements OnInit {
     } else {
       this.loading = true;
   
-      this.ForgotPassword.send(this.f.emailUser.value).subscribe(
+      this.resetpass.reset(this.f.email.value,this.f.newPassword.value,this.f.confirmPassword.value).subscribe(
         (data) => {
           console.log(data);
           this.router.navigate(["/authentication/signin"]);
@@ -61,4 +70,9 @@ export class ForgotPasswordComponent implements OnInit {
       form.submit();
     }
   }
+    
+      
 }
+  
+
+

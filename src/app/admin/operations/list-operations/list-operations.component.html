@@ -70,7 +70,12 @@
                     <h5 class="card-title">Success Rates by Type</h5>
                     <ul class="list-group">
                         <li class="list-group-item" *ngFor="let rate of successRates | keyvalue">
-                            {{ rate.key }}: {{ rate.value }}
+                            {{ rate.key }}
+                            <div class="progress shadow-style">
+                                <div class="progress-bar l-bg-orange width-per-74" role="progressbar"
+                                    [aria-valuenow]="rate.value" aria-valuemin="0" aria-valuemax="100">{{rate.value}}%
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>

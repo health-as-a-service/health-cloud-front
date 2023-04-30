@@ -10,11 +10,13 @@
     <div class="row mt-3">
         <div class="col-md-9">
             <div class="form-group">
-                <input class="form-control p-2" placeholder="Search by type" (input)="filterOperations()">
+                <input class="form-control p-2" placeholder="Search by type" name="searchTerm" [(ngModel)]="searchTerm"
+                    (input)="filterOperations()">
             </div>
             <div class="form-group">
                 <label for="sort-criteria">Sort by:</label>
-                <select id="sort-criteria" class="form-control" (change)="sortOperations()">
+                <select id="sort-criteria" class="form-control" [(ngModel)]="sortingCriteria" name="sortingCriteria"
+                    (change)="sortOperations()">
                     <option value="">-- select criteria --</option>
                     <option value="typeOp">Type</option>
                     <option value="dateOp">Date</option>

@@ -19,8 +19,8 @@ export class AddStaffComponent {
 
   constructor(private fb: FormBuilder,private staffservice: StaffService) {
     this.staffForm = this.fb.group({
-      firstName: ["", [Validators.required, Validators.pattern("[a-zA-Z]+")]],
-      lastName: [""],
+      nom: ["", [Validators.required, Validators.pattern("[a-zA-Z]+")]],
+      prenom: [""],
       role: ["", [Validators.required]],
       username:["",[Validators.required]],
       password: ["", [Validators.required]],     
@@ -42,8 +42,8 @@ export class AddStaffComponent {
       return;
     } else {
       this.staffservice.addStaff(
-        this.f.firstName.value, 
-        this.f.lastName.value, 
+        this.f.nom.value, 
+        this.f.prenom.value, 
         [this.selectedRole], 
         this.f.username.value,
         this.f.password.value,

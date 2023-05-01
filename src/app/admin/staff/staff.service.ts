@@ -12,11 +12,11 @@ export class StaffService {
 
   constructor(private http: HttpClient ) {}
 
-  addStaff(firstName: string, lastName : string, role: Role[], username: string, password: string, email: string): Observable<Userr[]> {
+  addStaff(nom: string, prenom : string, role: Role[], username: string, password: string, email: string): Observable<Userr[]> {
    
     const body = {
-      firstName: firstName,
-      lastName: lastName,
+        nom: nom,
+        prenom: prenom,
       role:role,
       username: username,
       password: password,

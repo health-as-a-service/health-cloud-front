@@ -53,15 +53,15 @@ export class StaffService extends UnsubscribeOnDestroyAdapter {
     }
   );*/
   }
-  deleteStaff(id: number): void {
-    console.log(id);
+  deleteStaff(idUser: number): void {
+    console.log(idUser);
 
-    /*  this.httpClient.delete(this.API_URL + id).subscribe(data => {
-      console.log(id);
+      this.httpClient.delete<Staff[]>(this.API_URL+ `/${idUser}` ).subscribe(data => {
+      console.log(idUser);
       },
       (err: HttpErrorResponse) => {
          // error code here
       }
-    );*/
+    );
   }
 }

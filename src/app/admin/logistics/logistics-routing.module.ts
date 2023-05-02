@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { ListLogisticsComponent } from "./list-logistics/list-logistics.component";
 import { EditLogisticComponent } from "./edit-logistic/edit-logistic.component";
 import { AddLogisticComponent } from "./add-logistic/add-logistic.component";
+import { Page404Component } from "src/app/authentication/page404/page404.component";
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
     path: "add-logistic",
     component: AddLogisticComponent,
   },
+  { path: "**", component: Page404Component },
 ];
 
 @NgModule({

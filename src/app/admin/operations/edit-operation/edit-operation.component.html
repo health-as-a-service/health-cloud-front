@@ -12,15 +12,13 @@
                         <h2><strong>Edit Operation</strong></h2>
                     </div>
                     <div class="body">
-                        <form class="register-form m-4" [formGroup]="editOpForm" (ngSubmit)="onSubmit()">
+                        <form class="register-form m-4" #editForm="ngForm" *ngIf="editOpForm" [formGroup]="editOpForm"
+                            (ngSubmit)="onSubmit()">
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                                    
-                                    <mat-checkbox id="success" [(ngModel)]="success"></mat-checkbox>
+                                    <mat-checkbox id="success" formControlName="success"></mat-checkbox>
                                     &nbsp;
                                     <mat-label>Successful Operation</mat-label>
-                                    
-                                  
                                 </div>
                             </div>
                             <div class="row">

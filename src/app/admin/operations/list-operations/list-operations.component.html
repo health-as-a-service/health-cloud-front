@@ -39,11 +39,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let operation of filteredOperations">
+                    <tr *ngFor="let operation of filteredOperations | 
+                         slice: lowValue : highValue">
                         <td>{{ operation.idOp }}</td>
                         <td>{{ operation.success ? 'Yes' : 'No' }}</td>
-                        <td>{{ operation.nomP }}</td>
                         <td>{{ operation.nomChi }}</td>
+                        <td>{{ operation.nomP }}</td>
                         <td>{{ operation.dateOp | date: 'yyyy-MM-dd' }}</td>
                         <td>{{ operation.typeOp }}</td>
                         <td>{{ operation.idChambre }}</td>
@@ -63,6 +64,9 @@
                     </tr>
                 </tbody>
             </table>
+            <mat-paginator [length]="filteredOperations.length" pageSize=10 (page)="getPaginatorData($event)"
+                [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons="false">
+            </mat-paginator>
         </div>
         <div class="col-md-3">
             <div class="card">

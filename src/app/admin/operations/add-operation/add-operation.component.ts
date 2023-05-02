@@ -9,7 +9,7 @@ import { OperationService } from "src/app/core/service/operation.service";
   styleUrls: ["./add-operation.component.sass"],
 })
 export class AddOperationComponent implements OnInit {
-  operation: Operation = new Operation();
+  operation: Operation;
   logistics: Logistique[] = [];
 
   constructor(private operationService: OperationService) {}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { PageEvent } from "@angular/material/paginator";
 import { Operation } from "src/app/core/models/operation";
 import { OperationService } from "src/app/core/service/operation.service";
 
@@ -14,6 +15,8 @@ export class ListOperationsComponent implements OnInit {
   searchTerm: string = "";
   successRates: Map<string, number> = new Map<string, number>();
   sortingCriteria: string = "";
+  lowValue: number = 0;
+  highValue: number = 10;
 
   constructor(private operationService: OperationService) {}
 
@@ -22,17 +25,24 @@ export class ListOperationsComponent implements OnInit {
     this.getSuccessRatesByType();
   }
 
+  // used to build a slice of papers relevant at any given time
+  public getPaginatorData(event: PageEvent): PageEvent {
+    this.lowValue = event.pageIndex * event.pageSize;
+    this.highValue = this.lowValue + event.pageSize;
+    return event;
+  }
+
   getAllOperations() {
-    this.operationService.getAllOperations().subscribe(
-      (data) => {
+    this.operationService.getAllOperations().subscribe({
+      next: (data) => {
         this.operations = data;
         this.sortOperations();
         this.filterOperations();
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
-      }
-    );
+      },
+    });
   }
 
   sortOperations() {
@@ -91,17 +101,18 @@ export class ListOperationsComponent implements OnInit {
     );
   }
 
-  deleteOperation(id: number) {
-    this.operationService.deleteOperation(id).subscribe(
-      () => {
+  public deleteOperation(id: number) {
+    console.log(id);
+    this.operationService.deleteOperation(id).subscribe({
+      next: () => {
         this.operations = this.operations.filter((o) => o.idOp !== id);
         this.sortOperations();
         this.filterOperations();
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
-      }
-    );
+      },
+    });
   }
 
   setSortingCriteria(criteria: string) {

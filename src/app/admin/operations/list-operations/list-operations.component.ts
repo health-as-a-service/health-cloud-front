@@ -45,6 +45,21 @@ export class ListOperationsComponent implements OnInit {
     });
   }
 
+  sortByType() {
+    this.sortingCriteria = "typeOp";
+    this.sortOperations();
+  }
+
+  sortByDate() {
+    this.sortingCriteria = "dateOp";
+    this.sortOperations();
+  }
+
+  sortByTypeAndDate() {
+    this.sortingCriteria = "typeAndDate";
+    this.sortOperations();
+  }
+
   sortOperations() {
     if (this.sortingCriteria) {
       const criteriaArray = this.sortingCriteria.split("-");

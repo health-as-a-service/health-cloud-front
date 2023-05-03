@@ -24,6 +24,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MaterialFileInputModule } from "ngx-material-file-input";
 import { ComponentsModule } from "src/app/shared/components/components.module";
 import { SharedModule } from "src/app/shared/shared.module";
+import { MatMenuModule } from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { SharedModule } from "src/app/shared/shared.module";
     MatInputModule,
     MatSnackBarModule,
     MatButtonModule,
+    MatMenuModule,
     MatIconModule,
     MatDialogModule,
     MatSortModule,

@@ -9,19 +9,29 @@
 
     <div class="row mt-3">
         <div class="col-md-9">
-            <div class="form-group">
-                <input class="form-control p-2" placeholder="Search by type" name="searchTerm" [(ngModel)]="searchTerm"
-                    (input)="filterOperations()">
-            </div>
-            <div class="form-group">
-                <label for="sort-criteria">Sort by:</label>
-                <select id="sort-criteria" class="form-control" [(ngModel)]="sortingCriteria" name="sortingCriteria"
-                    (change)="sortOperations()">
-                    <option value="">-- select criteria --</option>
-                    <option value="typeOp">Type</option>
-                    <option value="dateOp">Date</option>
-                    <option value="typeAndDate">Type and Date</option>
-                </select>
+            <div class="materialTableHeader">
+                <div class="row">
+                    <div class="col-8">
+                        <ul class="header-buttons-left ms-0">
+                            <li class="dropdown m-l-20">
+                                <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                                <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                                    name="searchTerm" [(ngModel)]="searchTerm" (input)="filterOperations()"
+                                    aria-label="Search box">
+                            </li>
+                            <li>
+                                <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+                                    <mat-icon>filter_list</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item (click)="sortByType()">Type</button>
+                                    <button mat-menu-item (click)="sortByDate()">Date</button>
+                                    <button mat-menu-item (click)="sortByTypeAndDate()">Type and Date</button>
+                                </mat-menu>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <table class="table table-striped">
                 <thead>

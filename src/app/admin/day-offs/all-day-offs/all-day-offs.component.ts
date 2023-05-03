@@ -1,7 +1,7 @@
-import { Component, OnInit, ElementRef,ViewChild } from '@angular/core';
-import {DayOffsService} from "../day-offs.service"
+import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
+import { DayOffsService } from "../day-offs.service";
 import { HttpClient } from "@angular/common/http";
-import {DayOff} from "../day-offs.model"
+import { DayOff } from "../day-offs.model";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
@@ -12,15 +12,18 @@ import { BehaviorSubject, fromEvent, merge, Observable } from "rxjs";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { SelectionModel } from "@angular/cdk/collections";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { DayOffDetailsDialogComponent } from '../all-day-offs/dialogs/day-off-details/day-off-details.component';
+import { DayOffDetailsDialogComponent } from "../all-day-offs/dialogs/day-off-details/day-off-details.component";
 import { FormDialogComponent } from "../all-day-offs/dialogs/form-dialog/form-dialog.component";
 
 @Component({
-  selector: 'app-all-day-offs',
-  templateUrl: './all-day-offs.component.html',
-  styleUrls: ['./all-day-offs.component.sass']
+  selector: "app-all-day-offs",
+  templateUrl: "./all-day-offs.component.html",
+  styleUrls: ["./all-day-offs.component.sass"],
 })
-export class AllDayOffsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class AllDayOffsComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit
+{
   displayedColumns = [
     "id",
     "img",
@@ -45,11 +48,9 @@ export class AllDayOffsComponent extends UnsubscribeOnDestroyAdapter implements 
     super();
   }
 
-  
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("filter", { static: true }) filter: ElementRef;
-
 
   ngOnInit(): void {
     this.loadData();
@@ -64,10 +65,10 @@ export class AllDayOffsComponent extends UnsubscribeOnDestroyAdapter implements 
     const dialogRef = this.dialog.open(DayOffDetailsDialogComponent, {
       data: {
         dayOff: row,
-      }
+      },
     });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log("The dialog was closed");
     });
   }
   showNotification(colorName, text, placementFrom, placementAlign) {
@@ -112,6 +113,37 @@ export class AllDayOffsComponent extends UnsubscribeOnDestroyAdapter implements 
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
+  addNew() {
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+
+    const dialogRef = this.dialog.open(FormDialogComponent, {
+      data: {
+        dayOff: this.dayOff,
+        action: "add",
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        this.exampleDatabase.dataChange.value.unshift(
+          this.dayOffsService.getDialogData()
+        );
+        this.refresh();
+        this.refreshTable();
+        this.showNotification(
+          "snackbar-success",
+          "Add Record Successfully...!!!",
+          "bottom",
+          "center"
+        );
+      }
+    });
+  }
   editCall(row) {
     this.id = row.id;
     let tempDirection;
@@ -129,14 +161,12 @@ export class AllDayOffsComponent extends UnsubscribeOnDestroyAdapter implements 
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
-        // When using an edit things are little different, firstly we find record inside DataService by id
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
           (x) => x.id === this.id
         );
-        // Then you update that record using data from dialogData (values you enetered)
         this.exampleDatabase.dataChange.value[foundIndex] =
           this.dayOffsService.getDialogData();
-        // And lastly refresh table
+        this.refresh();
         this.refreshTable();
         this.showNotification(
           "black",
@@ -195,7 +225,7 @@ export class ExampleDataSource extends DataSource<DayOff> {
     ];
 
     this.exampleDatabase.getAllDayOffs();
-    console.log(this.renderedData)
+    console.log(this.renderedData);
     return merge(...displayDataChanges).pipe(
       map(() => {
         // Filter data
@@ -205,7 +235,7 @@ export class ExampleDataSource extends DataSource<DayOff> {
             const searchStr = (
               dayOff.user.nom +
               dayOff.user.prenom +
-              dayOff.user.username+
+              dayOff.user.username +
               dayOff.user.role
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -224,7 +254,7 @@ export class ExampleDataSource extends DataSource<DayOff> {
   }
   disconnect() {}
   /** Returns a sorted copy of the database data. */
-  sortData(data: DayOff[]):DayOff[] {
+  sortData(data: DayOff[]): DayOff[] {
     if (!this._sort.active || this._sort.direction === "") {
       return data;
     }

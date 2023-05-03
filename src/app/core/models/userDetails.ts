@@ -1,12 +1,16 @@
 import { Role } from "./role";
 
 export class UserDetails {
-  id: any;
+  idUser: string;
   img: string;
   username: string;
   password: string;
   nom: string;;
   prenom: string;
-  email: String
+  email: string
   role: Role
+  constructor(userDetails) {
+    this.idUser = userDetails.idUser|| "";
+  }
 }
+

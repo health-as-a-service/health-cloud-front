@@ -3,6 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { DayOffsService } from "../../../day-offs.service";
 import { MAT_DATE_LOCALE } from "@angular/material/core";
 import { formatDate } from "@angular/common";
+import { HttpClient } from "@angular/common/http";
+
 import {
   FormControl,
   Validators,
@@ -10,6 +12,8 @@ import {
   FormBuilder,
 } from "@angular/forms";
 import { DayOff } from "../../../day-offs.model";
+import { UserDetails } from "src/app/core/models/userDetails";
+import { AuthService } from "src/app/core/service/auth.service";
 @Component({
   selector: "app-form-dialog",
   templateUrl: "./form-dialog.component.html",
@@ -21,21 +25,29 @@ export class FormDialogComponent {
   dialogTitle: string;
   dayOffForm: FormGroup;
   dayOff: DayOff;
+  users: UserDetails[] = [];
   constructor(
+    public authService : AuthService,
     public dialogRef: MatDialogRef<FormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dayOffService: DayOffsService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private http: HttpClient // <-- Inject the HttpClient service here
   ) {
     this.action = data.action;
-    console.log(data);
     if (this.action === "edit") {
-      this.dialogTitle = "abcabc";
       this.dayOff = data.dayOff;
+      this.dialogTitle = "edit dayoff " + this.dayOff.id;
     } else {
       this.dialogTitle = "New DayOff";
       this.dayOff = new DayOff({});
     }
+    this.http
+      .get<UserDetails[]>("http://localhost:8082/User")
+      .subscribe((users) => {
+        this.users = users;
+        console.log(this.users);
+      });
     this.dayOffForm = this.createContactForm();
   }
   formControl = new FormControl("", [
@@ -50,28 +62,44 @@ export class FormDialogComponent {
       : "";
   }
   createContactForm(): FormGroup {
+    const startDateValue = this.dayOff.startDate
+      ? formatDate(this.dayOff.startDate, "yyyy-MM-dd", "en")
+      : null;
+    const endDateValue = this.dayOff.endDate
+      ? formatDate(this.dayOff.endDate, "yyyy-MM-dd", "en")
+      : null;
+    console.log(this.dayOff.user);
     return this.fb.group({
-      id:[this.dayOff.id],
-        startDate: [
-        formatDate(this.dayOff.startDate, "yyyy-MM-dd", "en"),
-        [Validators.required],
-      ],
-      endDate: [
-        formatDate(this.dayOff.endDate, "yyyy-MM-dd", "en"),
-        [Validators.required],
-      ],
-      user: [this.dayOff.user],
-      reason:[this.dayOff.reason],
-      status: [this.dayOff.status]
+      id: [this.dayOff.id],
+      startDate: [startDateValue, [Validators.required]],
+      endDate: [endDateValue, [Validators.required]],
+      user: [this.dayOff.user.idUser, [Validators.required]],
+      reason: [this.dayOff.reason],
+      status: [this.dayOff.status],
     });
   }
   submit() {
-    // emppty stuff
+
   }
+
   onNoClick(): void {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-    this.dayOffService.updateDayOff(this.dayOffForm.getRawValue());
+    const dayOffData = this.dayOffForm.value;
+    const dayOff = new DayOff({
+      id: dayOffData.id,
+      startDate: new Date(dayOffData.startDate),
+      endDate: new Date(dayOffData.endDate),
+      user: new UserDetails({ idUser: dayOffData.user }),
+      reason: dayOffData.reason,
+      status: dayOffData.status
+    })
+    switch(this.action){
+      case 'edit':
+      this.dayOffService.updateDayOff(dayOff);
+      default :
+      this.dayOffService.addDayOff(dayOff);
+    }
   }
 }

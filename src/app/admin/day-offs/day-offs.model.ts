@@ -9,10 +9,11 @@ export class DayOff {
     public user: UserDetails
 
     constructor(dayOff) {
+        this.id = dayOff.id || "";
         this.startDate = dayOff.startDate|| "";
         this.endDate = dayOff.endDate|| "";
-        this.reason = dayOff.reason|| "";
-        this.status = dayOff.status|| "";
+        this.reason = dayOff.reason || "";
+        this.status = dayOff.status || null ;
         this.user = dayOff.user|| "";
     }
 }

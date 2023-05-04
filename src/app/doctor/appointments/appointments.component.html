@@ -1,0 +1,176 @@
+<br><br><br><br>
+
+
+<button class="chatbotsendButton" style="margin-right: 10px;" 
+(click)="openPopupForCreate()"><mat-icon>add</mat-icon>
+</button>
+
+
+
+<br><br><br><br><br><br>
+<div class="container">
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrez votre patient">
+</mat-form-field>
+<mat-table [dataSource]="dataSource" matSort style="width: 90%;">
+ 
+  <ng-container matColumnDef="idP">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+    <mat-cell *matCellDef="let data">{{ data.idP }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="nomP">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+    <mat-cell *matCellDef="let data">{{ data.nomP }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="prenomP">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Prenom</mat-header-cell>
+    <mat-cell *matCellDef="let data">{{ data.prenomP }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="sexe">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Sexe</mat-header-cell>
+    <mat-cell *matCellDef="let data">{{ data.sexe }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="numTel">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Num Tel</mat-header-cell>
+    <mat-cell *matCellDef="let data">{{ data.numTel }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="chambre">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Chambre</mat-header-cell>
+    <mat-cell *matCellDef="let data">{{ data.chambre }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="sejour">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Sejour</mat-header-cell>
+    <mat-cell *matCellDef="let data">{{ data.sejour }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let element" class="actions-cell">
+      <button (click)="openPopupForUpdate(element)" mat-icon-button>
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button (click)="deletePatient(element.idP)" mat-icon-button>
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+<mat-paginator [pageSizeOptions]="[1,10, 20, 30]" showFirstLastButtons></mat-paginator>
+</div>
+
+
+<!-- The popup content -->
+<div class="modal" tabindex="-1" role="dialog" *ngIf="showModal" style="display: block;">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+       
+        <button *ngIf="!isUpdate"  type="button" class="btn-close text-white" aria-label="Close" (click)="closePopupForUpdate()"></button>
+        <button *ngIf="isUpdate"  type="button" class="btn-close text-white" aria-label="Close" (click)="closePopupForCreate()"></button>
+
+      </div>
+      <div class="modal-body custom-modal-body">
+        <!-- Form inside the popup -->
+
+
+
+
+
+       <h2 *ngIf="!isUpdate" class="text-center mb-4">Créer</h2>
+       <h2 *ngIf="isUpdate" class="text-center mb-4">Modifier </h2>
+
+       <h2 class="text-center text-primary font-weight-bold mt-5">Patient</h2>
+       <br>
+<form (ngSubmit)="onSubmit()" #patientForm="ngForm" class="p-4 border rounded">
+  <div class="form-group">
+    <label for="nom">Nom :</label>
+    <input type="text" class="form-control" id="nom" name="nom" [(ngModel)]="patient.nomP" required>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="Prenom">Prenom :</label>
+    <input type="text" class="form-control" id="Prenom" name="Prenom" [(ngModel)]="patient.prenomP" required>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="daten">Date de naissance :</label>
+    <input type="date" class="form-control" id="daten" name="daten" [(ngModel)]="date" required>
+  </div>
+  <br>
+  <!-- <div class="form-group">
+    <label for="Sexe">Sexe :</label>
+    <input type="text" class="form-control" id="Sexe" name="Sexe" [(ngModel)]="patient.sexe" required>
+  </div> -->
+  <select class="form-select"  name="sexe" [(ngModel)]="patient.sexe" >
+    <option disabled selected value="">Selectionnez votre sexe...</option>
+    <option value="Homme">Homme</option>
+    <option value="Femme">Femme</option>
+  </select>
+  <br>
+  <div class="form-group">
+    <label for="Tel">N° Tel :</label>
+    <input type="text" class="form-control" id="Tel" name="Tel" [(ngModel)]="patient.numTel"   required>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="Sejour">Séjour :</label>
+    <input type="text" class="form-control" id="Sejour" name="Sejour" [(ngModel)]="patient.sejour" required>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="Chambre">Chambre :</label>
+    <input type="text" class="form-control" id="Chambre" name="Chambre" [(ngModel)]="patient.chambre" required>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="file">patient file</label>
+    <input type="file"  id="file" (change)="onSingleFileChange($event)">
+  </div>
+  <br>
+  <hr>
+  <br>
+  <h2 class="text-center text-primary font-weight-bold mt-5">Dossier médical</h2>
+  <br>
+  <div class="form-group">
+    <label for="Maladie">Type Maladie :</label>
+    <input type="text" class="form-control" id="Maladie" name="Maladie" [(ngModel)]="patient.dossierMedical.typeMaladie" required>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="traitement">Traitement :</label>
+    <input type="text" class="form-control" id="traitement" name="traitement" [(ngModel)]="patient.dossierMedical.traitement" required>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="tests">Tests Medicaux :</label>
+    <input type="text" class="form-control" id="tests" name="tests" [(ngModel)]="patient.dossierMedical.testsMedicaux" required>
+  </div>
+  <br>
+  <div class="form-group">
+    <label for="chronique">Maladie chronique :</label>
+    <input type="text" class="form-control" id="chronique" name="chronique" [(ngModel)]="patient.dossierMedical.maladiesChroniques" required>
+  </div>
+  <br>
+  <div id="notification"></div>
+
+  <div class="text-center">
+    <button *ngIf="!isUpdate" type="submit" class="btn btn-primary" [disabled]="!patientForm.valid">Ajouter</button>
+    <button *ngIf="isUpdate" type="submit" class="btn btn-info" [disabled]="!patientForm.valid">Modifier</button>
+  </div>
+
+ 
+</form>
+
+
+
+</div>
+<div class="modal-footer">
+  <button *ngIf="!isUpdate" type="button" class="btn btn-secondary" (click)="closePopupForCreate()">Close</button>
+  <button *ngIf="isUpdate" type="button" class="btn btn-secondary" (click)="closePopupForUpdate()">Close</button>
+
+</div>
+</div>
+</div>
+</div>
+<br><br>

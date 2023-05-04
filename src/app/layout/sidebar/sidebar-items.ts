@@ -41,6 +41,89 @@ export const ROUTES: RouteInfo[] = [
       submenu: [],
     },]
   },
+  
+  //mayysa
+  {
+    path: "",
+    title: "donateur",
+    moduleName: "donateurs",
+    iconType: "material-icons-two-tone",
+    icon: "space_dashboard",
+    class: "menu-toggle",
+    groupTitle: false,
+    badge: "",
+    badgeClass: "",
+    role: ["admin"],
+    submenu: [{
+      path: "/admin/donateurs/donateur",
+      title: "donateurs",
+      moduleName: "donateurs",
+      iconType: "",
+      icon: "",
+      class: "ml-menu",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      role: [""],
+      submenu: [],
+    },
+    {
+      path: "/admin/donateurs/ajouterdonateur",
+      title: "ajouter donateur",
+      moduleName: "donateurs",
+      iconType: "",
+      icon: "",
+      class: "ml-menu",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      role: [""],
+      submenu: [],
+    },]
+  },
+  {
+    path: "",
+    title: "banque",
+    moduleName: "banques",
+    iconType: "material-icons-two-tone",
+    icon: "space_dashboard",
+    class: "menu-toggle",
+    groupTitle: false,
+    badge: "",
+    badgeClass: "",
+    role: ["admin"],
+    submenu: [{
+      path: "/admin/BanqueSang/afficherbanque",
+      title: "afficher banque",
+      moduleName: "BanqueSang",
+      iconType: "",
+      icon: "",
+      class: "ml-menu",
+      groupTitle: false,
+      badge: "",
+      badgeClass: "",
+      role: [""],
+      submenu: [],
+    },
+    // {
+    //   path: "/admin/donateurs/ajouterdonateur",
+    //   title: "ajouter donateur",
+    //   moduleName: "donateurs",
+    //   iconType: "",
+    //   icon: "",
+    //   class: "ml-menu",
+    //   groupTitle: false,
+    //   badge: "",
+    //   badgeClass: "",
+    //   role: [""],
+    //   submenu: [],
+    // },
+  ]
+  },
+
+
+  // ajouteeer 
+ 
   {
     
     path: "",

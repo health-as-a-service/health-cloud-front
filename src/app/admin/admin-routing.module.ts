@@ -12,6 +12,18 @@ const routes: Routes = [
     loadChildren: () =>
       import("./day-offs/day-offs.module").then((m) => m.DayOffsModule),
   },
+  //mayssa
+  {
+    path: "donateurs",
+    loadChildren: () =>
+      import("./donateurs/donateurs.module").then((m) => m.DonateursModule),
+  },
+  {
+    path: "BanqueSang",
+    loadChildren: () =>
+      import("./banquesang/banquesang.module").then((m) => m.BanquesangModule),
+  },
+  
 
   {
     path: "appointment",

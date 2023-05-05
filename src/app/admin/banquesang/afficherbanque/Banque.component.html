@@ -76,11 +76,7 @@
                   <mat-header-cell *matHeaderCellDef mat-sort-header>numero de Telephone</mat-header-cell>
                   <mat-cell *matCellDef="let row"> {{row.sangRetire}}</mat-cell>
                 </ng-container>
-                
-
-
-
-                
+        
           
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
@@ -88,37 +84,28 @@
                   [style.cursor]="'pointer'" matRipple>
                 </mat-row>
               </mat-table>
-
-
-
-
-
-
-              <div class="body">
-                <div class="row">
-            
-                  <div>
-                    <!-- <div class="info-box7-block"> -->
+              <div class="col-lg-3 col-sm-6">
+                <div class="info-box7 bg-c-yellow order-info-box7">
+                  
+                    <div class="info-box7-block">
                       <form (ngSubmit)="retirerSang()" #form="ngForm">
                        
                           <label for="idBanqueSang" ><h4>Numéro Banque Sang  </h4></label>
                           <input type="number" id="idBanqueSang" name="idBanqueSang" [(ngModel)]="idBanqueSang">
-                          <label for="quantiteSangRetiree" class="card-title" style="color: black; font-size: 10px;"><h4>Quantite a retirer </h4></label>
+                          <label for="quantiteSangRetiree" class="card-title" ><h4>Quantite a retirer </h4></label>
                           <input type="number" id="quantiteSangRetiree" name="quantiteSangRetiree" [(ngModel)]="quantiteSangRetiree">
                           <button mat-raised-button color="primary" style="margin-top: 10px; font-size: 14px; height: 30px; width: 100px;">Retirer Sang</button>
                         
                       </form>
-                    <!-- </div> -->
-                  </div>
-                  
-                  
+                    </div>
+             
+                </div>
+              </div>
 
 
-
-
-
-
-                 
+              <div class="body">
+                <div class="row">
+  
                       <div class="info-box7-block">
                      <div class="card-body">
                     <h5 class="card-title" style="color: black;">Sang Retiré Statistics</h5>
@@ -146,18 +133,6 @@
 
 
 
-
-                
-                
-
-
-
-
-
-
-
-
-              
               <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
                 <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
                 </mat-progress-spinner>

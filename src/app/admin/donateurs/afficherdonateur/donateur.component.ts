@@ -12,7 +12,6 @@ import { map } from "rxjs/operators";
 import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { FormDialogComponent } from "./dialog/form-dialog/form-dialog.component";
-
 @Component({
   selector: 'app-donateur',
   templateUrl: './donateur.component.html',

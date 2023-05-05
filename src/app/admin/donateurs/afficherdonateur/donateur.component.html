@@ -76,13 +76,11 @@
                   <mat-header-cell *matHeaderCellDef mat-sort-header>nom donateur</mat-header-cell>
                   <mat-cell *matCellDef="let row"> {{row.nomDonateur}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="company">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-100'">prénom donateur
-                  </mat-header-cell>
-                  <mat-cell *matCellDef="let row"> <span class="truncate-text"
-                      [ngClass]="'tbl-col-width-per-80'">{{row.prenomDonateur}}</span></mat-cell>
-                </ng-container>
                 <ng-container matColumnDef="category">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>prenomDonateur</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.prenomDonateur}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="company">
                   <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-100'">type Sanguin
                   </mat-header-cell>
                   <mat-cell *matCellDef="let row"> <span class="truncate-text"

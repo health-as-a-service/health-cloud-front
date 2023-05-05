@@ -16,7 +16,7 @@
     <form class="register-form m-4" [formGroup]="BanqueSanglistform" (ngSubmit)="submit">
       <div class="row">
         <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>nom donateur</mat-label>
+          <mat-label>idBanqueSang</mat-label>
           <input matInput formControlName="idBanqueSang" required>
           <mat-error *ngIf="BanqueSanglistform.get('idBanqueSang').hasError('required')">
             Medicine Name is required
@@ -25,7 +25,7 @@
       </div>
       <div class="row">
         <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>nom donateur</mat-label>
+          <mat-label>quantiteTotale</mat-label>
           <input matInput formControlName="quantiteTotale" required>
           <mat-error *ngIf="BanqueSanglistform.get('quantiteTotale').hasError('required')">
             Medicine Name is required
@@ -44,7 +44,7 @@
 
       <div class="row">
         <mat-form-field class="example-full-width" appearance="outline">
-          <mat-label>quantite</mat-label>
+          <mat-label>sangRetire</mat-label>
           <!-- //meme nom form dialog componnet  -->
           <input matInput formControlName="sangRetire" required>
           <mat-error *ngIf="BanqueSanglistform.get('sangRetire').hasError('required')">

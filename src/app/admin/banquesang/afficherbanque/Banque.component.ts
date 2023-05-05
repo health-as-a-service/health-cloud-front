@@ -24,14 +24,15 @@ export class BanqueComponent extends UnsubscribeOnDestroyAdapter implements OnIn
   displayedColumns = [
   "select",
   "idBanqueSang",
-  "nomDonateur",
+  //"nomDonateur",
   "category",
   "company",
-  "p_date",
-  "price",
-  "stock",
-  "quantite",
-  "actions",
+  //"p_date",
+ // "price",
+  //"stock",
+ // "quantite",
+ // "sangRetire"
+  //"actions",
 ];
 
 exampleDatabase: Banquesangservice | null;
@@ -40,6 +41,10 @@ selection = new SelectionModel<BanqueSang>(true, []);
 index: number;
 id: number;
 BanqueSang: BanqueSang| null;
+quantiteSangRetiree: number;
+idBanqueSang: number;
+sangRetireTotal = 0;
+banques: BanqueSang[] = [];
 constructor(
   public httpClient: HttpClient,
   public dialog: MatDialog,
@@ -52,13 +57,46 @@ constructor(
 @ViewChild(MatSort, { static: true }) sort: MatSort;
 @ViewChild("filter", { static: true }) filter: ElementRef;
 // donateurs: Donateur[] = [];
-donateurs: any;
+ Banquesang: any;
 
 ngOnInit() {
   this.loadData();
+  this.Banquesangservice.getAllBanqueSangsStat().subscribe((data: BanqueSang[]) => {
+    this.banques = data;
+    this.getSangRetirePercentages();
+  });
+
+  
 }
 refresh() {
   this.loadData();
+}
+getSangRetirePercentages(): void {
+  this.Banquesangservice.getAllBanqueSangsStat().subscribe((data: BanqueSang[]) => {
+    const totalSangRetire = data.reduce((acc, curr) => acc + curr.sangRetire, 0);
+    this.banques = data.map(banque => ({
+      ...banque,
+      sangRetirePercentage: banque.sangRetire / totalSangRetire * 100
+    }));
+  });
+}
+
+retirerSang() {
+  const requestBody = { quantiteSangRetiree: this.quantiteSangRetiree };
+  this.Banquesangservice.retirerSang(this.idBanqueSang, requestBody).subscribe(
+    response => console.log(response),
+    error => console.error(error)
+    
+  );
+}
+calculateMostBlood(data: any[]) {
+  const total = data.reduce((acc, item) => acc + item.sangRetire, 0);
+  const rates = {};
+  for (const item of data) {
+    const rate = Math.round((item.sangRetire / total) * 100);
+    rates[item.typeSang] = rate;
+  }
+  return rates;
 }
 
  addNew() {
@@ -129,13 +167,7 @@ refresh() {
 //   });
 // }
 
-// deleteItem(row) {
-//   this.id = row.idDonateur;
-//   this.DonateurService.deleteDonateur(this.id, () => {
-//     this.refresh();
-//     this.refreshTable()
-//   })
-// }
+
  private refreshTable() {
    this.paginator._changePageSize(this.paginator.pageSize);
  }
@@ -263,7 +295,7 @@ sortData(data: BanqueSang[]): BanqueSang[] {
     let propertyA: Date |number | string = "";
     let propertyB: Date | number | string = "";
     switch (this._sort.active) {
-      case "id":
+      case "idBanqueSang":
         [propertyA, propertyB] = [a.idBanqueSang, b.idBanqueSang];
         break;
       case "m_no":

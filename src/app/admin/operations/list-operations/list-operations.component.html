@@ -44,7 +44,6 @@
                         <th>Type</th>
                         <th>Room ID</th>
                         <th>EMAIL</th>
-                        <th>Logistics</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -52,7 +51,9 @@
                     <tr *ngFor="let operation of filteredOperations | 
                          slice: lowValue : highValue">
                         <td>{{ operation.idOp }}</td>
-                        <td>{{ operation.success ? 'Yes' : 'No' }}</td>
+                        <td>
+                            <mat-checkbox checked="{{operation.success}}" disabled></mat-checkbox>
+                        </td>
                         <td>{{ operation.nomChi }}</td>
                         <td>{{ operation.nomP }}</td>
                         <td>{{ operation.dateOp | date: 'yyyy-MM-dd' }}</td>
@@ -60,16 +61,16 @@
                         <td>{{ operation.idChambre }}</td>
                         <td>{{ operation.emailP }}</td>
                         <td>
-                            <ul>
-                                <li *ngFor="let logistique of operation.logistiques">
-                                    {{ logistique.nomLogi}}
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
-                            <a class="btn btn-primary"
-                                [routerLink]="['/admin/operations/edit-operation', operation.idOp]">Edit</a>
-                            <button class="btn btn-danger" (click)="deleteOperation(operation.idOp)">Delete</button>
+                            <a mat-icon-button class="tbl-action-btn"
+                                [routerLink]="['/admin/operations/edit-operation', operation.idOp]">
+                                <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                            </a>
+                            <button mat-icon-button class="tbl-action-btn" (click)="deleteOperation(operation.idOp)">
+                                <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                            </button>
+                            <button mat-icon-button class="tbl-action-btn" (click)="toggleSuccess(operation)">
+                                <app-feather-icons [icon]="'check-circle'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -86,8 +87,9 @@
                         <li class="list-group-item" *ngFor="let rate of successRates | keyvalue">
                             {{ rate.key }}
                             <div class="progress shadow-style">
-                                <div class="progress-bar l-bg-orange width-per-74" role="progressbar"
-                                    [aria-valuenow]="rate.value" aria-valuemin="0" aria-valuemax="100">{{rate.value}}%
+                                <div class="progress-bar l-bg-orange width-per-{{rate.value *  100}}" role="progressbar"
+                                    [aria-valuenow]="rate.value" aria-valuemin="0" aria-valuemax="100">
+                                    {{rate.value*100}}%
                                 </div>
                             </div>
                         </li>

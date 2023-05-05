@@ -30,7 +30,7 @@ export class EditOperationComponent implements OnInit {
     this.opServ.updateOperation(value).subscribe({
       next: (res) => {
         console.log(res);
-        // window.location.reload();
+         
       },
       error: (err) => {
         console.log("error updating operation!");

@@ -1,1 +1,67 @@
-<p>list-logistics works!</p>
+<br>
+<br>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <h2>Logistics List</h2>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <div class="materialTableHeader">
+                <div class="row">
+                    <div class="col">
+                        <ul class="header-buttons-left ms-0">
+                            <li class="dropdown m-l-20">
+                                <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                                <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                                    name="searchTerm" [(ngModel)]="searchTerm" (input)="filterLogistics()"
+                                    aria-label="Search box">
+                            </li>
+                            <li>
+                                <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+                                    <mat-icon>filter_list</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item (click)="sortByNom()">Nom</button>
+                                    <button mat-menu-item (click)="sortByType()">Type</button>
+                                    <button mat-menu-item (click)="sortByNombre()">Nombre</button>
+                                    <button mat-menu-item (click)="sortByTypeAndNom()">Type and Nom</button>
+                                </mat-menu>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Nom Logistique</th>
+                        <th>Nombre</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let logis of filteredLogistiques | 
+                         slice: lowValue : highValue">
+                        <td>{{ logis.idLogi }}</td>
+                        <td>{{ logis.typeLogi }}</td>
+                        <td>{{ logis.nomLogi }}</td>
+                        <td>{{ logis.nombreLogits }}</td>
+                        <td>
+                            <a class="btn btn-primary"
+                                [routerLink]="['/admin/operations/edit-logistic', logis.idLogi]">Edit</a>
+                            <button class="btn btn-danger" (click)="deleteLogistique(logis.idLogi)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <mat-paginator [length]="filteredLogistiques.length" pageSize=10 (page)="getPaginatorData($event)"
+                [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons="false">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

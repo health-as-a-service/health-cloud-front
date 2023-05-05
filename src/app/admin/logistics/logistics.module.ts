@@ -24,28 +24,26 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MaterialFileInputModule } from "ngx-material-file-input";
 import { ComponentsModule } from "src/app/shared/components/components.module";
 import { SharedModule } from "src/app/shared/shared.module";
-import { DepartmentsRoutingModule } from "../departments/departments-routing.module";
-import { DeleteLogisticComponent } from './delete-logistic/delete-logistic.component';
+import { MatMenuModule } from "@angular/material/menu";
 
 @NgModule({
   declarations: [
     ListLogisticsComponent,
     EditLogisticComponent,
     AddLogisticComponent,
-    DeleteLogisticComponent,
   ],
   imports: [
     LogisticsRoutingModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    DepartmentsRoutingModule,
     MatTableModule,
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
     MatSnackBarModule,
     MatButtonModule,
+    MatMenuModule,
     MatIconModule,
     MatDialogModule,
     MatSortModule,

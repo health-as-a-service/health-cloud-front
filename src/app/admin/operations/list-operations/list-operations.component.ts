@@ -11,7 +11,6 @@ import { OperationService } from "src/app/core/service/operation.service";
 export class ListOperationsComponent implements OnInit {
   operations: Operation[] = [];
   filteredOperations: Operation[] = [];
-  selectedOperation: Operation | null = null;
   searchTerm: string = "";
   successRates: Map<string, number> = new Map<string, number>();
   sortingCriteria: string = "";
@@ -92,13 +91,42 @@ export class ListOperationsComponent implements OnInit {
       });
     }
   }
+  toggleSuccess(operation: Operation): void {
+    operation.success = !operation.success;
+    this.operationService.updateOperation(operation).subscribe({
+      next: (updatedOperation) => {
+        const index = this.filteredOperations.indexOf(operation);
+        if (index !== -1) {
+          this.filteredOperations[index].success = updatedOperation.success;
+          this.successRates.set(
+            operation.typeOp,
+            this.successRates.get(operation.typeOp) +
+              (operation.success ? 1 : -1)
+          );
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 
   filterOperations() {
     if (this.searchTerm) {
       this.filteredOperations = this.operations.filter(
         (operation) =>
-          operation.typeOp &&
-          operation.typeOp.toLowerCase().includes(this.searchTerm.toLowerCase())
+          (operation.typeOp &&
+            operation.typeOp
+              .toLowerCase()
+              .includes(this.searchTerm.toLowerCase())) ||
+          (operation.nomChi &&
+            operation.nomChi
+              .toLowerCase()
+              .includes(this.searchTerm.toLowerCase())) ||
+          (operation.nomP &&
+            operation.nomP
+              .toLowerCase()
+              .includes(this.searchTerm.toLowerCase()))
       );
     } else {
       this.filteredOperations = this.operations;

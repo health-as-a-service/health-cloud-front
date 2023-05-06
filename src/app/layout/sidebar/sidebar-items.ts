@@ -623,6 +623,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
+  // END pharmacien */
   {
     path: "",
     title: "MENUITEMS.ROOMS.TEXT",
@@ -929,7 +930,72 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-
+  {
+    path: "",
+    title: "MENUITEMS.PHARMACY.TEXT",
+    moduleName: "pharmacy",
+    iconType: "material-icons-two-tone",
+    icon: "face",
+    class: "menu-toggle",
+    groupTitle: false,
+    badge: "",
+    badgeClass: "",
+    role: ["pharmacien"],
+    submenu: [
+      {
+        path: "/pharmacien/medicine-list",
+        title: "MENUITEMS.PHARMACY.LIST.MEDICINE-LIST",
+        moduleName: "pharmacy",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        role: ["pharmacien"],
+        submenu: [],
+      },
+      {
+        path: "/pharmacien/add-medicine",
+        title: "MENUITEMS.PHARMACY.LIST.ADD-MEDICINE",
+        moduleName: "pharmacy",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        role: ["pharmacien"],
+        submenu: [],
+      }
+    ],
+  },{
+    path: "",
+    title: "Labratory",
+    moduleName: "issued-items",
+    iconType: "material-icons-two-tone",
+    icon: "face",
+    class: "menu-toggle",
+    groupTitle: false,
+    badge: "",
+    badgeClass: "",
+    role: ["biologiste"],
+    submenu: [
+      {
+        path: "/biologiste/issued-items",
+        title: "Samples",
+        moduleName: "issued-items",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        role: ["biologiste"],
+        submenu: [],
+      }
+    ],
+  },
   // Doctor Modules
   {
     path: "/doctor/operations",

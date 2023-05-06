@@ -38,8 +38,8 @@ export class SigninComponent
     return this.authForm.controls;
   }
   adminSet() {
-    this.authForm.get("username").setValue("ahmedsmiai");
-    this.authForm.get("password").setValue("12345678");
+    this.authForm.get("username").setValue("pharmatest");
+    this.authForm.get("password").setValue("123456789");
   }
   doctorSet() {
     this.authForm.get("email").setValue("doctor@email.com");
@@ -78,7 +78,12 @@ export class SigninComponent
                 this.router.navigate(["/stagiaire/stage/all"]);
               } else if (role === Role.Patient) {
                 this.router.navigate(["/patient/dashboard"]);
-              } else {
+              } else if (role === Role.Pharmacien) {
+                this.router.navigate(["/pharmacien/medicine-list"]);
+              }else if (role === Role.Biologiste) {
+                this.router.navigate(["/biologiste/issued-items"]);
+              }  
+              else {
                 this.router.navigate(["/authentication/signin"]);
               }
               this.loading = false;

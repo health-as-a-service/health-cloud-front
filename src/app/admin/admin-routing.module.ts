@@ -12,6 +12,20 @@ const routes: Routes = [
     loadChildren: () =>
       import("./day-offs/day-offs.module").then((m) => m.DayOffsModule),
   },
+
+  {
+    path: "donateurs",
+    loadChildren: () =>
+      import("./donateurs/donateurs.module").then((m) => m.DonateursModule),
+  },
+  {
+    path: "BanqueSang",
+    loadChildren: () =>
+      import("./banquesang/banquesang.module").then((m) => m.BanquesangModule),
+  },
+  
+
+
   {
     path: "operations",
     loadChildren: () =>
@@ -22,6 +36,7 @@ const routes: Routes = [
     loadChildren: () =>
       import("./logistics/logistics.module").then((m) => m.LogisticsModule),
   },
+
   {
     path: "appointment",
     loadChildren: () =>

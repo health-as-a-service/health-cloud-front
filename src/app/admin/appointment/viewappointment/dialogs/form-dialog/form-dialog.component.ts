@@ -30,7 +30,8 @@ export class FormDialogComponent {
     // Set the defaults
     this.action = data.action;
     if (this.action === "edit") {
-      console.log(data.appointment.date);
+      console.log(data.appointment);
+
       this.dialogTitle = data.appointment.name;
       this.appointment = data.appointment;
     } else {
@@ -53,21 +54,15 @@ export class FormDialogComponent {
   createContactForm(): FormGroup {
     return this.fb.group({
       id: [this.appointment.id],
-      img: [this.appointment.img],
-      name: [this.appointment.name, [Validators.required]],
-      email: [
-        this.appointment.email,
-        [Validators.required, Validators.email, Validators.minLength(5)],
-      ],
-      gender: [this.appointment.gender],
+      status: [this.appointment.statusRDV, [Validators.required]],
+      
       date: [
         formatDate(this.appointment.date, "yyyy-MM-dd", "en"),
         [Validators.required],
       ],
       time: [this.appointment.time, [Validators.required]],
-      mobile: [this.appointment.mobile, [Validators.required]],
-      doctor: [this.appointment.doctor, [Validators.required]],
-      injury: [this.appointment.injury],
+      suivi: [this.appointment.suivi, [Validators.required]],
+      
     });
   }
   submit() {
@@ -77,6 +72,38 @@ export class FormDialogComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-    this.appointmentService.addAppointment(this.appointmentForm.getRawValue());
+    if(this.appointment){
+      console.log('edit')
+      console.log(this.appointment.id)
+      const formData = this.appointmentForm.value
+      console.log(formData)
+      let consultation={
+       date: formData.date,
+       time:formData.time,
+       suivi:formData.suivi,
+       statusRDV:formData.status
+          }
+   this.appointmentService.updateAppointment(this.appointment.id_consultation,consultation)
+      //this.appointmentService.addAppointment(this.appointmentForm.getRawValue());
+    }
+    
+    else{
+      console.log('add')
+      console.log(this.appointment.id)
+      const formData = this.appointmentForm.value
+      console.log(formData)
+      let consultation={
+       date: formData.date,
+       time:formData.time,
+       suivi:formData.suivi,
+       statusRDV:formData.status
+          }
+          this.appointmentService.addAppointment(consultation)
+    //  this.appointmentService.addAppointment(this.appointmentForm.getRawValue());
+    }
+
+    }
   }
-}
+
+    
+

@@ -26,6 +26,8 @@ import { FormDialogComponent } from "./viewappointment/dialogs/form-dialog/form-
 import { AppointmentService } from "./viewappointment/appointment.service";
 import { ComponentsModule } from "src/app/shared/components/components.module";
 import { SharedModule } from "./../../shared/shared.module";
+import { DetailappointementComponent } from './viewappointment/dialogs/detailappointement/detailappointement.component';
+import { FormDialogAddComponent } from './viewappointment/dialogs/form-dialog-add/form-dialog-add.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { SharedModule } from "./../../shared/shared.module";
     ViewappointmentComponent,
     DeleteDialogComponent,
     FormDialogComponent,
+    DetailappointementComponent,
+    FormDialogAddComponent,
   ],
   imports: [
     CommonModule,

@@ -14,7 +14,65 @@ export const ROUTES: RouteInfo[] = [
     submenu: [],
   },
 
+
+  // Stagiaire module 
+  {
+    path: "",
+    title: "Stage",
+    moduleName: "stage",
+    iconType: "material-icons-two-tone",
+    icon: "space_dashboard",
+    class: "menu-toggle",
+    groupTitle: false,
+    badge: "",
+    badgeClass: "",
+    role: ["stagiare"],
+    submenu: [
+      {
+        path: "/stagiaire/stage/all",
+        title: "Courses",
+        moduleName: "stage",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        role: [""],
+        submenu: [],
+      },
+    ],
+  },
+
+
   // Admin Modules
+  {
+    path: "",
+    title: "Stage",
+    moduleName: "stage",
+    iconType: "material-icons-two-tone",
+    icon: "space_dashboard",
+    class: "menu-toggle",
+    groupTitle: false,
+    badge: "",
+    badgeClass: "",
+    role: ["admin"],
+    submenu: [
+      {
+        path: "/admin/stage/all",
+        title: "Courses",
+        moduleName: "stage",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        role: [""],
+        submenu: [],
+      },
+    ],
+  },
 
   {
     path: "",
@@ -38,6 +96,23 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
+        role: ["admin"],
+        submenu: [],
+      },
+      {
+        path: "/admin/day-off/all-day-offs",
+        title: "All dayoffs",
+        moduleName: "day-offs",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        role: ["admin"],
+        submenu: [],
+      },
+    ],
         role: [""],
         submenu: [],
       },
@@ -83,6 +158,7 @@ export const ROUTES: RouteInfo[] = [
       submenu: [],
     },]
   },
+
   {
     path: "",
     title: "banque",
@@ -127,6 +203,7 @@ export const ROUTES: RouteInfo[] = [
   // ajouteeer 
  
   {
+
     path: "",
     title: "MENUITEMS.DASHBOARD.TEXT",
     moduleName: "dashboard",

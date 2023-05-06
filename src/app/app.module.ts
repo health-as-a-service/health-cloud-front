@@ -1,8 +1,6 @@
 import { NgModule } from "@angular/core";
-
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
-
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
@@ -30,9 +28,17 @@ import {
   HTTP_INTERCEPTORS,
   HttpClient,
 } from "@angular/common/http";
+import { environment } from "../environments/environment";
 
 import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
 import { FormsModule } from "@angular/forms";
+
+import { MessagingService } from "./core/service/messaging.service";
+import { AngularFireMessagingModule } from "@angular/fire/compat/messaging";
+import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { AngularFireModule } from "@angular/fire/compat";
+import { AsyncPipe } from "@angular/common";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -54,7 +60,10 @@ export function createTranslateLoader(http: HttpClient): any {
     MainLayoutComponent,
   ],
   imports: [
-    BrowserModule,
+    AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
     FormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -74,6 +83,8 @@ export function createTranslateLoader(http: HttpClient): any {
     SharedModule,
   ],
   providers: [
+    MessagingService,
+    AsyncPipe,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     {
       provide: PERFECT_SCROLLBAR_CONFIG,

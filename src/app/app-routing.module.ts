@@ -40,6 +40,15 @@ const routes: Routes = [
           import("./patient/patient.module").then((m) => m.PatientModule),
       },
       {
+        path: "stagiaire",
+        canActivate: [AuthGuard],
+        data: {
+          role: "stagiare",
+        },
+        loadChildren: () =>
+          import("./stagiaire/stagiaire.module").then((m) => m.StagiaireModule),
+      },
+      {
         path: "apps",
         loadChildren: () =>
           import("./apps/apps.module").then((m) => m.AppsModule),

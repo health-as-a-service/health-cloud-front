@@ -74,6 +74,8 @@ export class SigninComponent
                 this.router.navigate(["/admin/dashboard/main"]);
               } else if (role === Role.Doctor) {
                 this.router.navigate(["/doctor/dashboard"]);
+              } else if (role === Role.Stagiare ) {
+                this.router.navigate(["/stagiaire/stage/all"]);
               } else if (role === Role.Patient) {
                 this.router.navigate(["/patient/dashboard"]);
               } else {

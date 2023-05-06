@@ -8,11 +8,15 @@ const routes: Routes = [
       import("./dashboard/dashboard.module").then((m) => m.DashboardModule),
   },
   {
+    path: "stage",
+    loadChildren: () =>
+      import("./stage/stage.module").then((m) => m.StageModule),
+  },
+  {
     path: "day-off",
     loadChildren: () =>
       import("./day-offs/day-offs.module").then((m) => m.DayOffsModule),
   },
-
   {
     path: "donateurs",
     loadChildren: () =>
@@ -40,9 +44,7 @@ const routes: Routes = [
   {
     path: "appointment",
     loadChildren: () =>
-      import("./appointment/appointment.module").then(
-        (m) => m.AppointmentModule
-      ),
+      import("./appointment/appointment.module").then((m) => m.AppointmentModule),
   },
   {
     path: "doctors",

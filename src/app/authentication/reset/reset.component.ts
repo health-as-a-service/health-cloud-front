@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ResetPass } from "./reset.service"
 
 
+
 @Component({
   selector: 'app-reset',
   templateUrl: './reset.component.html',
@@ -21,7 +22,8 @@ export class ResetComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private resetpass: ResetPass
+    private resetpass: ResetPass,
+    
     
   ) {
     

@@ -93,6 +93,7 @@ export class AddOperationComponent implements OnInit {
         this.docNames = v
           .filter((user) => user.role[0]["name"] === Role.Doctor)
           .map((d) => d["nom"]);
+          console.log(this.docNames);
       },
     });
   }

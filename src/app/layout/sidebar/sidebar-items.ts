@@ -156,7 +156,7 @@ export const ROUTES: RouteInfo[] = [
     role: ["admin"],
     submenu: [{
       path: "/admin/donateurs/donateur",
-      title: "donateurs",
+      title: "Donators",
       moduleName: "donateurs",
       iconType: "",
       icon: "",
@@ -169,7 +169,7 @@ export const ROUTES: RouteInfo[] = [
     },
     {
       path: "/admin/donateurs/ajouterdonateur",
-      title: "ajouter donateur",
+      title: "Add Donator",
       moduleName: "donateurs",
       iconType: "",
       icon: "",
@@ -541,20 +541,7 @@ export const ROUTES: RouteInfo[] = [
         badgeClass: "",
         role: [""],
         submenu: [],
-      },
-      {
-        path: "/admin/staff/staff-profile",
-        title: "MENUITEMS.STAFF.LIST.PROFILE",
-        moduleName: "staff",
-        iconType: "",
-        icon: "",
-        class: "ml-menu",
-        groupTitle: false,
-        badge: "",
-        badgeClass: "",
-        role: [""],
-        submenu: [],
-      },
+      }
     ],
   },
   {

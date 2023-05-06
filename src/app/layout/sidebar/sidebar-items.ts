@@ -59,7 +59,7 @@ export const ROUTES: RouteInfo[] = [
     role: ["admin"],
     submenu: [
       {
-        path: "/admin/stage/all",
+        path: "/admin/stage/courses",
         title: "Courses",
         moduleName: "stage",
         iconType: "",
@@ -110,10 +110,6 @@ export const ROUTES: RouteInfo[] = [
         badge: "",
         badgeClass: "",
         role: ["admin"],
-        submenu: [],
-      },
-    ],
-        role: [""],
         submenu: [],
       },
     ],

@@ -31,6 +31,7 @@ import {
 import { environment } from "../environments/environment";
 
 import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
+import { FormsModule } from "@angular/forms";
 
 import { MessagingService } from "./core/service/messaging.service";
 import { AngularFireMessagingModule } from "@angular/fire/compat/messaging";
@@ -63,7 +64,7 @@ export function createTranslateLoader(http: HttpClient): any {
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireMessagingModule,
-    BrowserModule,
+    FormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,

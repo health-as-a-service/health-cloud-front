@@ -119,6 +119,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       } else {
         this.userType = Role.Admin;
       }
+      //non non mafamech nn base famaa
     }
 
     // this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { Patient } from "./patient.model";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { environment } from "src/environments/environment";
 @Injectable()
@@ -11,6 +11,8 @@ export class PatientService extends UnsubscribeOnDestroyAdapter {
   dataChange: BehaviorSubject<Patient[]> = new BehaviorSubject<Patient[]>([]);
   // Temporarily stores data from dialogs
   dialogData: any;
+  token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0YXNuaW0iLCJpYXQiOjE2ODMyNDU5NzEsImV4cCI6MTY4MzMzMjM3MX0.LY60gzPz1Oe2XuKOPmELPeLs2gBs2eFp3jD_YtlquTPwCa4q5QZGlVO2lFwn69IyQJpq-b-0DqwrFLiN-_xypg'
+
   constructor(private httpClient: HttpClient) {
     super();
   }
@@ -69,5 +71,40 @@ export class PatientService extends UnsubscribeOnDestroyAdapter {
          // error code here
       }
     );*/
+  }
+
+  addPatientServices(formData: FormData, dateNaissance:any) {
+    console.log("form data", formData)
+    return this.httpClient.post(`http://localhost:8082/patientnewDossier/`+dateNaissance, formData);
+  }
+
+  EditPatientServices(formData: FormData, dateNaissance:any) {
+    // Replace the API endpoint with your actual backend API endpoint
+    console.log("form data", formData)
+    return this.httpClient.put(`http://localhost:8082/patient/`+dateNaissance, formData);
+  }
+
+  DeletePatientServices(id :any) {
+    // Replace the API endpoint with your actual backend API endpoint
+    return this.httpClient.delete('http://localhost:8082/patient/'+id);
+  }
+
+  getAllPatientsService(){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token}`
+    });
+  
+    const httpOptions = { headers: headers };
+    return this.httpClient.get('http://localhost:8082/patient' , httpOptions)
+  }
+  getAllPatientArchivesService(){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token}`
+    });
+  
+    const httpOptions = { headers: headers };
+    return this.httpClient.get('http://localhost:8082/patientArchived' , httpOptions)
   }
 }

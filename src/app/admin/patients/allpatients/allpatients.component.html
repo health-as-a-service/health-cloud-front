@@ -15,12 +15,13 @@
                     <ul class="header-buttons-left ms-0">
                       <li class="dropdown">
                         <h2>
-                          <strong>Patients</strong></h2>
+                          <strong>Patients</strong>
+                        </h2>
                       </li>
                       <li class="dropdown m-l-20">
                         <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                        <input placeholder="Search" type="text" #filter class="browser-default search-field"
-                          aria-label="Search box">
+                        <input placeholder="Search" type="text" (keyup)="filterAllAttribut($event)" #filter
+                          class="browser-default search-field" aria-label="Search box">
                       </li>
                       <li>
                         <div class="icon-button-demo m-l-10" [hidden]=!selection.hasValue()>
@@ -47,11 +48,18 @@
                           </button>
                         </div>
                       </li>
+                      <li>
+                        <div class="icon-button-demo">
+                          <button mat-raised-button color="primary" (click)="getPatientArchive()">
+                            les patients archives
+                          </button>
+                        </div>
+                      </li>
                     </ul>
                   </div>
                 </div>
               </div>
-              <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+              <mat-table #table [dataSource]="AllPatient" matSort class="mat-cell">
                 <!-- Checkbox Column -->
                 <ng-container matColumnDef="select">
                   <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'">
@@ -68,61 +76,94 @@
                 </ng-container>
                 <!-- ID Column -->
                 <ng-container matColumnDef="id">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-                  <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.idP}} </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="img">
-                  <mat-header-cell mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-5'"> Image
-                  </mat-header-cell>
-                  <mat-cell mat-cell *matCellDef="let row" class="table-img tbl-col-width-per-5"> <img
-                      [src]="row.img" />
-                  </mat-cell>
+                <ng-container matColumnDef="gendour">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Date Archivage</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.dateArchivage}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="gender">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> prénom</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.prenomP}} </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="firstName">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>First Name</mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.firstName}}</mat-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Nom</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.nomP}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="gender">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-8'">Gender
+
+                <ng-container matColumnDef="address">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-8'">Sexe
                   </mat-header-cell>
-                  <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-8'"> {{row.gender}}
+                  <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-8'"> {{row.sexe}}
                   </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="address">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-10'">Address
+                <ng-container matColumnDef="img">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-10'"> IsArchive
                   </mat-header-cell>
                   <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-10'"> <span
-                      class="truncate-text">{{row.address}}</span>
+                      class="truncate-text">{{row.isArchive}}</span>
                   </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="mobile">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Mobile</mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.mobile}}</mat-cell>
-                </ng-container>
+              
+
                 <ng-container matColumnDef="dateOfBirth">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Birth Date</mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.dateOfBirth | date: 'MM/dd/yyyy'}}</mat-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Date de naissance</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.dateNaissanceP | date: 'MM/dd/yyyy'}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="bloodGroup">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Blood Group</mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.bloodGroup}}</mat-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Date creation</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.dateCreation}}</mat-cell>
                 </ng-container>
+
                 <ng-container matColumnDef="sugger">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Sugger</mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.sugger}}</mat-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Sejour</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.sejour}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Chambre</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.chambre}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="tel">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Téléphone</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.numTel}}</mat-cell>
                 </ng-container>
                 <!-- actions -->
-                <ng-container matColumnDef="actions">
+                <ng-container matColumnDef="ok">
                   <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
                   <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
                     <button mat-icon-button (click)="$event.stopPropagation()" (click)="editCall(row)"
                       class="tbl-action-btn">
                       <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                     </button>
+
                     <button mat-icon-button (click)="$event.stopPropagation()" (click)="deleteItem(row)"
                       class="tbl-action-btn">
                       <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
                     </button>
+                    <button mat-icon-button (click)="$event.stopPropagation()" (click)="ShowDetailsDossier(row)"
+                      class="tbl-action-btn">
+                      <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                    </button>
+
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="pdf">
+                  <mat-header-cell class="pr-0" *matHeaderCellDef>Méthode</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+
+                    <button mat-icon-button (click)="$event.stopPropagation()" (click)="generatePfd(row)"
+                      class="tbl-action-btn">
+                      <app-feather-icons [icon]="'file'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                    </button>
+                    <button mat-icon-button (click)="$event.stopPropagation()" (click)="ShowDetailsDossier(row)"
+                      class="tbl-action-btn">
+                      <app-feather-icons [icon]="'eye'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                    </button>
+
+
+
                   </mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -132,15 +173,15 @@
                 </mat-row>
               </mat-table>
               <!-- Loading spinner -->
-              <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
+              <div *ngIf="exampleDatabase?.isTblLoading" class="tbl-spinner">
                 <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
                 </mat-progress-spinner>
               </div>
-              <div *ngIf="!exampleDatabase.isTblLoading" class="no-results"
-                [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+              <div *ngIf="!exampleDatabase?.isTblLoading" class="no-results"
+                [style.display]="dataSource?.renderedData.length == 0 ? '' : 'none'">
                 No results
               </div>
-              <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+              <mat-paginator #paginator [length]="dataSource?.filteredData.length" [pageIndex]="0" [pageSize]="10"
                 [pageSizeOptions]="[5, 10, 25, 100]">
               </mat-paginator>
             </div>
@@ -148,5 +189,60 @@
         </div>
       </div>
     </div>
+
+    <div id="pdfpdf" *ngIf="showMe">
+      <h4 style="text-align: center;">les information de patient </h4>
+      <div style="display: flex; justify-content: center; padding: 50px;" >
+        <ul class="clearfix">
+          <li>
+            <span style="font-weight: bold; color: #007bff; margin-right: 20px; "> Nom prenom :
+            </span>
+          </li>
+          <li>
+            <span style="font-weight: bold; color: #007bff; margin-right: 20px; "> Sexe: </span>
+          </li>
+
+          <li>
+            <span style="font-weight: bold; color: #007bff; margin-right: 20px; "> Chambre: </span>
+          </li>
+          <li>
+            <span style="font-weight: bold; color: #007bff; margin-right: 20px; "> sejour: </span>
+          </li>
+          <li>
+            <span style="font-weight: bold; color: #007bff; margin-right: 20px; "> Crée : </span>
+          <li>
+            <span style="font-weight: bold; color: #007bff; margin-right: 20px; "> Téléphone: </span>
+          </li>
+
+
+
+        </ul>
+        <ul class="clearfix">
+          <li>
+            {{data.prenomP}} {{data.nomP}}
+          </li>
+          <li>
+            {{ data.sexe }}
+          </li>
+
+          <li>
+            {{ data.chambre }}
+          </li>
+          <li>
+            {{ data.sejour }}
+          </li>
+          <li>
+            {{ data.dateCreation }}
+          </li>
+          <li>
+            {{ data.numTel }}
+          </li>
+
+
+
+        </ul>
+      </div>
+    </div>
   </div>
+
 </section>

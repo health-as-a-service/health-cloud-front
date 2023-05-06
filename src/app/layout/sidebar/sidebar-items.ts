@@ -330,7 +330,7 @@ export const ROUTES: RouteInfo[] = [
         badgeClass: "",
         role: [""],
         submenu: [],
-      },
+      },   // ok win nal9aha l edit kifch tetbadel statstique ?
       {
         path: "/admin/patients/edit-patient",
         title: "MENUITEMS.PATIENTS.LIST.EDIT-PATIENT",

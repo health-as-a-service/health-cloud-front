@@ -2,151 +2,641 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Edit Patient'" [items]="['Patients']" [active_item]="'Edit Patient'"></app-breadcrumb>
+      <app-breadcrumb [title]="'Dashboard'" [items]="[]" [active_item]="'Dashboard'"></app-breadcrumb>
     </div>
-    <div class="row clearfix">
-      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+    <!-- Form Update Profile for Doctor -->
+    <!-- Widgets -->
+    <div class="row">
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="card card-statistic-2">
+          <div class="clearfix">
+            <div class="card-icon shadow-primary bg-purple">
+              <i class="material-icons align-middle">face</i>
+            </div>
+            <div class="card-right">
+              <div>
+                <h5 class="float-end">Patient Archivés</h5>
+              </div>
+              <div class="m-r-10 m-l-10">
+                <h3 class="font-weight-bold float-end mb-0"> {{AllPatientarv?.length}}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-chart">
+            <canvas baseChart [chartType]="'line'" [datasets]="cardChart1Data" [labels]="cardChart1Label"
+              [options]="cardChart1" [legend]="true">
+            </canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="card card-statistic-2">
+          <div class="clearfix">
+            <div class="card-icon shadow-primary bg-orange">
+              <i class="material-icons align-middle">content_cut</i>
+            </div>
+            <div class="card-right">
+              <div>
+                <h5 class="float-end">Patient agé > 50 </h5>
+              </div>
+              <div class="m-r-10 m-l-10">
+                <h3 class="font-weight-bold float-end mb-0"> {{old}}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-chart">
+            <canvas baseChart [chartType]="'line'" [datasets]="cardChart2Data" [labels]="cardChart2Label"
+              [options]="cardChart2" [legend]="true">
+            </canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="card card-statistic-2">
+          <div class="clearfix">
+            <div class="card-icon shadow-primary bg-green">
+              <i class="material-icons align-middle">person_add</i>
+            </div>
+            <div class="card-right">
+              <div>
+                <h5 class="float-end">Patient 20-50</h5>
+              </div>
+              <div class="m-r-10 m-l-10">
+                <h3 class="font-weight-bold float-end mb-0"> {{mid}}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-chart">
+            <canvas baseChart [chartType]="'line'" [datasets]="cardChart3Data" [labels]="cardChart3Label"
+              [options]="cardChart3" [legend]="true">
+            </canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="card card-statistic-2">
+          <div class="clearfix">
+            <div class="card-icon shadow-primary bg-blue">
+              <i class="material-icons align-middle">local_activity</i>
+            </div>
+            <div class="card-right">
+              <div>
+                <h5 class="float-end">Patient < 20</h5>
+              </div>
+              <div class="m-r-10 m-l-10">
+                <h3 class="font-weight-bold float-end mb-0"> {{young}}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="card-chart">
+            <canvas baseChart [chartType]="'line'" [datasets]="cardChart4Data" [labels]="cardChart4Label"
+              [options]="cardChart4" [legend]="true">
+            </canvas>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- #END# Widgets -->
+    <!-- <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
         <div class="card">
           <div class="header">
-            <h2><strong> Patient Information</strong></h2>
-
+            <h2>
+              Hospital Survay</h2>
+            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Action</button>
+              <button mat-menu-item>Another action</button>
+              <button mat-menu-item>Something else here</button>
+            </mat-menu>
           </div>
           <div class="body">
-            <form class="m-4" [formGroup]="patientForm" (ngSubmit)="onSubmit()">
-              <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>First name</mat-label>
-                    <input matInput formControlName="first" required>
-                    <mat-error *ngIf="patientForm.get('first').hasError('required')">
-                      First name is required
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Last name</mat-label>
-                    <input matInput formControlName="last">
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Gender</mat-label>
-                    <mat-select formControlName="gender" required>
-                      <mat-option [value]="'Male'">
-                        Male
-                      </mat-option>
-                      <mat-option [value]="'Female'">
-                        Female
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="patientForm.get('gender').hasError('required')">
-                      Gender is required
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Mobile</mat-label>
-                    <input matInput formControlName="mobile" type="number">
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Date Of Birth</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="dob" required>
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                    <mat-error *ngIf="patientForm.get('dob').hasError('required')">
-                      Please select date
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Age</mat-label>
-                    <input matInput formControlName="age" type="number">
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Email</mat-label>
-                    <input matInput formControlName="email" type="email" required>
-                    <mat-error *ngIf="patientForm.get('email').hasError('email') && patientForm.get('email').touched">
-                      Please enter a valid email address
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Marital Status</mat-label>
-                    <mat-select formControlName="maritalStatus" required>
-                      <mat-option [value]="'1'">
-                        Single
-                      </mat-option>
-                      <mat-option [value]="'2'">
-                        Married
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="patientForm.get('maritalStatus').hasError('required')">
-                      Select Any
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Address</mat-label>
-                    <textarea matInput formControlName="address"></textarea>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Blood Group</mat-label>
-                    <input matInput formControlName="bGroup">
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Blood Presure</mat-label>
-                    <input matInput formControlName="bPresure">
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Sugger</mat-label>
-                    <input matInput formControlName="sugger">
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Injury/Condition</mat-label>
-                    <input matInput formControlName="injury">
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
-                  <button class="btn-space" [disabled]="!patientForm.valid " mat-raised-button
-                    color="primary">Submit</button>
-                  <button type="button" mat-button>Cancel</button>
-                </div>
-              </div>
-            </form>
+            <apx-chart [series]="areaChartOptions.series" [chart]="areaChartOptions.chart"
+              [xaxis]="areaChartOptions.xaxis" [yaxis]="areaChartOptions.yaxis" [colors]="areaChartOptions.colors"
+              [stroke]="areaChartOptions.stroke" [legend]="areaChartOptions.legend" [tooltip]="areaChartOptions.tooltip"
+              [dataLabels]="areaChartOptions.dataLabels"></apx-chart>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Common Diseases Report</h2>
+            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Action</button>
+              <button mat-menu-item>Another action</button>
+              <button mat-menu-item>Something else here</button>
+            </mat-menu>
+          </div>
+          <div class="body">
+            <apx-chart [series]="barChartOptions.series" [chart]="barChartOptions.chart"
+              [dataLabels]="barChartOptions.dataLabels" [plotOptions]="barChartOptions.plotOptions"
+              [responsive]="barChartOptions.responsive" [xaxis]="barChartOptions.xaxis"
+              [tooltip]="barChartOptions.tooltip" [legend]="barChartOptions.legend" [fill]="barChartOptions.fill">
+            </apx-chart>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <div class="card">
+          <div class="header">
+            <h2>
+              Booked Appointment</h2>
+            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Action</button>
+              <button mat-menu-item>Another action</button>
+              <button mat-menu-item>Something else here</button>
+            </mat-menu>
+          </div>
+          <div class="tableBody">
+            <div class="table-responsive">
+              <table class="table table-hover ">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Patient Name</th>
+                    <th>Assigned Doctor</th>
+                    <th>Date</th>
+                    <th>Diseases</th>
+                    <th>Actions </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user1.jpg" alt="">
+                    </td>
+                    <td>John Doe</td>
+                    <td><a href="mailto:test@gmail.com"> Dr.Jacob Ryan </a></td>
+                    <td>12/05/2016 </td>
+                    <td>
+                      <div class="badge col-red">Fever</div>
+                    </td>
+                    <td>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user2.jpg" alt="">
+                    </td>
+                    <td>Sarah Smith</td>
+                    <td><a href="mailto:test@gmail.com"> Dr.Rajesh </a></td>
+                    <td>12/05/2016 </td>
+                    <td>
+                      <div class="badge col-green">Cholera</div>
+                    </td>
+                    <td>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user3.jpg" alt="">
+                    </td>
+                    <td>Airi Satou</td>
+                    <td><a href="mailto:test@gmail.com"> Dr.Jay Soni </a></td>
+                    <td>12/05/2016 </td>
+                    <td>
+                      <div class="badge col-purple">Jaundice</div>
+                    </td>
+                    <td>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user4.jpg" alt="">
+                    </td>
+                    <td>Angelica Ramos</td>
+                    <td><a href="mailto:test@gmail.com"> Dr.John Deo </a></td>
+                    <td>12/05/2016 </td>
+                    <td>
+                      <div class="badge col-purple">Typhod</div>
+                    </td>
+                    <td>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user5.jpg" alt="">
+                    </td>
+                    <td>Ashton Cox</td>
+                    <td><a href="mailto:test@gmail.com"> Dr.Megha Trivedi </a></td>
+                    <td>12/05/2016 </td>
+                    <td>
+                      <div class="badge col-orange">Maleria</div>
+                    </td>
+                    <td>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user8.jpg" alt="">
+                    </td>
+                    <td>Cara Stevens</td>
+                    <td><a href="mailto:test@gmail.com"> Dr.Sarah Smith </a></td>
+                    <td>12/05/2016 </td>
+                    <td>
+                      <div class="badge col-cyan">Infection</div>
+                    </td>
+                    <td>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="card">
+          <div class="header">
+            <h2>
+              Doctors List</h2>
+            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Action</button>
+              <button mat-menu-item>Another action</button>
+              <button mat-menu-item>Something else here</button>
+            </mat-menu>
+          </div>
+          <div class="tableBody">
+            <div class="table-responsive">
+              <table class="table table-hover ">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Doctor Name</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user5.jpg" alt="">
+                    </td>
+                    <td>
+                      <div class="media-title"><a href="mailto:test@gmail.com"> Dr.Jay Soni
+                        </a></div>
+                      <div class="text-job font-11">(MBBS,MD)</div>
+                    </td>
+                    <td>
+                      <div class="badge badge-solid-green">Available</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user6.jpg" alt="">
+                    </td>
+                    <td>
+                      <div class="media-title"><a href="mailto:test@gmail.com"> Dr.Sarah Smith
+                        </a></div>
+                      <div class="text-job font-11">(BDS,MDS)</div>
+                    </td>
+                    <td>
+                      <div class="badge badge-solid-orange">Absend</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user3.jpg" alt="">
+                    </td>
+                    <td>
+                      <div class="media-title"><a href="mailto:test@gmail.com">Dr.Megha Trivedi
+                        </a></div>
+                      <div class="text-job font-11">(BHMS)</div>
+                    </td>
+                    <td>
+                      <div class="badge badge-solid-green">Available</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user2.jpg" alt="">
+                    </td>
+                    <td>
+                      <div class="media-title"><a href="mailto:test@gmail.com"> Dr.John Deo
+                        </a></div>
+                      <div class="text-job font-11">(MBBS,MS)</div>
+                    </td>
+                    <td>
+                      <div class="badge badge-solid-green">Available</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user1.jpg" alt="">
+                    </td>
+                    <td>
+                      <div class="media-title"><a href="mailto:test@gmail.com"> Dr.Jacob Ryan
+                        </a></div>
+                      <div class="text-job font-11">(MBBS,MD)</div>
+                    </td>
+                    <td>
+                      <div class="badge badge-solid-orange">Absend</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user8.jpg" alt="">
+                    </td>
+                    <td>
+                      <div class="media-title"><a href="mailto:test@gmail.com"> Dr.Jay Soni
+                        </a></div>
+                      <div class="text-job font-11">(MBBS)</div>
+                    </td>
+                    <td>
+                      <div class="badge badge-solid-green">Available</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2>
+              Operations</h2>
+            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Action</button>
+              <button mat-menu-item>Another action</button>
+              <button mat-menu-item>Something else here</button>
+            </mat-menu>
+          </div>
+          <div class="tableBody">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Parient Name</th>
+                    <th>Doctors Team</th>
+                    <th>Date Of Operation</th>
+                    <th>Report</th>
+                    <th>Diseases</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user8.jpg" alt="">
+                    </td>
+                    <td>John Deo</td>
+                    <td class="text-truncate">
+                      <ul class="list-unstyled order-list">
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user1.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user2.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user3.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><span class="badge">+4</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>12-08-2019</td>
+                    <td>
+                      <i class="far fa-file-pdf tbl-pdf"></i>
+                    </td>
+                    <td>Cancer</td>
+                    <td>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user5.jpg" alt="">
+                    </td>
+                    <td>Jens Brincker</td>
+                    <td class="text-truncate">
+                      <ul class="list-unstyled order-list">
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user7.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user2.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><span class="badge">+3</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>14-08-2019</td>
+                    <td>
+                      <i class="far fa-file-pdf tbl-pdf"></i>
+                    </td>
+                    <td>Fracture</td>
+                    <td>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user3.jpg" alt="">
+                    </td>
+                    <td>Mark Hay</td>
+                    <td class="text-truncate">
+                      <ul class="list-unstyled order-list">
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user2.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user1.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user8.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><span class="badge">+2</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>18-08-2019</td>
+                    <td>
+                      <i class="far fa-file-pdf tbl-pdf"></i>
+                    </td>
+                    <td>Cataract surgery</td>
+                    <td>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user6.jpg" alt="">
+                    </td>
+                    <td>Mark Hay</td>
+                    <td class="text-truncate">
+                      <ul class="list-unstyled order-list">
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user5.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user3.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user9.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><span class="badge">+4</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>20-08-2019</td>
+                    <td>
+                      <i class="far fa-file-pdf tbl-pdf"></i>
+                    </td>
+                    <td>Cholecystectomy</td>
+                    <td>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user1.jpg" alt="">
+                    </td>
+                    <td>Mark Hay</td>
+                    <td class="text-truncate">
+                      <ul class="list-unstyled order-list">
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user2.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user4.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><span class="badge">+3</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>22-08-2019</td>
+                    <td>
+                      <i class="far fa-file-pdf tbl-pdf"></i>
+                    </td>
+                    <td>Hysterectomy</td>
+                    <td>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="table-img">
+                      <img src="assets/images/user/user2.jpg" alt="">
+                    </td>
+                    <td>Mark Hay</td>
+                    <td class="text-truncate">
+                      <ul class="list-unstyled order-list">
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user6.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user9.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><img class="rounded-circle" src="assets/images/user/user4.jpg"
+                            alt="user">
+                        </li>
+                        <li class="avatar avatar-sm"><span class="badge">+2</span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td>28-08-2019</td>
+                    <td>
+                      <i class="far fa-file-pdf tbl-pdf"></i>
+                    </td>
+                    <td>back pain surgery</td>
+                    <td>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                      </button>
+                      <button mat-icon-button class="tbl-action-btn">
+                        <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
   </div>
 </section>

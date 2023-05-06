@@ -5,9 +5,19 @@
 export const environment = {
   production: false,
    clinivaAuthUrl: "http://localhost:8082",
+   
    clinivaAppointmentUrl: "https://lingering-forest-5081.us-east1.kalix.app:443",
   //clinivaAuthUrl: "http://127.0.0.1:9000",
   //clinivaAppointmentUrl: "http://127.0.0.1:9001",
+  firebaseConfig : {
+    apiKey: "AIzaSyAe6dHFOx-CsZb11Q5zBTcKSw1VPkPwGKU",
+    authDomain: "healthcloud-b2935.firebaseapp.com",
+    projectId: "healthcloud-b2935",
+    storageBucket: "healthcloud-b2935.appspot.com",
+    messagingSenderId: "416440020663",
+    appId: "1:416440020663:web:7fb08a53438cf753a26732",
+    measurementId: "G-V3YXXL9TQ5"
+  }
 };
 
 /*

@@ -11,4 +11,5 @@ import { Reset } from "./reset.model"
     reset(emailUser: string,newPassword:String,confirmPassword:String): Observable<Reset[]> {
         return this.http.post<Reset[]>(this.url+'updatepassword', { emailUser: emailUser,newPassword:newPassword,confirmPassword:confirmPassword });
       }
+    
     }

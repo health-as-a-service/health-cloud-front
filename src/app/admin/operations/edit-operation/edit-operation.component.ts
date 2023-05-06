@@ -54,6 +54,7 @@ export class EditOperationComponent implements OnInit {
           nomP: [l.nomP, [Validators.required]],
           dateOp: [l.dateOp, [Validators.required]],
           typeOp: [l.typeOp, [Validators.required]],
+          idChambre: [l.idChambre, [Validators.required]],
           emailP: [l.emailP, [Validators.required, Validators.email]],
           success: [l.success],
         });

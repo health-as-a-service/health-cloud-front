@@ -19,8 +19,9 @@ import { OperationService } from "src/app/core/service/operation.service";
 })
 export class AddOperationComponent implements OnInit {
   operation: Operation;
-  docNames: string[] = [];
   addOpForm: FormGroup;
+  docNames: string[] = [];
+  operations: Operation[] = [];
   selectedLogistics = new FormControl("");
   defaultLogistics: Logistique[] = [];
 
@@ -37,11 +38,13 @@ export class AddOperationComponent implements OnInit {
       dateOp: ["", [Validators.required]],
       typeOp: ["", [Validators.required]],
       nomChi: [""],
+      idChambre: [0],
       emailP: ["", [Validators.required, Validators.email]],
       success: [false],
     });
     this.fetchLogistics();
     this.fetchDoctors();
+    this.fetchOps();
   }
 
   private openSnackBar(message: string, action: string) {
@@ -92,31 +95,38 @@ export class AddOperationComponent implements OnInit {
     });
   }
 
-  filterDocsPerDateGiven() {
-    let v = new Date(`${this.addOpForm.value.dateOp}`)
-      .toLocaleString()
-      .split(", ")[0]
-      .replace("/", "-")
-      .replace("/", "-")
-      .split("-");
-
-    const finalDate = `${v[2]}-${v[0]}-${v[1]}`;
-
-    console.log(finalDate);
-
+  private fetchOps() {
     this.operationService.getAllOperations().subscribe({
-      next: (ops) => {
-        console.table(ops[0].dateOp.toString().includes(finalDate));
-        // 2023-05-20
-
-        this.docNames = ops
-          .filter(
-            (op) =>
-              this.docNames.includes(op.nomChi) &&
-              !(op.dateOp.toString() === finalDate)
-          )
-          .map((o) => o.nomChi);
+      next: (v) => {
+        this.operations = v;
       },
     });
+  }
+
+  filterDocsPerDateGiven() {
+    if (this.addOpForm.value.nomChi[0]) {
+      let v = new Date(`${this.addOpForm.value.dateOp}`)
+        .toLocaleString()
+        .split(", ")[0]
+        .replace("/", "-")
+        .replace("/", "-")
+        .split("-");
+
+      const finalDate = `${v[2]}-${v[0]}-${v[1]}`;
+
+      let isValid1 = this.operations
+        .map((op) => op.dateOp.toString())
+        .includes(finalDate);
+
+      let isValid2 = this.operations
+        .map((op) => op.nomChi.toLowerCase())
+        .includes(this.addOpForm.value.nomChi[0].toLowerCase());
+
+      console.log(this.addOpForm.value.nomChi[0].toLowerCase());
+
+      if (isValid1 && isValid2) {
+        this.openSnackBar("Invalid date or doctor!", "❌");
+      }
+    }
   }
 }

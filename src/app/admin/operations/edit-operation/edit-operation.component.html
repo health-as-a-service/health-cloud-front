@@ -87,6 +87,18 @@
                             </div>
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                    <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Room number</mat-label>
+                                        <input matInput formControlName="idChambre" type="number" required>
+                                        <mat-icon matSuffix>tag</mat-icon>
+                                        <mat-error *ngIf="editOpForm.get('idChambre').hasError('required')">
+                                            Room number required
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                                     <div class="example-button-row">
 
                                         <button mat-raised-button color="primary"

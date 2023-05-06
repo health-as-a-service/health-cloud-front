@@ -1,0 +1,141 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div mat-dialog-content>
+
+      <form class="register-form m-4" [formGroup]="patientForm" (ngSubmit)="submit">
+        <h5 style="text-align: center;">Patient</h5>
+        <hr>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Nom</mat-label>
+              <input matInput formControlName="nomP" required>
+              <mat-icon matSuffix>face</mat-icon>
+              <mat-error *ngIf="patientForm.get('nomP').hasError('required')">
+                Nom est obligatoire.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Prénom</mat-label>
+              <input matInput formControlName="prenomP" required>
+              <mat-icon matSuffix>face</mat-icon>
+              <mat-error *ngIf="patientForm.get('prenomP').hasError('required')">
+                Prénom est obligatoire.
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Date de naissance</mat-label>
+              <input matInput type="date" formControlName="dateNaissanceP">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <div class="m-b-20">
+              <mat-label class="msr-3">Sexe:</mat-label>
+              <mat-radio-group aria-label="Select gender" formControlName="sexe" required>
+                <mat-radio-button value="homme">Homme</mat-radio-button>
+                <mat-radio-button value="femme">Femme</mat-radio-button>
+                <mat-error *ngIf="patientForm.get('sexe').hasError('required')">
+                  Choisir le sexe
+                </mat-error>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>sejour</mat-label>
+              <input type="number" matInput formControlName="sejour">
+
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Téléphone</mat-label>
+              <textarea matInput formControlName="numTel"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Chambre</mat-label>
+              
+              <input type="number" matInput formControlName="chambre">
+
+            </mat-form-field>
+          </div>
+        </div>
+        <hr>
+        <h5 style="text-align: center;">Dossier Medical</h5>
+        <div class="row" *ngIf="action !== 'edit'">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>maladiesChroniques</mat-label>
+              <textarea matInput formControlName="maladiesChroniques"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row" *ngIf="action !== 'edit'">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>testsMedicaux</mat-label>
+              <textarea matInput formControlName="testsMedicaux"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row" *ngIf="action !== 'edit'">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>traitement</mat-label>
+              <textarea matInput formControlName="traitement"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row"  >
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>typeMaladie</mat-label>
+              <textarea matInput formControlName="typeMaladie"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+            <label for="">Image</label>
+            <input type="file" (change)='onSingleFileChange($event)'>
+          </div>
+        </div>
+
+
+       
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <div class="example-button-row">
+              <button mat-raised-button color="primary" [type]="submit" [disabled]="!patientForm.valid"
+                [mat-dialog-close]="1"  (click)="confirmAdd()">Save</button>
+              <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

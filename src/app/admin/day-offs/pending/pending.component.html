@@ -1,0 +1,81 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <app-breadcrumb [title]="'Department List'" [items]="['Departments']" [active_item]="'Department List'">
+            </app-breadcrumb>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="body">
+                            <div class="table-responsive">
+                                <div class="materialTableHeader">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <ul class="header-buttons-left ms-0">
+                                                <li class="dropdown">
+                                                    <h2>Department List</h2>
+                                                </li>
+                                                <li class="dropdown m-l-20">
+                                                    <label for="search-input"><i
+                                                            class="material-icons search-icon">search</i></label>
+                                                    <input placeholder="Search" type="text" #filter
+                                                        class="browser-default search-field" aria-label="Search box">
+                                                </li>
+                                                <li>
+                                                    <div class="icon-button-demo m-l-10" >
+                                                        <button mat-mini-fab color="warn"
+                                                            >
+                                                            <mat-icon class="col-white">delete</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-4">
+                                            <ul class="header-buttons">
+                                                <li>
+                                                    <div class="icon-button-demo">
+                                                        <button mat-mini-fab color="primary" >
+                                                            <mat-icon class="col-white">add</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="icon-button-demo">
+                                                        <button mat-mini-fab color="primary" >
+                                                            <mat-icon class="col-white">refresh</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table cTable>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">id</th>
+                                            <th scope="col">Start date</th>
+                                            <th scope="col">End date</th>
+                                            <th scope="col">User Name</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let aa of pendingData">
+                                            <td> {{aa.id}}</td>
+                                            <td> {{aa.startDate}} </td>
+                                            <td>{{aa.endDate}}</td>
+                                            <td>{{aa.user.username}}</td>
+                                            <td>{{aa.status}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

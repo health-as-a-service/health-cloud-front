@@ -1,0 +1,81 @@
+<style>
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    ul li {
+        display: block;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    ul li:hover {
+        background-color: #f2f2f2;
+    }
+
+    ul li:first-child {
+        border-top: 1px solid #ccc;
+    }
+
+    ul li:last-child {
+        border-bottom: none;
+    }
+</style>
+<div class="container">
+    <h3 mat-dialog-title style="text-align: center; color: 007bff; ">Dossier Medical</h3>
+    <div mat-dialog-content style="display: flex; justify-content: center;">
+        <ul class="clearfix">
+            <li>
+                <span style="font-weight: bold; color: #007bff; margin-right: 20px; "> Nom prenom :
+                </span>
+            </li>
+            <li>
+                <span style="font-weight: bold; color: #007bff; margin-right: 20px; "> Sexe: </span>
+            </li>
+
+            <li>
+                <span style="font-weight: bold; color: #007bff; margin-right: 20px; "> Type maladie: </span>
+            </li>
+            <li>
+                <span style="font-weight: bold; color: #007bff; margin-right: 20px; "> Traitement: </span>
+            </li>
+            <li>
+                <span style="font-weight: bold; color: #007bff; margin-right: 20px; "> Maladies chroniques: </span>
+            <li>
+                <span style="font-weight: bold; color: #007bff; margin-right: 20px; "> Tests medicaux: </span>
+            </li>
+
+
+
+        </ul>
+        <ul class="clearfix">
+            <li>
+                {{data.prenomP}} {{data.nomP}}
+            </li>
+            <li>
+                {{ data.sexe }}
+            </li>
+
+            <li>
+                {{ data.dossierMedical.typeMaladie }}
+            </li>
+            <li>
+                {{ data.dossierMedical.traitement }}
+            </li>
+            <li>
+                {{ data.dossierMedical.maladiesChroniques }}
+            </li>
+            <li>
+                {{ data.dossierMedical.testsMedicaux }}
+            </li>
+
+
+
+        </ul>
+
+    </div>
+
+
+</div>

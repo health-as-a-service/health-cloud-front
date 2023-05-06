@@ -1,0 +1,433 @@
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { PatientService } from "./patient.service";
+import { HttpClient } from "@angular/common/http";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { Patient } from "./patient.model";
+import { DataSource } from "@angular/cdk/collections";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { FormDialogComponent } from "./dialog/form-dialog/form-dialog.component";
+import { DeleteComponent } from "./dialog/delete/delete.component";
+import { BehaviorSubject, fromEvent, merge, Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { SelectionModel } from "@angular/cdk/collections";
+import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
+import { ShowDossierMedicaleComponent } from "./dialog/show-dossier-medicale/show-dossier-medicale.component";
+import { jsPDF } from "jspdf"
+import html2canvas from 'html2canvas';
+@Component({
+  selector: "app-allpatients",
+  templateUrl: "./allpatients.component.html",
+  styleUrls: ["./allpatients.component.sass"],
+})
+export class AllpatientsComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit {
+  displayedColumns = [
+    "select",
+    "id",
+    // "email",
+    // "password",
+    "firstName",
+    // "last_name",
+    // "role",
+    "gender",
+    "gendour",
+    "dateOfBirth",
+    // "age",
+    // "marital_status",
+    "address",
+    "bloodGroup",
+    // "blood_pressure",
+    "sugger",
+    "tel",
+    // "injury",
+    "img",
+    "actions",
+    "ok",
+    "pdf"
+  ];
+  exampleDatabase: PatientService | null;
+  dataSource: ExampleDataSource | null;
+  selection = new SelectionModel<Patient>(true, []);
+  index: number;
+  id: number;
+  patient: any;
+  AllPatient: any
+  showMe: boolean = false
+  data: any
+  constructor(
+    public httpClient: HttpClient,
+    public dialog: MatDialog,
+    public patientService: PatientService,
+    private snackBar: MatSnackBar,
+  ) {
+    super();
+  }
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild("filter", { static: true }) filter: ElementRef;
+  ngOnInit() {
+    this.loadData();
+    this.getAllPatientData()
+  }
+
+  getAllPatientData() {
+    this.patientService.getAllPatientsService().subscribe(res => {
+      this.AllPatient = res
+      console.log(this.AllPatient)
+    })
+  }
+  getPatientArchive() {
+    this.patientService.getAllPatientArchivesService().subscribe(res => {
+      this.AllPatient = res
+      console.log(this.AllPatient)
+    })
+  }
+  // one click je laisse l'achichage s'affiche , one more click
+  generatePfd(row) {
+    console.log(row)
+    this.data = row
+    this.showMe = true
+    const op = {
+      background: 'white',
+      scale: 3
+    }
+    var div = document.getElementById("pdfpdf")
+    console.log(div)
+
+    html2canvas(div, op).then(async canvas => {
+      const contentDataURL = await canvas.toDataURL('image/png')
+      let pdf = new jsPDF('p', 'mm', 'a4');
+      var width = await pdf.internal.pageSize.getWidth();
+      var height = await canvas.height * width / canvas.width;
+      pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height)
+      pdf.save('output.pdf');
+      this.showMe = false
+
+
+
+    });
+
+  }
+  filterAllAttribut(event: any) {
+    console.log(event.target.value)
+    var item = event.target.value
+    if (item == "") {
+      this.getPatientArchive()
+    } else {
+      this.patientService.getAllPatientArchivesService().subscribe(res => {
+        this.AllPatient = res
+        this.AllPatient = this.AllPatient.filter((i: any) => {
+          return (i.nomP.toLowerCase() == item.toLowerCase()) || (i.prenomP.toLowerCase() == item.toLowerCase()) || (i.sexe.toLowerCase() == item.toLowerCase()) || (i.chambre == item)
+        })
+
+        console.log(this.AllPatient)
+      })
+
+    }
+  }
+
+ 
+
+  // edheya l button eli bahdha button l ajout edheya yamel reset , si on click sur ce button o=> n3awdou namlou getAllPatient
+  refresh() {
+    this.getAllPatientData()
+  }
+
+  //OPEN DIALOG [1] d'ajout patient ==> just open la form dans laquelle nmajmou namlou add => c'est open kahaw edheya mouch add
+  addNew() {
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+    const dialogRef = this.dialog.open(FormDialogComponent, {
+      data: {
+        patient: this.patient,
+        action: "add",
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        this.getAllPatientData()
+        this.exampleDatabase.dataChange.value.unshift(
+          this.patientService.getDialogData()
+        );
+        this.refreshTable();
+        this.showNotification(
+          "snackbar-success",
+          "Add Record Successfully...!!!",
+          "bottom",
+          "center"
+        );
+      }
+    });
+  }
+  //OPEN DIALOG [2] meme chose pour l edit , nestamlou f nafes dialog 
+  editCall(row) {
+    console.log('row', row)
+    this.id = row.id;
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+    const dialogRef = this.dialog.open(FormDialogComponent, {
+      data: {
+        patient: row,
+        action: "edit",
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+          (x: any) => x.id === this.id
+        );
+        // Then you update that record using data from dialogData (values you enetered)
+        this.exampleDatabase.dataChange.value[foundIndex] =
+          this.patientService.getDialogData();
+        // And lastly refresh table
+        this.refreshTable();
+        this.showNotification(
+          "black",
+          "Edit Record Successfully...!!!",
+          "bottom",
+          "center"
+        );
+      }
+    });
+  }
+
+  //OPEN DIALOG [3] bech ykoun 3ana dialog de confirmation => oui ou non
+  deleteItem(row) {
+    this.id = row.id;
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+    const dialogRef = this.dialog.open(DeleteComponent, {
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+          (x: any) => x.id === this.id
+        );
+
+
+        if (this.AllPatient.length > 0) {
+          this.AllPatient = this.AllPatient.filter((i: any) => {
+            return i.idP !== row.idP
+          })
+          this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+          this.refreshTable();
+          this.showNotification(
+            "snackbar-danger",
+            "Delete Record Successfully...!!!",
+            "bottom",
+            "center"
+          );
+        } else {
+
+          this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+          this.refreshTable();
+          this.showNotification(
+            "snackbar-danger",
+            "Patient is already auto deleted from patient class...!!!",
+            "bottom",
+            "center"
+          );
+        }
+      }
+    });
+  }
+
+  ShowDetailsDossier(row) {
+    this.id = row.id;
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+    const dialogConfig = new MatDialogConfig();
+
+    // Set the dialog width and height
+    dialogConfig.width = '600px';
+    dialogConfig.height = 'auto';
+
+    // Set the dialog position
+
+
+    dialogConfig.data = row
+    dialogConfig.direction = tempDirection
+    const dialogRef = this.dialog.open(ShowDossierMedicaleComponent, dialogConfig)
+  }
+  private refreshTable() {
+    this.paginator._changePageSize(this.paginator.pageSize);
+  }
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.renderedData.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.renderedData.forEach((row) =>
+        this.selection.select(row)
+      );
+  }
+  removeSelectedRows() {
+    const totalSelect = this.selection.selected.length;
+    this.selection.selected.forEach((item) => {
+      const index: number = this.dataSource.renderedData.findIndex(
+        (d) => d === item
+      );
+      // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
+      this.exampleDatabase.dataChange.value.splice(index, 1);
+      this.refreshTable();
+      this.selection = new SelectionModel<Patient>(true, []);
+    });
+    this.showNotification(
+      "snackbar-danger",
+      totalSelect + " Record Delete Successfully...!!!",
+      "bottom",
+      "center"
+    );
+  }
+  public loadData() {
+    this.exampleDatabase = new PatientService(this.httpClient);
+    this.dataSource = new ExampleDataSource(
+      this.exampleDatabase,
+      this.paginator,
+      this.sort
+    );
+    this.subs.sink = fromEvent(this.filter.nativeElement, "keyup").subscribe(
+      () => {
+        if (!this.dataSource) {
+          return;
+        }
+        this.dataSource.filter = this.filter.nativeElement.value;
+      }
+    );
+  }
+  showNotification(colorName, text, placementFrom, placementAlign) {
+    this.snackBar.open(text, "", {
+      duration: 2000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: colorName,
+    });
+  }
+}
+export class ExampleDataSource extends DataSource<Patient> {
+  filterChange = new BehaviorSubject("");
+  get filter(): string {
+    return this.filterChange.value;
+  }
+  set filter(filter: string) {
+    this.filterChange.next(filter);
+  }
+  filteredData: Patient[] = [];
+  renderedData: Patient[] = [];
+  constructor(
+    public exampleDatabase: PatientService,
+    public paginator: MatPaginator,
+    public _sort: MatSort
+  ) {
+    super();
+    // Reset to the first page when the user changes the filter.
+    this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
+  }
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  connect(): Observable<Patient[]> {
+    // Listen for any changes in the base data, sorting, filtering, or pagination
+    const displayDataChanges = [
+      this.exampleDatabase.dataChange,
+      this._sort.sortChange,
+      this.filterChange,
+      this.paginator.page,
+    ];
+    this.exampleDatabase.getAllPatients().subscribe((data) => {
+      this.exampleDatabase.dataChange.next(data.patients)
+    });
+    return merge(...displayDataChanges).pipe(
+      map(() => {
+        // Filter data        
+        this.filteredData = this.exampleDatabase.data
+          .slice()
+          .filter((patient: Patient) => {
+            const searchStr = (
+              patient.firstName +
+              patient.gender +
+              patient.address +
+              patient.dateOfBirth +
+              patient.bloodGroup +
+              patient.sugger +
+              patient.mobile
+            ).toLowerCase();
+            return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
+          });
+        // Sort filtered data
+        const sortedData = this.sortData(this.filteredData.slice());
+        // Grab the page's slice of the filtered sorted data.
+        const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+        this.renderedData = sortedData.splice(
+          startIndex,
+          this.paginator.pageSize
+        );
+        return this.renderedData;
+      })
+    );
+  }
+  disconnect() { }
+  /** Returns a sorted copy of the database data. */
+  sortData(data: Patient[]): Patient[] {
+    if (!this._sort.active || this._sort.direction === "") {
+      return data;
+    }
+    return data.sort((a, b) => {
+      let propertyA: number | string = "";
+      let propertyB: number | string = "";
+      switch (this._sort.active) {
+        case "id":
+          [propertyA, propertyB] = [a.id, b.id];
+          break;
+        case "firstName":
+          [propertyA, propertyB] = [a.firstName, b.firstName];
+          break;
+        case "gender":
+          [propertyA, propertyB] = [a.gender, b.gender];
+          break;
+        case "dateOfBirth":
+          [propertyA, propertyB] = [a.dateOfBirth, b.dateOfBirth];
+          break;
+        case "address":
+          [propertyA, propertyB] = [a.address, b.address];
+          break;
+        case "mobile":
+          [propertyA, propertyB] = [a.mobile, b.mobile];
+          break;
+      }
+      const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
+      const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
+      return (
+        (valueA < valueB ? -1 : 1) * (this._sort.direction === "asc" ? 1 : -1)
+      );
+    });
+  }
+}

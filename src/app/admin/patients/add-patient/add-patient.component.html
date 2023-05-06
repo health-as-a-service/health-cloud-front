@@ -1,0 +1,136 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Add Patient'" [items]="['Patients']" [active_item]="'Add Patient'"></app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2><strong> Patient Information</strong></h2>
+
+          </div>
+          <div class="body">
+            <form class="m-4" [formGroup]="patientForm" (ngSubmit)="onSubmit()">
+              <h5 style="text-align: center;">Patient</h5>
+
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3">
+                    <mat-label>Prénom</mat-label>
+                    <input matInput formControlName="prenomP">
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3">
+                    <mat-label>Nom</mat-label>
+                    <input matInput formControlName="nomP">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <mat-form-field class="example-full-width mb-3">
+                    <mat-label>Sexe</mat-label>
+                    <mat-select formControlName="sexe" required>
+                      <mat-option [value]="'homme'">
+                        Homme
+                      </mat-option>
+                      <mat-option [value]="'femme'">
+                        Femme
+                      </mat-option>
+                    </mat-select>
+
+                  </mat-form-field>
+                </div>
+             
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-3">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Date de naissance</mat-label>
+                    <input matInput type="date" formControlName="dateNaissanceP">
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Téléphone</mat-label>
+                    <input type="number" matInput formControlName="numTel">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>Chambre</mat-label>
+                    
+                    <input type="number" matInput formControlName="chambre">
+      
+                  </mat-form-field>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 mb-2">
+                  <mat-form-field class="example-full-width" appearance="outline">
+                    <mat-label>sejour</mat-label>
+                    <input type="number" matInput formControlName="sejour">
+      
+                  </mat-form-field>
+                </div>
+                <hr>
+                <h5 style="text-align: center;">Dossier Medical</h5>
+                <div class="row" >
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>maladiesChroniques</mat-label>
+                      <textarea matInput formControlName="maladiesChroniques"></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row" >
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>testsMedicaux</mat-label>
+                      <textarea matInput formControlName="testsMedicaux"></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row" >
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>traitement</mat-label>
+                      <textarea matInput formControlName="traitement"></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row"  >
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>typeMaladie</mat-label>
+                      <textarea matInput formControlName="typeMaladie"></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row" style="margin-top: 20px;">
+                  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                    <label for="">Image</label>
+                    <input type="file" name="image" (change)='onSingleFileChange($event)'>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <div class="example-button-row">
+                    <button mat-raised-button style="width: 350px;" color="primary" type="submit" [disabled]="!patientForm.valid"
+                   >Save</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

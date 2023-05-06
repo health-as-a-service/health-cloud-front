@@ -1,4 +1,4 @@
-<p>add-operation works!</p>
+
 <section class="content">
     <div class="content-block">
         <div class="block-header">
@@ -125,7 +125,7 @@
                             <mat-selection-list #docNamesSec formControlName="nomChi"
                                 (change)="filterDocsPerDateGiven($event)" [multiple]="false">
                                 <mat-list-option *ngFor="let name of docNames" [value]="name">
-                                    <p> {{name}} </p>
+                                    <p> Dr :{{name}} </p>
                                 </mat-list-option>
                             </mat-selection-list>
                         </form>

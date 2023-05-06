@@ -256,6 +256,8 @@ connect(): Observable<Donateur[]> {
     })
   );
 }
+
+
 disconnect() {}
 /** Returns a sorted copy of the database data. */
 sortData(data: Donateur[]): Donateur[] {

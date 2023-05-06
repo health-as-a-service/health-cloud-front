@@ -27,6 +27,7 @@ export class BanqueComponent extends UnsubscribeOnDestroyAdapter implements OnIn
   //"nomDonateur",
   "category",
   "company",
+  "sang",
   //"p_date",
  // "price",
   //"stock",

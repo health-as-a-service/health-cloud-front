@@ -11,7 +11,6 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
-
   <div mat-dialog-content>
     <div class="container">
       <div class="row">
@@ -24,7 +23,8 @@
         <p><strong>Email:</strong> {{ data.dayOff.user.email }}</p>
       </div>
       <div class="row">
-        <p><strong>Date:</strong> From {{ data.dayOff.startDate | date: 'longDate' }} to {{ data.dayOff.endDate | date:'longDate' }}</p>
+        <p><strong>Date:</strong> From {{ data.dayOff.startDate | date: 'longDate' }} to {{ data.dayOff.endDate |
+          date:'longDate' }}</p>
       </div>
       <div class="row">
         <p><strong>Reason:</strong> {{ data.dayOff.reason }}</p>

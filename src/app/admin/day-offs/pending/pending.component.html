@@ -71,7 +71,9 @@
                 </ng-container>
                 <ng-container matColumnDef="status">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.status}}</mat-cell>
+                  <mat-cell *matCellDef="let row">
+                    <div class="badge"> {{row.status}}</div>
+                  </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="dateDebut">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Period</mat-header-cell>

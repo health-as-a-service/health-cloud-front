@@ -13,6 +13,7 @@ import { BehaviorSubject, fromEvent, merge, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
+
 @Component({
   selector: "app-allstaff",
   templateUrl: "./allstaff.component.html",
@@ -44,6 +45,7 @@ export class AllstaffComponent
     public dialog: MatDialog,
     public staffService: StaffService,
     private snackBar: MatSnackBar
+
   ) {
     super();
   }
@@ -56,6 +58,7 @@ export class AllstaffComponent
   refresh() {
     this.loadData();
   }
+ 
   addNew() {
     let tempDirection;
     if (localStorage.getItem("isRtl") === "true") {
@@ -252,7 +255,8 @@ export class ExampleDataSource extends DataSource<Staff> {
               staff.email +
               staff.prenom +
               staff.specialite +
-              staff.nom
+              staff.nom+
+              staff.idUser
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
           });
@@ -269,6 +273,11 @@ export class ExampleDataSource extends DataSource<Staff> {
     );
   }
   disconnect() {}
+ 
+ 
+
+
+  
   /** Returns a sorted copy of the database data. */
   sortData(data: Staff[]): Staff[] {
     if (!this._sort.active || this._sort.direction === "") {

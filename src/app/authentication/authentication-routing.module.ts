@@ -6,6 +6,8 @@ import { ForgotPasswordComponent } from "./forgot-password/forgot-password.compo
 import { LockedComponent } from "./locked/locked.component";
 import { Page404Component } from "./page404/page404.component";
 import { Page500Component } from "./page500/page500.component";
+import{ResetComponent }from "./reset/reset.component"
+import{StaffProfileComponent}from "../apps/staff-profile/staff-profile.component"
 const routes: Routes = [
   {
     path: "",
@@ -35,6 +37,14 @@ const routes: Routes = [
   {
     path: "page500",
     component: Page500Component,
+  },
+  {
+    path: "reset",
+    component: ResetComponent,
+  },
+  {
+    path: "staff-profile",
+    component: StaffProfileComponent,
   },
 ];
 @NgModule({

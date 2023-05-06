@@ -18,31 +18,14 @@ const users: User[] = [
     img: "assets/images/user/admin.jpg",
     username: "admin@hospital.org",
     password: "admin@123",
+    nom:"",
+    prenom:"",
     firstName: "Sarah",
     lastName: "Smith",
     role: Role.Admin,
     accessToken: "admin-token",
-  },
-  {
-    id: 2,
-    img: "assets/images/user/doctor.jpg",
-    username: "doctor@hospital.org",
-    password: "doctor@123",
-    firstName: "Ashton",
-    lastName: "Cox",
-    role: Role.Doctor,
-    accessToken: "doctor-token",
-  },
-  {
-    id: 3,
-    img: "assets/images/user/patient.jpg",
-    username: "patient@hospital.org",
-    password: "patient@123",
-    firstName: "Cara",
-    lastName: "Stevens",
-    role: Role.Patient,
-    accessToken: "patient-token",
-  },
+    email: "zbeklouf@gmail.com"
+  }
 ];
 
 @Injectable()

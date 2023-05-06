@@ -3,6 +3,8 @@ export enum Role {
   Admin = "admin",
   Doctor = "doctor",
   Patient = "patient",
-  Stagiare="stagiare",
+  Pharmacien ="pharmacien",
+  Biologiste ="biologiste",
+  Stagiare ="stagiare",
   None = "",
 }

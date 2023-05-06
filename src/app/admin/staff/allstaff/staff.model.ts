@@ -6,6 +6,7 @@ export class Staff {
   email: string;
   nom: string;
   prenom: string;
+  password: string;
   statut: boolean;
   specialite: string;
   job: string;
@@ -17,6 +18,8 @@ export class Staff {
       this.email = staff.email || "";
       this.specialite = staff.specialite || "";
       this.job = staff.job || "";
+      this.password= staff.password ||"";
+      this.statut= staff.statut || false ; 
     }
   }
   public getRandomID(): string {

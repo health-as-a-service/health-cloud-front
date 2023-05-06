@@ -13,7 +13,7 @@ import { LogisticsService } from "src/app/core/service/logistics.service";
 })
 export class AddLogisticComponent implements OnInit {
   private sub: Subscription;
-  editLogiForm: FormGroup;
+  addLogForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -21,7 +21,7 @@ export class AddLogisticComponent implements OnInit {
     private logServ: LogisticsService,
     private _snackBar: MatSnackBar
   ) {
-    this.editLogiForm = this.fb.group({
+    this.addLogForm = this.fb.group({
       typeLogi: ["", [Validators.required]],
       nomLogi: ["", [Validators.required]],
       nombreLogi: [0, [Validators.required]],
@@ -33,7 +33,7 @@ export class AddLogisticComponent implements OnInit {
   }
 
   onSubmit() {
-    let value = this.editLogiForm.value;
+    let value = this.addLogForm.value;
 
     this.logServ.addLogistique(value).subscribe({
       next: (res) => {

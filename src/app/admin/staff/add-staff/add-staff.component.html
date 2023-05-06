@@ -42,6 +42,15 @@
                         <mat-option [value]="{idRole: 3, name: 'doctor'}">
                           Doctor
                         </mat-option>
+                        <mat-option [value]="{idRole: 5, name: 'stagiare'}">
+                          Stagiare
+                        </mat-option>
+                        <mat-option [value]="{idRole: 4, name: 'biologiste'}">
+                          Biologiste
+                        </mat-option>
+                        <mat-option [value]="{idRole: 2, name: 'pharmacien'}">
+                          Pharmacien
+                        </mat-option>
                       </mat-select>
                       <mat-error *ngIf="staffForm.get('role').hasError('required')">
                         Role is required

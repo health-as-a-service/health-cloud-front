@@ -5,6 +5,8 @@ export class User {
   img: string;
   username: string;
   password: string;
+  nom: string;
+  prenom: string;
   firstName: string;;
   lastName: string;
   role: Role;

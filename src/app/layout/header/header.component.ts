@@ -32,6 +32,7 @@ export class HeaderComponent
   countryName;
   langStoreValue: string;
   defaultFlag: string;
+  userFullName: string;
   isOpenSidebar: boolean;
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -105,7 +106,10 @@ export class HeaderComponent
     this.config = this.configService.configData;
     const userRole = this.authService.currentUserValue.role;
     this.userImg = this.authService.currentUserValue.img;
-
+    this.userFullName =
+    this.authService.currentUserValue.firstName +
+    " " +
+    this.authService.currentUserValue.lastName;
     if (userRole === "admin") {
       this.homePage = "admin/dashboard/main";
     } else if (userRole === "patient") {

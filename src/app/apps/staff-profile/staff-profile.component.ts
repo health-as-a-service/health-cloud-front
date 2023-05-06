@@ -22,7 +22,9 @@ export class StaffProfileComponent implements OnInit {
   userFullName: string;
   userType: string;
   userEmail: string;
-  
+  imageUrl: string;
+  firstname: string = "";
+  lastname: string = "";
   constructor( 
     
     public authservice: AuthService,
@@ -37,6 +39,13 @@ export class StaffProfileComponent implements OnInit {
         this.authservice.currentUserValue.lastName;
         this.userType = this.authservice.currentUserValue.role;
         this.userEmail = this.authservice.currentUserValue.email;
+        this.loadavatar();
+  }
+  loadavatar(){
+    this.firstname = this.authservice.currentUserValue.firstName;
+    console.log(this.firstname)
+   this.lastname = this.authservice.currentUserValue.lastName;
+  this.imageUrl = `https://ui-avatars.com/api/?background=random&name=${this.firstname}+${this.lastname}?background=random`;
   }
   createContactForm(): FormGroup {
     return this.fb.group({

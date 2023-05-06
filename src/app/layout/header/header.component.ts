@@ -35,6 +35,9 @@ export class HeaderComponent
   defaultFlag: string;
   userFullName: string;
   isOpenSidebar: boolean;
+  firstname: string = "";
+  lastname: string = "";
+  imageUrl: any;
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
@@ -129,8 +132,14 @@ export class HeaderComponent
     } else {
       this.flagvalue = val.map((element) => element.flag);
     }
+    this.loadavatar();
   }
-
+  loadavatar(){
+    this.firstname = this.authService.currentUserValue.firstName;
+    console.log(this.firstname)
+   this.lastname = this.authService.currentUserValue.lastName;
+  this.imageUrl = `https://ui-avatars.com/api/?background=random&name=${this.firstname}+${this.lastname}?background=random`;
+  }
   ngAfterViewInit() {
     // set theme on startup
     if (localStorage.getItem("theme")) {

@@ -21,7 +21,7 @@ import { FormDialogComponent } from "./allstaff/dialog/form-dialog/form-dialog.c
 import { DeleteDialogComponent } from "./allstaff/dialog/delete/delete.component";
 import { AddStaffComponent } from "./add-staff/add-staff.component";
 import { EditStaffComponent } from "./edit-staff/edit-staff.component";
-import { StaffProfileComponent } from "./staff-profile/staff-profile.component";
+import { StaffProfileComponent } from "../../apps/staff-profile/staff-profile.component";
 import { MaterialFileInputModule } from "ngx-material-file-input";
 import { MatTabsModule } from "@angular/material/tabs";
 import { StaffService } from "./allstaff/staff.service";

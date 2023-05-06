@@ -40,10 +40,19 @@ const routes: Routes = [
           import("./patient/patient.module").then((m) => m.PatientModule),
       },
       {
+        path: "stagiaire",
+        canActivate: [AuthGuard],
+        data: {
+          role: "stagiare",
+        },
+        loadChildren: () =>
+          import("./stagiaire/stagiaire.module").then((m) => m.StagiaireModule),
+      },
+      {
         path: "pharmacien",
         canActivate: [AuthGuard],
         data: {
-          role: Role.Pharmacist,
+          role: Role.Pharmacien,
         },
         loadChildren: () =>
           import("./pharmacien/pharmacy.module").then((m) => m.PharmacyModule),
@@ -52,7 +61,7 @@ const routes: Routes = [
         path: "biologiste",
         canActivate: [AuthGuard],
         data: {
-          role: Role.Biologist,
+          role: Role.Biologiste,
         },
         loadChildren: () =>
           import("./biologiste/inventory/inventory.module").then((m) => m.InventoryModule),

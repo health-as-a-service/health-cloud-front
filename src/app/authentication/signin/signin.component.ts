@@ -30,8 +30,8 @@ export class SigninComponent
 
   ngOnInit() {
     this.authForm = this.formBuilder.group({
-      email: ["ahmedsmiai", Validators.required],
-      password: ["12345678", Validators.required],
+      email: ["bringa", Validators.required],
+      password: ["bringa", Validators.required],
     });
   }
   get f() {
@@ -74,11 +74,13 @@ export class SigninComponent
                 this.router.navigate(["/admin/dashboard/main"]);
               } else if (role === Role.Doctor) {
                 this.router.navigate(["/doctor/dashboard"]);
+              } else if (role === Role.Stagiare ) {
+                this.router.navigate(["/stagiaire/stage/all"]);
               } else if (role === Role.Patient) {
                 this.router.navigate(["/patient/dashboard"]);
-              } else if (role === Role.Pharmacist) {
+              } else if (role === Role.Pharmacien) {
                 this.router.navigate(["/pharmacien/medicine-list"]);
-              }else if (role === Role.Biologist) {
+              }else if (role === Role.Biologiste) {
                 this.router.navigate(["/biologiste/issued-items"]);
               }  
               else {

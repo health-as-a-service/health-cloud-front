@@ -22,7 +22,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatRadioModule } from "@angular/material/radio";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { DoctorRoutingModule } from "./doctor-routing.module";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { AppointmentsComponent } from "./appointments/appointments.component";
@@ -32,6 +32,7 @@ import { PatientsComponent } from "./patients/patients.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { AppointmentsService } from "./appointments/appointments.service";
 import { ComponentsModule } from "src/app/shared/components/components.module";
+import { ListOperationsComponent } from "./list-operations/list-operations.component";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ComponentsModule } from "src/app/shared/components/components.module";
     DoctorsComponent,
     PatientsComponent,
     SettingsComponent,
+    ListOperationsComponent,
   ],
   imports: [
     CommonModule,
@@ -55,6 +57,8 @@ import { ComponentsModule } from "src/app/shared/components/components.module";
     MatDialogModule,
     NgApexchartsModule,
     MatPaginatorModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatSnackBarModule,
     MatFormFieldModule,
     MatSortModule,

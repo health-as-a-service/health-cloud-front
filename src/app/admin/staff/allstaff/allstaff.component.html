@@ -86,10 +86,7 @@
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Prenom</mat-header-cell>
                   <mat-cell *matCellDef="let row"> {{row.prenom}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="mobile">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Specialite</mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.specialite}}</mat-cell>
-                </ng-container>
+                
                 <ng-container matColumnDef="email">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
                   <mat-cell *matCellDef="let row"> {{row.email}}</mat-cell>
@@ -104,6 +101,10 @@
                     <span class="truncate-text">{{row.job}}</span>
                   </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="mobile">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Statut</mat-header-cell>
+                  <mat-cell *matCellDef="let row">{{row.statut}}</mat-cell>
+                </ng-container>
                 <!-- actions -->
                 <ng-container matColumnDef="actions">
                   <mat-header-cell class="pr-0" *matHeaderCellDef>Actions</mat-header-cell>
@@ -116,9 +117,23 @@
                       class="tbl-action-btn">
                       <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
                     </button>
+                    <td>
+                            
+                      
+                      
+                     
+
+                  </td>
+                      
+                    
+                 
+             
                   </mat-cell>
+                 
                 </ng-container>
+                  
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                
                 <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
                 <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editCall(row)"
                   [style.cursor]="'pointer'" matRipple>

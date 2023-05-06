@@ -123,8 +123,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.userType = Role.Patient;
       } else if (userRole === Role.Doctor) {
         this.userType = Role.Doctor;
-      } else {
-        this.userType = Role.Admin;
+      } else if (userRole == Role.Biologiste) {
+        this.userType = Role.Biologiste;
+      } else if (userRole == Role.Pharmacien) {
+        this.userType = Role.Pharmacien;
+      }else if (userRole == Role.Stagiare) {
+        this.userType = Role.Stagiare;
       }
     }
 

@@ -18,11 +18,14 @@ export class AddOperationComponent implements OnInit {
   logistics: Logistique[] = [];
   docs: User[] = [];
   addOpForm: FormGroup;
+  selectedLogistics: Logistique[] = [];
+  selectedDocName = "";
 
   constructor(
     private fb: FormBuilder,
     private operationService: OperationService,
     private logsService: LogisticsService,
+    //    private userService: ,
     private _snackBar: MatSnackBar
   ) {}
 
@@ -41,6 +44,13 @@ export class AddOperationComponent implements OnInit {
 
   private openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
+  }
+
+  onSubmit() {
+    if (this.selectedLogistics.filter((l) => l.nombreLogi == 0).length > 0) {
+      this.openSnackBar("Logistique is CLAWZED", "🤡");
+      return;
+    }
   }
 
   private fetchLogistics() {}

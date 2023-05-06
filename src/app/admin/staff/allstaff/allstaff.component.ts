@@ -34,6 +34,7 @@ export class AllstaffComponent
     "address",
     "actions",
   ];
+  imageUrl: any;
   exampleDatabase: StaffService | null;
   dataSource: ExampleDataSource | null;
   selection = new SelectionModel<Staff>(true, []);
@@ -57,8 +58,11 @@ export class AllstaffComponent
   }
   refresh() {
     this.loadData();
+    
   }
- 
+  loadavatar(row){  
+  return this.imageUrl = `https://ui-avatars.com/api/?background=random&name=${row.prenom}+${row.nom}?background=random`;
+  }
   addNew() {
     let tempDirection;
     if (localStorage.getItem("isRtl") === "true") {

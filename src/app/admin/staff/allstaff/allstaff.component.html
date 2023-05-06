@@ -75,7 +75,7 @@
                   <mat-header-cell mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-5'"> Image
                   </mat-header-cell>
                   <mat-cell mat-cell *matCellDef="let row" class="table-img tbl-col-width-per-5"> <img
-                      [src]="row.img" />
+                      [src]="loadavatar(row)" />
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="name">

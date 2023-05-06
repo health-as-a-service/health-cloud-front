@@ -10,6 +10,13 @@ const routes: Routes = [
           (m) => m.StageModule
         ),
     },
+    {
+      path: "cours",
+      loadChildren: () =>
+        import("./cours/cours.module").then(
+          (m) => m.CoursModule
+        ),
+    },
 ];
 
 @NgModule({

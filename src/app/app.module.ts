@@ -1,10 +1,11 @@
 import { NgModule } from "@angular/core";
-
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
+
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
+ 
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppRoutingModule } from "./app-routing.module";
@@ -32,8 +33,17 @@ import {
   HTTP_INTERCEPTORS,
   HttpClient,
 } from "@angular/common/http";
+import { environment } from "../environments/environment";
 
 import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
+import { FormsModule } from "@angular/forms";
+
+import { MessagingService } from "./core/service/messaging.service";
+import { AngularFireMessagingModule } from "@angular/fire/compat/messaging";
+import { AngularFireDatabaseModule } from "@angular/fire/compat/database";
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { AngularFireModule } from "@angular/fire/compat";
+import { AsyncPipe } from "@angular/common";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -45,45 +55,50 @@ export function createTranslateLoader(http: HttpClient): any {
 }
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HeaderComponent,
-        PageLoaderComponent,
-        SidebarComponent,
-        RightSidebarComponent,
-        AuthLayoutComponent,
-        MainLayoutComponent,
-    ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        HttpClientModule,
-        PerfectScrollbarModule,
-        ClickOutsideModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: createTranslateLoader,
-                deps: [HttpClient],
-            },
-        }),
-        LoadingBarRouterModule,
-        // core & shared
-        CoreModule,
-        SharedModule,
-        MatSnackBarModule
-    ],
-    providers: [
-        { provide: LocationStrategy, useClass: HashLocationStrategy },
-        {
-            provide: PERFECT_SCROLLBAR_CONFIG,
-            useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
-        },
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        fakeBackendProvider,
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    PageLoaderComponent,
+    SidebarComponent,
+    RightSidebarComponent,
+    AuthLayoutComponent,
+    MainLayoutComponent,
+  ],
+  imports: [
+    AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    PerfectScrollbarModule,
+    ClickOutsideModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
+    }),
+    LoadingBarRouterModule,
+    // core & shared
+    CoreModule,
+    SharedModule,
+  ],
+  providers: [
+    MessagingService,
+    AsyncPipe,
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    fakeBackendProvider,
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

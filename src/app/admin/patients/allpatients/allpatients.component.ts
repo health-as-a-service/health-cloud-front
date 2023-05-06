@@ -15,7 +15,7 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 import { ShowDossierMedicaleComponent } from "./dialog/show-dossier-medicale/show-dossier-medicale.component";
 import { jsPDF } from "jspdf"
-import html2canvas from 'html2canvas';
+import html2canvas  from 'html2canvas';
 @Component({
   selector: "app-allpatients",
   templateUrl: "./allpatients.component.html",

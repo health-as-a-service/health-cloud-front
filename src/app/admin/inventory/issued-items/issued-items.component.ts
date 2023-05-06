@@ -25,15 +25,15 @@ export class IssuedItemsComponent
 {
   displayedColumns = [
     "select",
-    "i_name",
-    "category",
-    "issue_date",
-    "return_date",
-    "issue_to",
-    "qty",
+    "description",
     "status",
+    "testDate",
+    "testType",
+    "resultat",
+    "email",
     "actions",
   ];
+  
   exampleDatabase: IssuedItemsService | null;
   dataSource: ExampleDataSource | null;
   selection = new SelectionModel<IssuedItems>(true, []);
@@ -56,6 +56,18 @@ export class IssuedItemsComponent
   }
   refresh() {
     this.loadData();
+  }
+  ItemtoReady(row){
+    this.issuedItemsService.updateIssuedItemToReady(row);
+        // And lastly refresh table
+        this.refreshTable();
+        this.showNotification(
+          "black",
+          "Set to Ready Successfully...!!!",
+          "bottom",
+          "center"
+        );
+  
   }
   addNew() {
     let tempDirection;
@@ -249,12 +261,11 @@ export class ExampleDataSource extends DataSource<IssuedItems> {
           .slice()
           .filter((issuedItems: IssuedItems) => {
             const searchStr = (
-              issuedItems.i_name +
-              issuedItems.category +
-              issuedItems.issue_date +
-              issuedItems.return_date +
-              issuedItems.issue_to +
-              issuedItems.qty +
+              issuedItems.description +
+              issuedItems.testDate +
+              issuedItems.testType +
+              issuedItems.resultat +
+              issuedItems.email+
               issuedItems.status
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -285,25 +296,19 @@ export class ExampleDataSource extends DataSource<IssuedItems> {
           [propertyA, propertyB] = [a.id, b.id];
           break;
         case "i_name":
-          [propertyA, propertyB] = [a.i_name, b.i_name];
+          [propertyA, propertyB] = [a.description, b.description];
           break;
         case "category":
-          [propertyA, propertyB] = [a.category, b.category];
+          [propertyA, propertyB] = [a.testDate, b.testDate];
           break;
         case "issue_date":
-          [propertyA, propertyB] = [a.issue_date, b.issue_date];
-          break;
-        case "return_date":
-          [propertyA, propertyB] = [a.return_date, b.return_date];
-          break;
-        case "issue_to":
-          [propertyA, propertyB] = [a.issue_to, b.issue_to];
-          break;
-        case "qty":
-          [propertyA, propertyB] = [a.qty, b.qty];
+          [propertyA, propertyB] = [a.testType, b.testType];
           break;
         case "status":
           [propertyA, propertyB] = [a.status, b.status];
+          break;
+        case "email":
+          [propertyA, propertyB] = [a.email, b.email];
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

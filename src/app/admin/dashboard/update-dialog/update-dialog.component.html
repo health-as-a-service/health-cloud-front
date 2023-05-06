@@ -19,7 +19,7 @@
           <div class="card p-3">
             <div class="body">
               <div class="row">
-                <div align="right" class="col-12 mb-4">
+                <div [align]="right" class="col-12 mb-4">
                   <button mat-raised-button color="primary" [disabled]="!formdata.valid || updateProfileLoading" [class.auth-spinner]="updateProfileLoading">
                     <!-- <mat-spinner class="my-1" *ngIf="updateProfileLoading" mode="indeterminate" [diameter]="30"></mat-spinner> -->
                     Save

@@ -161,7 +161,14 @@ export class MainComponent implements OnInit {
     // } else {
       tempDirection = "ltr";
     // }
-  
+
+    // const dialogRef = this.dialog.open(UpdateDialogComponent, {
+    //   height: '90%',
+    //   width: '80%',
+    //   data: {},
+    //   direction: tempDirection,
+    // });
+
   }
 
   // applyDoctorOrPatientValue(value) {

@@ -25,6 +25,7 @@ export class HeaderComponent
   implements OnInit, AfterViewInit
 {
   public config: any = {};
+  userName:string;
   userImg: string;
   homePage: string;
   isNavbarCollapsed = true;
@@ -32,7 +33,11 @@ export class HeaderComponent
   countryName;
   langStoreValue: string;
   defaultFlag: string;
+  userFullName: string;
   isOpenSidebar: boolean;
+  firstname: string = "";
+  lastname: string = "";
+  imageUrl: any;
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
@@ -105,7 +110,8 @@ export class HeaderComponent
     this.config = this.configService.configData;
     const userRole = this.authService.currentUserValue.role;
     this.userImg = this.authService.currentUserValue.img;
-
+    this.userName=this.authService.currentUserValue.firstName+" "+this.authService.currentUserValue.lastName
+    this.userFullName =    this.authService.currentUserValue.firstName + " " + this.authService.currentUserValue.lastName;
     if (userRole === "admin") {
       this.homePage = "admin/dashboard/main";
     } else if (userRole === "patient") {
@@ -126,8 +132,14 @@ export class HeaderComponent
     } else {
       this.flagvalue = val.map((element) => element.flag);
     }
+    this.loadavatar();
   }
-
+  loadavatar(){
+    this.firstname = this.authService.currentUserValue.firstName;
+    console.log(this.firstname)
+   this.lastname = this.authService.currentUserValue.lastName;
+  this.imageUrl = `https://ui-avatars.com/api/?background=random&name=${this.firstname}+${this.lastname}?background=random`;
+  }
   ngAfterViewInit() {
     // set theme on startup
     if (localStorage.getItem("theme")) {

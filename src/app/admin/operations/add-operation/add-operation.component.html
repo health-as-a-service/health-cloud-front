@@ -88,6 +88,18 @@
                             </div>
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                                    <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Room number</mat-label>
+                                        <input matInput formControlName="idChambre" type="number" required>
+                                        <mat-icon matSuffix>tag</mat-icon>
+                                        <mat-error *ngIf="addOpForm.get('idChambre').hasError('required')">
+                                            Room number required
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                                     <div class="example-button-row">
 
                                         <button mat-raised-button color="primary"
@@ -106,8 +118,12 @@
                         <h2><strong>Doctors list</strong></h2>
                     </div>
                     <div class="body">
+                        <div>
+                            Number of operations for selected doc: {{selectedDocNumberOfOperations}}
+                        </div>
                         <form class="register-form m-4" *ngIf="addOpForm" [formGroup]="addOpForm">
-                            <mat-selection-list #docNamesSec formControlName="nomChi" [multiple]="false">
+                            <mat-selection-list #docNamesSec formControlName="nomChi"
+                                (change)="filterDocsPerDateGiven($event)" [multiple]="false">
                                 <mat-list-option *ngFor="let name of docNames" [value]="name">
                                     <p> {{name}} </p>
                                 </mat-list-option>

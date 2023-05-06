@@ -16,7 +16,6 @@ export class Operation {
     idOp: number,
     success: boolean,
     nomChi: string,
-    idChi: number,
     nomP: string,
     dateOp: Date,
     typeOp: string,
@@ -28,7 +27,6 @@ export class Operation {
     this.idOp = idOp;
     this.success = success;
     this.nomP = nomP;
-    this.idChi = idChi;
     this.nomChi = nomChi;
     this.dateOp = dateOp;
     this.typeOp = typeOp;

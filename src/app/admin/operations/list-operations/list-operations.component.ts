@@ -2,7 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Operation } from "src/app/admin/operations/model/operation";
+import { LogisticsService } from "src/app/core/service/logistics.service";
 import { OperationService } from "src/app/core/service/operation.service";
+import { Logistique } from "../../logistics/model/logistique";
 
 @Component({
   selector: "app-list-operations",
@@ -20,6 +22,7 @@ export class ListOperationsComponent implements OnInit {
 
   constructor(
     private operationService: OperationService,
+    private logisService: LogisticsService,
     private _snackBar: MatSnackBar
   ) {}
 
@@ -39,12 +42,28 @@ export class ListOperationsComponent implements OnInit {
     this.operationService.getAllOperations().subscribe({
       next: (data) => {
         this.operations = data;
+        this.setLogistics();
         this.sortOperations();
         this.filterOperations();
       },
       error: (error) => {
         console.log(error);
       },
+    });
+  }
+  setLogistics() {
+    this.operations.forEach((op) => {
+      let logist: Logistique[] = [];
+
+      console.table(op);
+
+      op.logistiques.forEach((logis: any) =>
+        this.logisService.getLogistiqueById(logis).subscribe({
+          next: (lo) => logist.push(lo),
+        })
+      );
+
+      op.logistiques = logist;
     });
   }
 

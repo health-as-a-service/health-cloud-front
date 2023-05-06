@@ -11,7 +11,6 @@ import { Operation } from "src/app/admin/operations/model/operation";
 import { Role } from "src/app/core/models/role";
 import { LogisticsService } from "src/app/core/service/logistics.service";
 import { OperationService } from "src/app/core/service/operation.service";
-
 @Component({
   selector: "app-add-operation",
   templateUrl: "./add-operation.component.html",
@@ -19,10 +18,12 @@ import { OperationService } from "src/app/core/service/operation.service";
 })
 export class AddOperationComponent implements OnInit {
   operation: Operation;
-  docNames: string[] = [];
   addOpForm: FormGroup;
+  docNames: string[] = [];
+  operations: Operation[] = [];
   selectedLogistics = new FormControl("");
   defaultLogistics: Logistique[] = [];
+  selectedDocNumberOfOperations = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -37,11 +38,13 @@ export class AddOperationComponent implements OnInit {
       dateOp: ["", [Validators.required]],
       typeOp: ["", [Validators.required]],
       nomChi: [""],
+      idChambre: [0],
       emailP: ["", [Validators.required, Validators.email]],
       success: [false],
     });
     this.fetchLogistics();
     this.fetchDoctors();
+    this.fetchOps();
   }
 
   private openSnackBar(message: string, action: string) {
@@ -60,19 +63,21 @@ export class AddOperationComponent implements OnInit {
         ...this.addOpForm.value,
         ...nomChir,
       };
-      this.operationService
-        .addOperation(
-          value,
-          this.selectedLogistics.value.map((l) => l.idLogi)
-        )
-        .subscribe({
-          next: (v) => {
-            this.openSnackBar("Operation saved!", "✅");
-          },
-          error: (_) => {
-            this.openSnackBar("Operation not saved!", "❌");
-          },
-        });
+
+      const logistics: any[] = [];
+
+      for (let i = 0; i < this.selectedLogistics.value.length; i++) {
+        logistics.push(this.selectedLogistics.value[i]);
+      }
+
+      this.operationService.addOperation(value, logistics).subscribe({
+        next: (v) => {
+          this.openSnackBar("Operation saved!", "✅");
+        },
+        error: (_) => {
+          this.openSnackBar("Operation not saved!", "❌");
+        },
+      });
     }
   }
 
@@ -92,31 +97,42 @@ export class AddOperationComponent implements OnInit {
     });
   }
 
-  filterDocsPerDateGiven() {
-    let v = new Date(`${this.addOpForm.value.dateOp}`)
-      .toLocaleString()
-      .split(", ")[0]
-      .replace("/", "-")
-      .replace("/", "-")
-      .split("-");
-
-    const finalDate = `${v[2]}-${v[0]}-${v[1]}`;
-
-    console.log(finalDate);
-
+  private fetchOps() {
     this.operationService.getAllOperations().subscribe({
-      next: (ops) => {
-        console.table(ops[0].dateOp.toString().includes(finalDate));
-        // 2023-05-20
-
-        this.docNames = ops
-          .filter(
-            (op) =>
-              this.docNames.includes(op.nomChi) &&
-              !(op.dateOp.toString() === finalDate)
-          )
-          .map((o) => o.nomChi);
+      next: (v) => {
+        this.operations = v;
+        // fill docNamesDates
+        this.operations.forEach((op) => {});
       },
     });
+  }
+
+  overlappingDocs = (): boolean => {
+    this.selectedDocNumberOfOperations = 0;
+    const finalDate = new Date(`${this.addOpForm.value.dateOp}`)
+      .toISOString()
+      .split("T")[0];
+
+    const selectedDoc = this.addOpForm.value.nomChi[0];
+
+    const selectedDocOperations = this.operations.filter(
+      (op) => op.nomChi === selectedDoc
+    );
+
+    selectedDocOperations.forEach((op) => {
+      // test the date with finalDate
+      console.log(op, finalDate, op.dateOp.toString() === finalDate);
+      if (op.dateOp.toString() === finalDate) {
+        this.selectedDocNumberOfOperations++;
+      }
+    });
+
+    return this.selectedDocNumberOfOperations > 0;
+  };
+
+  filterDocsPerDateGiven() {
+    if (this.addOpForm.value.nomChi[0] && this.overlappingDocs()) {
+      this.openSnackBar("Invalid date or doctor!", "❌");
+    }
   }
 }

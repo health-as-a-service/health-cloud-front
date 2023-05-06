@@ -751,10 +751,10 @@ export const ROUTES: RouteInfo[] = [
   {
     path: "/doctor/operations",
     title: "Operations list",
-    moduleName: "doctor",
+    moduleName: "operations",
     iconType: "",
-    icon: "list",
-    class: "ml-menu",
+    icon: "space_dashboard",
+    class: "",
     groupTitle: false,
     badge: "",
     badgeClass: "",

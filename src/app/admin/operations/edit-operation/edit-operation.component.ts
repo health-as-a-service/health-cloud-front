@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { Operation } from "src/app/core/models/operation";
@@ -19,8 +20,13 @@ export class EditOperationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private opServ: OperationService
+    private opServ: OperationService,
+    private _snackBar: MatSnackBar
   ) {}
+
+  private openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+  }
 
   onSubmit() {
     let value = this.editOpForm.value;
@@ -29,12 +35,11 @@ export class EditOperationComponent implements OnInit {
 
     this.opServ.updateOperation(value).subscribe({
       next: (res) => {
-        console.log(res);
-         
+        this.openSnackBar("Edit success!", "😁");
       },
       error: (err) => {
         console.log("error updating operation!");
-        alert("Failed !");
+        this.openSnackBar("Edit failed!", "😔");
       },
     });
   }

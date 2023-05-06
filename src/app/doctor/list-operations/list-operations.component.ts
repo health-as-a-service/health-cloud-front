@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { Operation } from "src/app/core/models/operation";
 import { OperationService } from "src/app/core/service/operation.service";
 
@@ -18,10 +17,7 @@ export class ListOperationsComponent implements OnInit {
   lowValue: number = 0;
   highValue: number = 10;
 
-  constructor(
-    private operationService: OperationService,
-    private _snackBar: MatSnackBar
-  ) {}
+  constructor(private operationService: OperationService) {}
 
   ngOnInit() {
     this.getAllOperations();
@@ -96,30 +92,6 @@ export class ListOperationsComponent implements OnInit {
     }
   }
 
-  private openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action);
-  }
-
-  toggleSuccess(operation: Operation): void {
-    operation.success = !operation.success;
-    this.operationService.updateOperation(operation).subscribe({
-      next: (updatedOperation) => {
-        const index = this.filteredOperations.indexOf(operation);
-        if (index !== -1) {
-          this.filteredOperations[index].success = updatedOperation.success;
-          this.successRates.set(
-            operation.typeOp,
-            this.successRates.get(operation.typeOp) +
-              (operation.success ? 1 : -1)
-          );
-        }
-      },
-      error: (_) => {
-        this.openSnackBar("Add failed!", "😔");
-      },
-    });
-  }
-
   filterOperations() {
     if (this.searchTerm) {
       this.filteredOperations = this.operations.filter(
@@ -151,20 +123,6 @@ export class ListOperationsComponent implements OnInit {
         console.error(error);
       }
     );
-  }
-
-  public deleteOperation(id: number) {
-    console.log(id);
-    this.operationService.deleteOperation(id).subscribe({
-      next: () => {
-        this.operations = this.operations.filter((o) => o.idOp !== id);
-        this.sortOperations();
-        this.filterOperations();
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
   }
 
   setSortingCriteria(criteria: string) {

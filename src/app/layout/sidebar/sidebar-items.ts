@@ -749,6 +749,19 @@ export const ROUTES: RouteInfo[] = [
 
   // Doctor Modules
   {
+    path: "/doctor/operations",
+    title: "Operations list",
+    moduleName: "doctor",
+    iconType: "",
+    icon: "list",
+    class: "ml-menu",
+    groupTitle: false,
+    badge: "",
+    badgeClass: "",
+    role: ["doctor"],
+    submenu: [],
+  },
+  {
     path: "/doctor/dashboard",
     title: "MENUITEMS.DOCTOR.DASHBOARD",
     moduleName: "dashboard",

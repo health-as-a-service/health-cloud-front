@@ -37,7 +37,6 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Type</th>
                         <th>Nom Logistique</th>
                         <th>Nombre</th>
@@ -47,14 +46,17 @@
                 <tbody>
                     <tr *ngFor="let logis of filteredLogistiques | 
                          slice: lowValue : highValue">
-                        <td>{{ logis.idLogi }}</td>
                         <td>{{ logis.typeLogi }}</td>
                         <td>{{ logis.nomLogi }}</td>
-                        <td>{{ logis.nombreLogits }}</td>
+                        <td>{{ logis.nombreLogi }}</td>
                         <td>
-                            <a class="btn btn-primary"
-                                [routerLink]="['/admin/operations/edit-logistic', logis.idLogi]">Edit</a>
-                            <button class="btn btn-danger" (click)="deleteLogistique(logis.idLogi)">Delete</button>
+                            <a mat-icon-button class="tbl-action-btn"
+                                [routerLink]="['/admin/logistics/edit-logistic', logis.idLogi]"><app-feather-icons
+                                    [icon]="'edit'" [class]="'tbl-fav-edit'">
+                                </app-feather-icons></a>
+                            <button mat-icon-button class="tbl-action-btn"
+                                (click)="deleteLogistique(logis.idLogi)"><app-feather-icons [icon]="'trash-2'"
+                                    [class]="'tbl-fav-delete'"></app-feather-icons></button>
                         </td>
                     </tr>
                 </tbody>

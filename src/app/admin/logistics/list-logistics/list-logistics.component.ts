@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Logistique } from "src/app/core/models/logistique";
 import { LogisticsService } from "src/app/core/service/logistics.service";
 
@@ -17,7 +18,10 @@ export class ListLogisticsComponent implements OnInit {
   sortingCriteria: string = "";
   highValue: number = 10;
 
-  constructor(private logistiqueService: LogisticsService) {}
+  constructor(
+    private logistiqueService: LogisticsService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit() {
     this.getLogistiques();
@@ -75,7 +79,7 @@ export class ListLogisticsComponent implements OnInit {
             operation.nomLogi
               .toLowerCase()
               .includes(this.searchTerm.toLowerCase())) ||
-          (operation.nombreLogits && operation.nombreLogits == +this.searchTerm)
+          (operation.nombreLogi && operation.nombreLogi == +this.searchTerm)
       );
     } else {
       this.filteredLogistiques = this.logistiques;
@@ -125,6 +129,10 @@ export class ListLogisticsComponent implements OnInit {
     }
   }
 
+  private openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+  }
+
   public deleteLogistique(id: number) {
     console.log(id);
     this.logistiqueService.deleteLogistique(id).subscribe({
@@ -133,8 +141,8 @@ export class ListLogisticsComponent implements OnInit {
         this.sortLogisticss();
         this.filterLogistics();
       },
-      error: (error) => {
-        console.log(error);
+      error: (_) => {
+        this.openSnackBar("Delete failed!", "😔");
       },
     });
   }

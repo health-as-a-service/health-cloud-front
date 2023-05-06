@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
-import { Logistique } from "src/app/core/models/logistique";
+import { Logistique } from "src/app/admin/logistics/model/logistique";
 import { LogisticsService } from "src/app/core/service/logistics.service";
 
 @Component({

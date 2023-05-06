@@ -7,7 +7,7 @@
             </app-breadcrumb>
         </div>
         <div class="row clearfix">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                 <div class="card">
                     <div class="header">
                         <h2><strong>Add Operation</strong></h2>
@@ -24,13 +24,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                                    <mat-form-field class="example-full-width" appearance="outline">
-                                        <mat-label>Surgeon Name</mat-label>
-                                        <input matInput formControlName="nomChi" required>
-                                        <mat-icon matSuffix>info</mat-icon>
-                                        <mat-error *ngIf="addOpForm.get('nomChi').hasError('required')">
-                                            Surgeon Name is required
-                                        </mat-error>
+                                    <mat-form-field *ngIf="defaultLogistics" appearance="outline">
+                                        <mat-label>Logistics</mat-label>
+                                        <mat-select [formControl]="selectedLogistics" multiple>
+                                            <mat-option *ngFor="let log of defaultLogistics"
+                                                [value]="log">{{log.nomLogi}}</mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -62,7 +61,8 @@
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                                     <mat-form-field class="example-full-width" appearance="outline">
                                         <mat-label>Operation date</mat-label>
-                                        <input matInput [matDatepicker]="picker" formControlName="dateOp">
+                                        <input matInput [matDatepicker]="picker"
+                                            (dateChange)="filterDocsPerDateGiven($event)" formControlName="dateOp">
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker></mat-datepicker>
                                         <mat-error *ngIf="addOpForm.get('dateOp').hasError('required')">
@@ -96,6 +96,22 @@
                                     </div>
                                 </div>
                             </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Doctors list</strong></h2>
+                    </div>
+                    <div class="body">
+                        <form class="register-form m-4" *ngIf="addOpForm" [formGroup]="addOpForm">
+                            <mat-selection-list #docNamesSec formControlName="nomChi" [multiple]="false">
+                                <mat-list-option *ngFor="let name of docNames" [value]="name">
+                                    <p> {{name}} </p>
+                                </mat-list-option>
+                            </mat-selection-list>
                         </form>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
-import { Operation } from "src/app/core/models/operation";
+import { Operation } from "src/app/admin/operations/model/operation";
 import { OperationService } from "src/app/core/service/operation.service";
 
 @Component({

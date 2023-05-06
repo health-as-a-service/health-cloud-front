@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { PageEvent } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Logistique } from "src/app/core/models/logistique";
+import { Logistique } from "src/app/admin/logistics/model/logistique";
 import { LogisticsService } from "src/app/core/service/logistics.service";
 
 @Component({

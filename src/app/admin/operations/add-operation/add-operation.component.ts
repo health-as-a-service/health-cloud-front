@@ -1,10 +1,14 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Subscription } from "rxjs";
-import { Logistique } from "src/app/core/models/logistique";
-import { Operation } from "src/app/core/models/operation";
-import { User } from "src/app/core/models/user";
+import { Logistique } from "src/app/admin/logistics/model/logistique";
+import { Operation } from "src/app/admin/operations/model/operation";
+import { Role } from "src/app/core/models/role";
 import { LogisticsService } from "src/app/core/service/logistics.service";
 import { OperationService } from "src/app/core/service/operation.service";
 
@@ -15,31 +19,29 @@ import { OperationService } from "src/app/core/service/operation.service";
 })
 export class AddOperationComponent implements OnInit {
   operation: Operation;
-  logistics: Logistique[] = [];
-  docs: User[] = [];
+  docNames: string[] = [];
   addOpForm: FormGroup;
-  selectedLogistics: Logistique[] = [];
-  selectedDocName = "";
+  selectedLogistics = new FormControl("");
+  defaultLogistics: Logistique[] = [];
 
   constructor(
     private fb: FormBuilder,
     private operationService: OperationService,
     private logsService: LogisticsService,
-    //    private userService: ,
     private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.fetchLogistics();
-    this.fetchDoctors();
     this.addOpForm = this.fb.group({
-      nomChi: ["", [Validators.required]],
       nomP: ["", [Validators.required]],
       dateOp: ["", [Validators.required]],
       typeOp: ["", [Validators.required]],
+      nomChi: [""],
       emailP: ["", [Validators.required, Validators.email]],
       success: [false],
     });
+    this.fetchLogistics();
+    this.fetchDoctors();
   }
 
   private openSnackBar(message: string, action: string) {
@@ -47,13 +49,74 @@ export class AddOperationComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.selectedLogistics.filter((l) => l.nombreLogi == 0).length > 0) {
-      this.openSnackBar("Logistique is CLAWZED", "🤡");
+    if (
+      this.selectedLogistics.value.filter((l) => l.nombreLogi == 0).length > 0
+    ) {
+      this.openSnackBar("Logistics are CLAWZED", "🤡");
       return;
+    } else {
+      const nomChir = { nomChi: this.addOpForm.value.nomChi[0] };
+      const value = {
+        ...this.addOpForm.value,
+        ...nomChir,
+      };
+      this.operationService
+        .addOperation(
+          value,
+          this.selectedLogistics.value.map((l) => l.idLogi)
+        )
+        .subscribe({
+          next: (v) => {
+            this.openSnackBar("Operation saved!", "✅");
+          },
+          error: (_) => {
+            this.openSnackBar("Operation not saved!", "❌");
+          },
+        });
     }
   }
 
-  private fetchLogistics() {}
+  private fetchLogistics() {
+    this.logsService.getAllLogistiques().subscribe({
+      next: (v) => (this.defaultLogistics = v),
+    });
+  }
 
-  private fetchDoctors() {}
+  private fetchDoctors() {
+    this.operationService.getAllUsers().subscribe({
+      next: (v) => {
+        this.docNames = v
+          .filter((user) => user.role[0]["name"] === Role.Doctor)
+          .map((d) => d["nom"]);
+      },
+    });
+  }
+
+  filterDocsPerDateGiven() {
+    let v = new Date(`${this.addOpForm.value.dateOp}`)
+      .toLocaleString()
+      .split(", ")[0]
+      .replace("/", "-")
+      .replace("/", "-")
+      .split("-");
+
+    const finalDate = `${v[2]}-${v[0]}-${v[1]}`;
+
+    console.log(finalDate);
+
+    this.operationService.getAllOperations().subscribe({
+      next: (ops) => {
+        console.table(ops[0].dateOp.toString().includes(finalDate));
+        // 2023-05-20
+
+        this.docNames = ops
+          .filter(
+            (op) =>
+              this.docNames.includes(op.nomChi) &&
+              !(op.dateOp.toString() === finalDate)
+          )
+          .map((o) => o.nomChi);
+      },
+    });
+  }
 }

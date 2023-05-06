@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Logistique } from "../models/logistique";
+import { Logistique } from "../../admin/logistics/model/logistique";
 import { Observable } from "rxjs";
 import httpOptions from "./HTTP_OPTIONS";
 

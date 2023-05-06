@@ -2,10 +2,11 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Observable, throwError, of } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { Operation } from "../models/operation";
-import { Logistique } from "../models/logistique";
+import { Operation } from "../../admin/operations/model/operation";
+import { Logistique } from "../../admin/logistics/model/logistique";
 import { tap } from "rxjs/operators";
 import httpOptions from "./HTTP_OPTIONS";
+import { User } from "../models/user";
 
 @Injectable({
   providedIn: "root",
@@ -19,6 +20,12 @@ export class OperationService {
   getAllOperations(): Observable<Operation[]> {
     return this.http
       .get<Operation[]>(`${this.baseUrl}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  getAllUsers(): Observable<User[]> {
+    return this.http
+      .get<User[]>(`${this.baseUrl}/users`)
       .pipe(catchError(this.handleError));
   }
 

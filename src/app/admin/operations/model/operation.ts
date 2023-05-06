@@ -1,4 +1,4 @@
-import { Logistique } from "./logistique";
+import { Logistique } from "../../logistics/model/logistique";
 
 export class Operation {
   idOp: number;

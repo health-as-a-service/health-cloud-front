@@ -14,7 +14,6 @@ export class ForgotPasswordComponent implements OnInit {
   submitted = false;
   loading = false;
   forme : String;
-  
   returnUrl: string;
   constructor(
     private formBuilder: FormBuilder,

@@ -12,7 +12,7 @@ const routes: Routes = [
     loadChildren: () =>
       import("./day-offs/day-offs.module").then((m) => m.DayOffsModule),
   },
-  //mayssa
+
   {
     path: "donateurs",
     loadChildren: () =>
@@ -24,6 +24,18 @@ const routes: Routes = [
       import("./banquesang/banquesang.module").then((m) => m.BanquesangModule),
   },
   
+
+
+  {
+    path: "operations",
+    loadChildren: () =>
+      import("./operations/operations.module").then((m) => m.OperationsModule),
+  },
+  {
+    path: "logistics",
+    loadChildren: () =>
+      import("./logistics/logistics.module").then((m) => m.LogisticsModule),
+  },
 
   {
     path: "appointment",

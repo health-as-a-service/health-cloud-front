@@ -22,6 +22,7 @@ const users: User[] = [
     lastName: "Smith",
     role: Role.Admin,
     accessToken: "admin-token",
+    email: "zbeklouf@gmail.com"
   },
   {
     id: 2,
@@ -32,6 +33,7 @@ const users: User[] = [
     lastName: "Cox",
     role: Role.Doctor,
     accessToken: "doctor-token",
+    email: "zbeklouf@gmail.com"
   },
   {
     id: 3,
@@ -42,6 +44,7 @@ const users: User[] = [
     lastName: "Stevens",
     role: Role.Patient,
     accessToken: "patient-token",
+    email: "zbeklouf@gmail.com"
   },
 ];
 

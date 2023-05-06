@@ -58,15 +58,6 @@ export class FormDialogComponent {
       typeSanguin: [this.BanqueSang.typeSanguin],
       sangRetire: [this.BanqueSang.sangRetire],
       
- 
-    
-      // //   // // price: [this.medicineList.price],
-      // //   // // e_date: [
-      // //   //   formatDate(this.medicineList.e_date, "yyyy-MM-dd", "en"),
-      // //   //   [Validators.required],
-      // //   // ],
-      // //   stock: [this.medicineList.stock],
-      // // });
     }
     )
   }
@@ -76,14 +67,9 @@ export class FormDialogComponent {
   onNoClick(): void {
     this.dialogRef.close();
    }
-  // public confirmAdd(): void {
-   
-  //      this.Banquesangservice.updateBanqueSang(
-  //   this.donateurlistform.getRawValue()
-  //     )
-  // }
+
    public confirmAdd(): void {
-     this.Banquesangservice.addBanqueSang
+    //  this.Banquesangservice.addBanqueSang
        this.BanqueSanglistform.getRawValue()
      
   // }

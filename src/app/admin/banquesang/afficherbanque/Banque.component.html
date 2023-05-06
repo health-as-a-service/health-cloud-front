@@ -72,8 +72,8 @@
                   <mat-cell *matCellDef="let row"> <span class="truncate-text"
                       [ngClass]="'tbl-col-width-per-80'">{{row.typeSanguin}}</span></mat-cell>
                 </ng-container> 
-                <ng-container matColumnDef="price">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>numero de Telephone</mat-header-cell>
+                <ng-container matColumnDef="sang">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>sang Retire</mat-header-cell>
                   <mat-cell *matCellDef="let row"> {{row.sangRetire}}</mat-cell>
                 </ng-container>
         
@@ -83,56 +83,50 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editCall(row)"
                   [style.cursor]="'pointer'" matRipple>
                 </mat-row>
-              </mat-table>
-              <div class="col-lg-3 col-sm-6">
-                <div class="info-box7 bg-c-yellow order-info-box7">
-                  
-                    <div class="info-box7-block">
+              </mat-table> 
+              <div class="d-flex justify-content-center align-items-center" style="height: 70vh;">
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4 class="card-title">Retirer Sang</h4>
+                    </div>
+                    <div class="card-body custom-card-body">
                       <form (ngSubmit)="retirerSang()" #form="ngForm">
-                       
-                          <label for="idBanqueSang" ><h4>Numéro Banque Sang  </h4></label>
-                          <input type="number" id="idBanqueSang" name="idBanqueSang" [(ngModel)]="idBanqueSang">
-                          <label for="quantiteSangRetiree" class="card-title" ><h4>Quantite a retirer </h4></label>
-                          <input type="number" id="quantiteSangRetiree" name="quantiteSangRetiree" [(ngModel)]="quantiteSangRetiree">
-                          <button mat-raised-button color="primary" style="margin-top: 10px; font-size: 14px; height: 30px; width: 100px;">Retirer Sang</button>
-                        
+                        <div class="mb-2">
+                          <label for="idBanqueSang" class="form-label">Numéro Banque Sang</label>
+                          <input type="number" class="form-control" id="idBanqueSang" name="idBanqueSang" [(ngModel)]="idBanqueSang">
+                        </div>
+                        <div class="mb-3">
+                          <label for="quantiteSangRetiree" class="form-label">Quantite a retirer</label>
+                          <input type="number" class="form-control" id="quantiteSangRetiree" name="quantiteSangRetiree" [(ngModel)]="quantiteSangRetiree">
+                        </div>
+                        <button mat-raised-button color="primary" class="w-100 mt-3">Retirer Sang</button>
                       </form>
                     </div>
-             
+                  </div>
+                </div>
+              
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title" style="color: black;">Sang Retiré Statistics</h5>
+              
+                      <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let banque of banques">
+                          {{ banque.typeSanguin }}
+                          <div class="progress shadow-style">
+                            <div class="progress-bar l-bg-orange width-per-74" role="progressbar"
+                              [style.width.%]="banque.sangRetirePercentage" [attr.aria-valuenow]="banque.sangRetirePercentage"
+                              aria-valuemin="0" aria-valuemax="100">{{banque.sangRetirePercentage | number: '1.0-2'}}%
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-
-              <div class="body">
-                <div class="row">
-  
-                      <div class="info-box7-block">
-                     <div class="card-body">
-                    <h5 class="card-title" style="color: black;">Sang Retiré Statistics</h5>
-
-                    <ul class="list-group">
-                      <li class="list-group-item" *ngFor="let banque of banques">
-                        {{ banque.typeSanguin }}
-                        <div class="progress shadow-style">
-                          <div class="progress-bar l-bg-orange width-per-74" role="progressbar"
-                            [style.width.%]="banque.sangRetirePercentage" [attr.aria-valuenow]="banque.sangRetirePercentage"
-                            aria-valuemin="0" aria-valuemax="100">{{banque.sangRetirePercentage | number: '1.0-2'}}%
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                      </div>
-                    </div>
-                 
-                </div> 
-
-
-
-
-
-
-
+               
               <div *ngIf="exampleDatabase.isTblLoading" class="tbl-spinner">
                 <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
                 </mat-progress-spinner>
@@ -150,4 +144,5 @@
       </div>
     </div>
   </div>
+  
 <!-- </section> -->

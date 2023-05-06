@@ -11,7 +11,6 @@ import { Operation } from "src/app/admin/operations/model/operation";
 import { Role } from "src/app/core/models/role";
 import { LogisticsService } from "src/app/core/service/logistics.service";
 import { OperationService } from "src/app/core/service/operation.service";
-
 @Component({
   selector: "app-add-operation",
   templateUrl: "./add-operation.component.html",
@@ -24,6 +23,7 @@ export class AddOperationComponent implements OnInit {
   operations: Operation[] = [];
   selectedLogistics = new FormControl("");
   defaultLogistics: Logistique[] = [];
+  selectedDocNumberOfOperations = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -63,19 +63,21 @@ export class AddOperationComponent implements OnInit {
         ...this.addOpForm.value,
         ...nomChir,
       };
-      this.operationService
-        .addOperation(
-          value,
-          this.selectedLogistics.value.map((l) => l.idLogi)
-        )
-        .subscribe({
-          next: (v) => {
-            this.openSnackBar("Operation saved!", "✅");
-          },
-          error: (_) => {
-            this.openSnackBar("Operation not saved!", "❌");
-          },
-        });
+
+      const logistics: any[] = [];
+
+      for (let i = 0; i < this.selectedLogistics.value.length; i++) {
+        logistics.push(this.selectedLogistics.value[i]);
+      }
+
+      this.operationService.addOperation(value, logistics).subscribe({
+        next: (v) => {
+          this.openSnackBar("Operation saved!", "✅");
+        },
+        error: (_) => {
+          this.openSnackBar("Operation not saved!", "❌");
+        },
+      });
     }
   }
 
@@ -99,34 +101,38 @@ export class AddOperationComponent implements OnInit {
     this.operationService.getAllOperations().subscribe({
       next: (v) => {
         this.operations = v;
+        // fill docNamesDates
+        this.operations.forEach((op) => {});
       },
     });
   }
 
-  filterDocsPerDateGiven() {
-    if (this.addOpForm.value.nomChi[0]) {
-      let v = new Date(`${this.addOpForm.value.dateOp}`)
-        .toLocaleString()
-        .split(", ")[0]
-        .replace("/", "-")
-        .replace("/", "-")
-        .split("-");
+  overlappingDocs = (): boolean => {
+    this.selectedDocNumberOfOperations = 0;
+    const finalDate = new Date(`${this.addOpForm.value.dateOp}`)
+      .toISOString()
+      .split("T")[0];
 
-      const finalDate = `${v[2]}-${v[0]}-${v[1]}`;
+    const selectedDoc = this.addOpForm.value.nomChi[0];
 
-      let isValid1 = this.operations
-        .map((op) => op.dateOp.toString())
-        .includes(finalDate);
+    const selectedDocOperations = this.operations.filter(
+      (op) => op.nomChi === selectedDoc
+    );
 
-      let isValid2 = this.operations
-        .map((op) => op.nomChi.toLowerCase())
-        .includes(this.addOpForm.value.nomChi[0].toLowerCase());
-
-      console.log(this.addOpForm.value.nomChi[0].toLowerCase());
-
-      if (isValid1 && isValid2) {
-        this.openSnackBar("Invalid date or doctor!", "❌");
+    selectedDocOperations.forEach((op) => {
+      // test the date with finalDate
+      console.log(op, finalDate, op.dateOp.toString() === finalDate);
+      if (op.dateOp.toString() === finalDate) {
+        this.selectedDocNumberOfOperations++;
       }
+    });
+
+    return this.selectedDocNumberOfOperations > 0;
+  };
+
+  filterDocsPerDateGiven() {
+    if (this.addOpForm.value.nomChi[0] && this.overlappingDocs()) {
+      this.openSnackBar("Invalid date or doctor!", "❌");
     }
   }
 }

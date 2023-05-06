@@ -118,6 +118,9 @@
                         <h2><strong>Doctors list</strong></h2>
                     </div>
                     <div class="body">
+                        <div>
+                            Number of operations for selected doc: {{selectedDocNumberOfOperations}}
+                        </div>
                         <form class="register-form m-4" *ngIf="addOpForm" [formGroup]="addOpForm">
                             <mat-selection-list #docNamesSec formControlName="nomChi"
                                 (change)="filterDocsPerDateGiven($event)" [multiple]="false">

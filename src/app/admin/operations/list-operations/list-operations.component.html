@@ -8,10 +8,10 @@
     </div>
 
     <div class="row mt-3">
-        <div class="col-md-9">
+        <div class="col-md-10">
             <div class="materialTableHeader">
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-md-10">
                         <ul class="header-buttons-left ms-0">
                             <li class="dropdown m-l-20">
                                 <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -44,6 +44,7 @@
                         <th>Type</th>
                         <th>Room ID</th>
                         <th>EMAIL</th>
+                        <th>Logistics</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -60,6 +61,18 @@
                         <td>{{ operation.typeOp }}</td>
                         <td>{{ operation.idChambre }}</td>
                         <td>{{ operation.emailP }}</td>
+                        <td>
+                            <button mat-icon-button [matMenuTriggerFor]="menu"
+                                aria-label="Example icon-button with a menu">
+                                <mat-icon>more_hori</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button *ngFor="let log of operation.logistiques" mat-menu-item>
+                                    <mat-icon>description</mat-icon>
+                                    <span>{{log.nomLogi}}</span>
+                                </button>
+                            </mat-menu>
+                        </td>
                         <td>
                             <a mat-icon-button class="tbl-action-btn"
                                 [routerLink]="['/admin/operations/edit-operation', operation.idOp]">
@@ -79,7 +92,7 @@
                 [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons="false">
             </mat-paginator>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Success Rates by Type</h5>

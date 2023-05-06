@@ -25,6 +25,7 @@ export class HeaderComponent
   implements OnInit, AfterViewInit
 {
   public config: any = {};
+  userName:string;
   userImg: string;
   homePage: string;
   isNavbarCollapsed = true;
@@ -106,10 +107,8 @@ export class HeaderComponent
     this.config = this.configService.configData;
     const userRole = this.authService.currentUserValue.role;
     this.userImg = this.authService.currentUserValue.img;
-    this.userFullName =
-    this.authService.currentUserValue.firstName +
-    " " +
-    this.authService.currentUserValue.lastName;
+    this.userName=this.authService.currentUserValue.firstName+" "+this.authService.currentUserValue.lastName
+    this.userFullName =    this.authService.currentUserValue.firstName + " " + this.authService.currentUserValue.lastName;
     if (userRole === "admin") {
       this.homePage = "admin/dashboard/main";
     } else if (userRole === "patient") {

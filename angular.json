@@ -34,7 +34,11 @@
               "apexcharts",
               "clone-deep"
             ],
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": ["src/favicon.ico", 
+            "src/assets",
+            "src/manifest.json",
+            "src/firebase-messaging-sw.js"
+          ],
             "styles": [
               "src/assets/scss/style.scss",
               "src/assets/scss/theme/all-themes.scss",

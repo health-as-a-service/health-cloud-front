@@ -890,21 +890,8 @@ export const ROUTES: RouteInfo[] = [
     role: ["admin"],
     submenu: [
       {
-        path: "/admin/inventory/item-stock-list",
-        title: "MENUITEMS.INVENTORY.LIST.ITEM-STOCK-LIST",
-        moduleName: "inventory",
-        iconType: "",
-        icon: "",
-        class: "ml-menu",
-        groupTitle: false,
-        badge: "",
-        badgeClass: "",
-        role: [""],
-        submenu: [],
-      },
-      {
         path: "/admin/inventory/issued-items",
-        title: "MENUITEMS.INVENTORY.LIST.ISSUED-ITEMS",
+        title: "Issued Samples",
         moduleName: "inventory",
         iconType: "",
         icon: "",

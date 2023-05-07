@@ -18,22 +18,28 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MaterialFileInputModule } from "ngx-material-file-input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTabsModule } from "@angular/material/tabs";
+import {  NgxMatDatetimePickerModule, 
+  NgxMatNativeDateModule, 
+  NgxMatTimepickerModule 
+} from "@angular-material-components/datetime-picker";
+
+
 
 import { SharedModule } from "src/app/shared/shared.module";
 import { ComponentsModule } from "src/app/shared/components/components.module";
 
 import { StageRoutingModule } from "./stage-routing.module";
-import { CoursesComponent } from './courses/courses.component';
+import { CoursesComponent } from "./courses/courses.component";
 import { CoursesService } from "./courses.service";
-import { CourseDetailsComponent } from './course-details/course-details.component';
-
+import { CourseDetailsComponent } from "./course-details/course-details.component";
+import { EditCourseComponent } from "./edit-course/edit-course.component";
 
 @NgModule({
-  declarations: [
-    CoursesComponent,
-    CourseDetailsComponent,
-  ],
+  declarations: [CoursesComponent, CourseDetailsComponent, EditCourseComponent],
   imports: [
+    NgxMatNativeDateModule,
+    NgxMatTimepickerModule,
+    NgxMatDatetimePickerModule,
     MatTabsModule,
     MatProgressSpinnerModule,
     MaterialFileInputModule,
@@ -58,8 +64,8 @@ import { CourseDetailsComponent } from './course-details/course-details.componen
     ReactiveFormsModule,
     MatIconModule,
     MatInputModule,
-    StageRoutingModule
+    StageRoutingModule,
   ],
-  providers:[CoursesService]
+  providers: [CoursesService],
 })
 export class StageModule {}

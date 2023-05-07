@@ -15,5 +15,6 @@ export class Course {
         this.description = course.description || "";
         this.duration = course.duration|| "";
         this.doctor = course.doctor || null;
+        this. stagiaires= course.stagiaires || null;
     }
 }

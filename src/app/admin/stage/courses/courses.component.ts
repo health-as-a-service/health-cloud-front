@@ -11,8 +11,7 @@ import { map } from "rxjs/operators";
 import { CoursesService } from "../courses.service";
 import { Course } from "../courses.model";
 import { HttpClient } from "@angular/common/http";
-import { Router } from '@angular/router';
-
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-courses",
@@ -27,11 +26,11 @@ export class CoursesComponent
     "id",
     "coursename",
     "date",
+    "time",
     "duration",
     "doctor",
     "actions",
-
-    ];
+  ];
 
   exampleDatabase: CoursesService | null;
   dataSource: ExampleDataSource | null;
@@ -41,6 +40,7 @@ export class CoursesComponent
   course: Course | null;
   constructor(
     private router: Router,
+
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public coursesService: CoursesService,
@@ -60,7 +60,7 @@ export class CoursesComponent
     this.loadData();
   }
   goToPage(courseId: string): void {
-    this.router.navigate(['admin/stage/course/', courseId]);
+    this.router.navigate(["admin/stage/course/", courseId]);
   }
   openDetailsDialog(row) {}
   showNotification(colorName, text, placementFrom, placementAlign) {
@@ -77,7 +77,12 @@ export class CoursesComponent
     this.paginator._changePageSize(this.paginator.pageSize);
   }
   addNew() {}
-  editCall(row) {}
+
+
+  editCall(row) {
+    this.id = row.id;
+    this.router.navigate(["/admin/stage/edit-course/", this.id])
+  }
   public loadData() {
     this.exampleDatabase = new CoursesService(this.httpClient);
     this.dataSource = new ExampleDataSource(

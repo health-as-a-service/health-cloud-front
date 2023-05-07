@@ -44,6 +44,10 @@ export class CoursesService extends UnsubscribeOnDestroyAdapter {
       }
     );
   }
+  updateCourse(course: Course): void {
+    this.http.put(this.url + course.id, course);
+
+  }
 
   deleteCourse(id: string): void {
     console.log(id);

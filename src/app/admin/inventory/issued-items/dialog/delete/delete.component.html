@@ -3,10 +3,10 @@
   <div mat-dialog-content>
     <ul class="clearfix">
       <li>
-        <p><span class="font-weight-bold"> Department Name: </span>{{data.description}</p>
+        <p><span class="font-weight-bold"> Sample Description: </span>{{data.description}}</p>
       </li>
       <li>
-        <p><span class="font-weight-bold"> Department Head: </span>{{ data.testDate }}</p>
+        <p><span class="font-weight-bold"> Sample Date: </span>{{ data.testDate | date:'yyyy-MM-dd' }}</p>
       </li>
       <li>
         <p>

@@ -4,6 +4,8 @@ import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroy
 import { CoursesService } from "../courses.service";
 import { Course } from "../courses.model";
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from "@angular/material/dialog";
+import { FormdialogcoursesComponent } from "../formdialogcourses/formdialogcourses.component";
 
 
 @Component({
@@ -19,19 +21,27 @@ export class CourseDetailsComponent
 
   courseData: Course;
   constructor(
+    public dialog: MatDialog,
     private snackBar: MatSnackBar,
     public coursesService: CoursesService,
     private route: ActivatedRoute
   ) {
     super();
   }
-  displayedColumns: string[] = [ 'id', 'nom', 'email', ];
+  displayedColumns: string[] = [ 'id', 'nom', 'email' ];
 
   ngOnInit(): void {
     this.courseId = this.route.snapshot.params.id;
     this.loadCoursesData();
   }
   
+  openInviteStudentsDialog():void {
+    const dialogRef = this.dialog.open(FormdialogcoursesComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log("The dialog was closed");
+    });
+  }
+
   loadCoursesData(): void {
     this.coursesService.getCoursById(this.courseId).subscribe(
       (response: Course) => {

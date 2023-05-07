@@ -35,7 +35,6 @@ export class EditCourseComponent implements OnInit {
       .get<UserDetails[]>("http://localhost:8082/User/role/3")
       .subscribe((res) => {
         this.doctors = res;
-        console.log(this.doctors);
       });
 
     // this.http
@@ -57,7 +56,6 @@ export class EditCourseComponent implements OnInit {
       .subscribe((data) => {
         this.course = data;
         this.courseForm = this.createContactForm();
-        console.log(this.course)
 
       });
   }
@@ -74,10 +72,11 @@ export class EditCourseComponent implements OnInit {
       doctor: new UserDetails({ idUser: courseData.doctor }),
       stagiaires: this.course.stagiaires,
     });
-    this.courseService.updateCourse(newCourse);
-    console.log(newCourse)
 
-    console.log("Form Value", this.courseForm.value);
+    console.log(newCourse)
+    this.courseService.updateCourse(newCourse);
+
+    // this.router.navigate(["/admin/stage/courses"])
   }
 
   createContactForm(): FormGroup {
@@ -103,8 +102,8 @@ export class EditCourseComponent implements OnInit {
       description: courseData.description,
       duration: courseData.duration,
       doctor: new UserDetails({ idUser: courseData.doctor }),
-      stagiaires: this.course.stagiaires,
     });
+
     this.courseService.updateCourse(newCourse);
   }
 }

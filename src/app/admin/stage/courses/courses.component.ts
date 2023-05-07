@@ -78,11 +78,12 @@ export class CoursesComponent
   }
   addNew() {}
 
-
   editCall(row) {
     this.id = row.id;
     this.router.navigate(["/admin/stage/edit-course/", this.id])
   }
+
+  
   public loadData() {
     this.exampleDatabase = new CoursesService(this.httpClient);
     this.dataSource = new ExampleDataSource(

@@ -1,5 +1,5 @@
-import { Injectable, EventEmitter,  } from "@angular/core";
-import { Observable } from 'rxjs';
+import { Injectable, EventEmitter } from "@angular/core";
+import { Observable } from "rxjs";
 
 import {
   HttpClient,
@@ -26,27 +26,32 @@ export class CoursesService extends UnsubscribeOnDestroyAdapter {
 
   getCoursById(id: string): Observable<Course> {
     return this.http.get<Course>(`${this.url}/${id}`);
-    
   }
-
 
   getAllCourses(): void {
     this.subs.sink = this.http.get<Course[]>(this.url).subscribe(
       (data) => {
-        console.log(data)
+        console.log(data);
         this.isTblLoading = false;
         this.dataChange.next(data);
       },
       (error: HttpErrorResponse) => {
-        console.log(error)
+        console.log(error);
         this.isTblLoading = false;
         console.log(error.name + " " + error.message);
       }
     );
   }
   updateCourse(course: Course): void {
-    this.http.put(this.url + course.id, course);
-
+    this.http.put(this.url +"/"+ course.id, course).subscribe(
+      (data) => {
+      console.log (data);
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err)
+        // error code here
+      }
+    );
   }
 
   deleteCourse(id: string): void {

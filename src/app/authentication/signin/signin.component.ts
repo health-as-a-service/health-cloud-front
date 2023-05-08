@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "src/app/core/service/auth.service";
 import { Role } from "src/app/core/models/role";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
+import { MessagingService } from "src/app/core/service/messaging.service";
+
 // import axios from 'axios';
 
 @Component({
@@ -14,12 +16,15 @@ import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroy
 export class SigninComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit {
+    title = "push-notification";
+    message;
   authForm: FormGroup;
   submitted = false;
   loading = false;
   error = "";
   hide = true;
   constructor(
+    private messagingService: MessagingService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
@@ -69,7 +74,6 @@ export class SigninComponent
           (res) => {
             if (res) {
               const role = this.authService.currentUserValue.role;
-              
               if (role === Role.All || role === Role.Admin || role == Role.None) {
                 this.router.navigate(["/admin/dashboard/main"]);
               } else if (role === Role.Doctor) {
@@ -87,6 +91,9 @@ export class SigninComponent
                 this.router.navigate(["/authentication/signin"]);
               }
               this.loading = false;
+              this.messagingService.requestPermission();
+              this.messagingService.receiveMessage();
+              this.message = this.messagingService.currentMessage;
             } else {
               this.error = "Invalid Login";
             }

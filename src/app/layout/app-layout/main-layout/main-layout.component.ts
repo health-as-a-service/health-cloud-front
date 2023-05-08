@@ -7,9 +7,13 @@ import { DirectionService } from "src/app/core/service/direction.service";
   styleUrls: [],
 })
 export class MainLayoutComponent implements OnInit {
+  title = "push-notification";
+  message;
   direction: string;
   public config: any = {};
-  constructor(private directoryService: DirectionService) {
+  constructor(
+    private directoryService: DirectionService,
+  ) {
     this.directoryService.currentData.subscribe((currentData) => {
       if (currentData) {
         this.direction = currentData;
@@ -30,5 +34,7 @@ export class MainLayoutComponent implements OnInit {
       }
     });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 }

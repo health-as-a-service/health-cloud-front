@@ -47,6 +47,8 @@ export class EditOperationComponent implements OnInit {
   fetchData() {
     this.opServ.getOperationById(this.id).subscribe({
       next: (l) => {
+        const copyOp = l;
+delete l.logistiques
         console.log(l);
         this.fetched = l;
         this.editOpForm = this.fb.group({
@@ -57,7 +59,9 @@ export class EditOperationComponent implements OnInit {
           idChambre: [l.idChambre, [Validators.required]],
           emailP: [l.emailP, [Validators.required, Validators.email]],
           success: [l.success],
+
         });
+        l.logistiques=copyOp.logistiques;
       },
       error: (err) => {},
     });

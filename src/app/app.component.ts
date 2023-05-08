@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { Event, Router, NavigationStart, NavigationEnd } from "@angular/router";
 import { PlatformLocation } from "@angular/common";
-import { MessagingService } from "./core/service/messaging.service";
 
 
 @Component({
@@ -10,10 +9,9 @@ import { MessagingService } from "./core/service/messaging.service";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
-  title = "push-notification";
-  message;
+
   currentUrl: string;
-  constructor(public _router: Router, location: PlatformLocation,private messagingService: MessagingService) {
+  constructor(public _router: Router, location: PlatformLocation) {
     this._router.events.subscribe((routerEvent: Event) => {
       if (routerEvent instanceof NavigationStart) {
         // location.onPopState(() => {
@@ -29,8 +27,6 @@ export class AppComponent {
     });
   }
   ngOnInit() {
-    this.messagingService.requestPermission()
-    this.messagingService.receiveMessage()
-    this.message = this.messagingService.currentMessage
-     }
+
+    }
 }

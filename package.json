@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@agm/core": "^1.1.0",
+    "@angular-material-components/datetime-picker": "^7.0.0",
     "@angular/animations": "^13.1.1",
     "@angular/cdk": "^13.1.1",
     "@angular/common": "^13.1.1",
@@ -40,6 +41,7 @@
     "@nis3soft/ng-avatar": "^0.0.4",
     "@swimlane/ngx-charts": "^19.2.0",
     "@swimlane/ngx-datatable": "^20.0.0",
+    "@syncfusion/ej2-angular-dropdowns": "^21.2.3",
     "@types/d3-shape": "^3.0.2",
     "acorn": "^8.6.0",
     "angular-feather": "^6.1.0",

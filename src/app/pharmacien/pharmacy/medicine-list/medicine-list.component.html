@@ -333,12 +333,12 @@
                 <ng-container matColumnDef="counter">
                   <mat-header-cell class="pr-0" *matHeaderCellDef>Quantity</mat-header-cell>
                   <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                    <button mat-mini-fab color="primary" (click)="checkMin(row)" (click)="row.counter=row.counter-1" >
+                    <button mat-mini-fab color="primary" (click)="checkMin(row)" (click)="row.counter=row.counter-1" class="mat-icon-button">
                       <mat-icon class="col-white" >remove</mat-icon>
                     </button>
                     {{ row.counter }}
-                    <button mat-mini-fab color="primary" (click)="row.counter=row.counter+1" [disabled]="checkMax(row)">
-                      <mat-icon class="col-white">add</mat-icon>
+                    <button mat-mini-fab color="primary" (click)="row.counter=row.counter+1" [disabled]="checkMax(row)" class="mat-icon-button">
+                      <mat-icon class="col-white" >add</mat-icon>
                     </button>
                   </mat-cell>
                 </ng-container>

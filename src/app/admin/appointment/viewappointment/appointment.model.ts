@@ -10,6 +10,9 @@ export class Appointment {
   mobile: string;
   doctor: string;
   injury: string;
+  suivi:string;
+  statusRDV:string;
+  id_consultation:any;
   constructor(appointment) {
     {
       this.id = appointment.id || this.getRandomID();

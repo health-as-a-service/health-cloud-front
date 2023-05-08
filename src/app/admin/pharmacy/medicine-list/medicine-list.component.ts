@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild ,ChangeDetectorRef } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { MedicineListService } from "./medicine-list.service";
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from "@angular/material/dialog";
@@ -13,35 +13,7 @@ import { BehaviorSubject, fromEvent, merge, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
-import { MatTable, MatTableDataSource } from "@angular/material/table";
-import {
-  ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexTooltip,
-  ApexYAxis,
-  ApexPlotOptions,
-  ApexStroke,
-  ApexLegend,
-  ApexFill,
-  ApexResponsive,
-} from "ng-apexcharts";
-export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis;
-  stroke: ApexStroke;
-  tooltip: ApexTooltip;
-  dataLabels: ApexDataLabels;
-  legend: ApexLegend;
-  responsive: ApexResponsive[];
-  plotOptions: ApexPlotOptions;
-  fill: ApexFill;
-  colors: string[];
-};
+
 @Component({
   selector: "app-medicine-list",
   templateUrl: "./medicine-list.component.html",
@@ -51,384 +23,40 @@ export class MedicineListComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit
 {
-  public doughnutChartLabels: string[] =[];
-  public doughnutChartData: number[]=[];
-  public doughnutChartLegend = false;
-  public doughnutChartColors: any[] = [
-    {
-      backgroundColor: []
-    },
-  ];
-  public doughnutChartType = "doughnut";
-  public doughnutChartOptions: any = {
-    animation: false,
-    responsive: true,
-  };
-  public cardChart1: any;
-  public cardChart1Data: any;
-  public cardChart1Label: any;
-
-  public cardChart2: any;
-  public cardChart2Data: any;
-  public cardChart2Label: any;
-
-  public cardChart3: any;
-  public cardChart3Data: any;
-  public cardChart3Label: any;
-
-  public cardChart4: any;
-  public cardChart4Data: any;
-  public cardChart4Label: any;
-
-  public areaChartOptions: Partial<ChartOptions>;
-  public barChartOptions: Partial<ChartOptions>;
-  
   displayedColumns = [
     "select",
-    "nom",
-    "prix",
-    "description",
+    "m_no",
+    "m_name",
+    "category",
+    "company",
+    "p_date",
+    "price",
+    "e_date",
     "stock",
     "actions",
   ];
-  displayedColumns2 = [
-    "nom",
-    "prix",
-    "description",
-    "stock",
-    "counter",
-    "TotalforItem",
-    "removeCart"
-  ];
-  SumMedicines: number=0;
-  BgColor: string[];
-  MedListToChart: any[]=[];
-  MedicineType:number=0;
-  updateCount:number=0;
-  updateTotal:number=0;
-  sellsCount: number;
-  sellsTotal: number;
   exampleDatabase: MedicineListService | null;
   dataSource: ExampleDataSource | null;
   selection = new SelectionModel<MedicineList>(true, []);
   index: number;
-  selectedMedicines: any[] = [];
-  selectedMedicinesDataSource:MatTableDataSource<any>;
   id: number;
   medicineList: MedicineList | null;
-  
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public medicineListService: MedicineListService,
-    private snackBar: MatSnackBar,
-    private changeDetectorRefs: ChangeDetectorRef
+    private snackBar: MatSnackBar
   ) {
     super();
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("filter", { static: true }) filter: ElementRef;
-  @ViewChild(MatTable) table: MatTable<any>;
   ngOnInit() {
-    this.getMedicineType()
-    this.getSellsTotal()
-    this.getSellsCount() 
     this.loadData();
-    this.smallChart1();
-    this.smallChart2();
-    this.smallChart3();
-    this.smallChart4();
-    this.loadchart();
-
-  }
-  
-  smallChart4() {
-    this.cardChart4 = {
-      responsive: true,
-      tooltips: {
-        enabled: false,
-      },
-      legend: {
-        display: false,
-      },
-      scales: {
-        yAxes: [
-          {
-            gridLines: {
-              display: false,
-              drawBorder: false,
-            },
-            ticks: {
-              beginAtZero: true,
-              display: false,
-            },
-          },
-        ],
-        xAxes: [
-          {
-            gridLines: {
-              drawBorder: false,
-              display: false,
-            },
-            ticks: {
-              display: false,
-            },
-          },
-        ],
-      },
-      title: {
-        display: false,
-      },
-    };
-    this.cardChart4Data = [
-      {
-        label: "New Patients",
-        data: [30, 45, 70, 40, 93, 63, 50, 62, 50, 61, 80, 50, 72, 52, 60, 41],
-        borderWidth: 4,
-        pointStyle: "circle",
-        pointRadius: 4,
-        borderColor: "rgba(0,123,255,.7)",
-        pointBackgroundColor: "rgba(0,123,255,.2)",
-        backgroundColor: "rgba(0,123,255,.2)",
-        pointBorderColor: "transparent",
-      },
-    ];
-    this.cardChart4Label = [
-      "16-07-2018",
-      "17-07-2018",
-      "18-07-2018",
-      "19-07-2018",
-      "20-07-2018",
-      "21-07-2018",
-      "22-07-2018",
-      "23-07-2018",
-      "24-07-2018",
-      "25-07-2018",
-      "26-07-2018",
-      "27-07-2018",
-      "28-07-2018",
-      "29-07-2018",
-      "30-07-2018",
-      "31-07-2018",
-    ];
-  }
-  smallChart3() {
-    this.cardChart3 = {
-      responsive: true,
-      tooltips: {
-        enabled: false,
-      },
-      legend: {
-        display: false,
-      },
-      scales: {
-        yAxes: [
-          {
-            gridLines: {
-              display: false,
-              drawBorder: false,
-            },
-            ticks: {
-              beginAtZero: true,
-              display: false,
-            },
-          },
-        ],
-        xAxes: [
-          {
-            gridLines: {
-              drawBorder: false,
-              display: false,
-            },
-            ticks: {
-              display: false,
-            },
-          },
-        ],
-      },
-      title: {
-        display: false,
-      },
-    };
-    this.cardChart3Data = [
-      {
-        label: "New Patients",
-        data: [52, 60, 41, 30, 45, 70, 50, 61, 80, 50, 72, 40, 93, 63, 50, 62],
-        borderWidth: 4,
-        pointStyle: "circle",
-        pointRadius: 4,
-        borderColor: "rgba(40,167,69,.7)",
-        pointBackgroundColor: "rgba(40,167,69,.2)",
-        backgroundColor: "rgba(40,167,69,.2)",
-        pointBorderColor: "transparent",
-      },
-    ];
-    this.cardChart3Label = [
-      "16-07-2018",
-      "17-07-2018",
-      "18-07-2018",
-      "19-07-2018",
-      "20-07-2018",
-      "21-07-2018",
-      "22-07-2018",
-      "23-07-2018",
-      "24-07-2018",
-      "25-07-2018",
-      "26-07-2018",
-      "27-07-2018",
-      "28-07-2018",
-      "29-07-2018",
-      "30-07-2018",
-      "31-07-2018",
-    ];
-  }
-  smallChart2() {
-    this.cardChart2 = {
-      responsive: true,
-      tooltips: {
-        enabled: false,
-      },
-      legend: {
-        display: false,
-      },
-      scales: {
-        yAxes: [
-          {
-            gridLines: {
-              display: false,
-              drawBorder: false,
-            },
-            ticks: {
-              beginAtZero: true,
-              display: false,
-            },
-          },
-        ],
-        xAxes: [
-          {
-            gridLines: {
-              drawBorder: false,
-              display: false,
-            },
-            ticks: {
-              display: false,
-            },
-          },
-        ],
-      },
-      title: {
-        display: false,
-      },
-    };
-    this.cardChart2Data = [
-      {
-        label: "New Patients",
-        data: [50, 61, 80, 50, 40, 93, 63, 50, 62, 72, 52, 60, 41, 30, 45, 70],
-        borderWidth: 4,
-        pointStyle: "circle",
-        pointRadius: 4,
-        borderColor: "rgba(253,126,20,.7)",
-        pointBackgroundColor: "rgba(253,126,20,.2)",
-        backgroundColor: "rgba(253,126,20,.2)",
-        pointBorderColor: "transparent",
-      },
-    ];
-    this.cardChart2Label = [
-      "16-07-2018",
-      "17-07-2018",
-      "18-07-2018",
-      "19-07-2018",
-      "20-07-2018",
-      "21-07-2018",
-      "22-07-2018",
-      "23-07-2018",
-      "24-07-2018",
-      "25-07-2018",
-      "26-07-2018",
-      "27-07-2018",
-      "28-07-2018",
-      "29-07-2018",
-      "30-07-2018",
-      "31-07-2018",
-    ];
-  }
-  smallChart1() {
-    this.cardChart1 = {
-      responsive: true,
-      tooltips: {
-        enabled: false,
-      },
-      legend: {
-        display: false,
-      },
-      scales: {
-        yAxes: [
-          {
-            gridLines: {
-              display: false,
-              drawBorder: false,
-            },
-            ticks: {
-              beginAtZero: true,
-              display: false,
-            },
-          },
-        ],
-        xAxes: [
-          {
-            gridLines: {
-              drawBorder: false,
-              display: false,
-            },
-            ticks: {
-              display: false,
-            },
-          },
-        ],
-      },
-      title: {
-        display: false,
-      },
-    };
-    this.cardChart1Data = [
-      {
-        label: "New Patients",
-        data: [50, 61, 80, 50, 72, 52, 60, 41, 30, 45, 70, 40, 93, 63, 50, 62],
-        borderWidth: 4,
-        pointStyle: "circle",
-        pointRadius: 4,
-        borderColor: "rgba(103,119,239,.7)",
-        pointBackgroundColor: "rgba(103,119,239,.2)",
-        backgroundColor: "rgba(103,119,239,.2)",
-        pointBorderColor: "transparent",
-      },
-    ];
-    this.cardChart1Label = [
-      "16-07-2018",
-      "17-07-2018",
-      "18-07-2018",
-      "19-07-2018",
-      "20-07-2018",
-      "21-07-2018",
-      "22-07-2018",
-      "23-07-2018",
-      "24-07-2018",
-      "25-07-2018",
-      "26-07-2018",
-      "27-07-2018",
-      "28-07-2018",
-      "29-07-2018",
-      "30-07-2018",
-      "31-07-2018",
-    ];
   }
   refresh() {
     this.loadData();
-  }
-  countMedicines() {
-    this.SumMedicines = this.dataSource.renderedData.reduce((acc, curr) => acc + Number(curr.stock), 0);
-    return this.SumMedicines;
   }
   addNew() {
     let tempDirection;
@@ -459,12 +87,6 @@ export class MedicineListComponent
           "center"
         );
       }
-    });
-  }
-  getMedicineType()
-  {
-    this.medicineListService.getMedicineTypes().subscribe(result => {
-      this.MedicineType = result;
     });
   }
   editCall(row) {
@@ -524,7 +146,7 @@ export class MedicineListComponent
         this.refreshTable();
         this.showNotification(
           "snackbar-danger",
-          "Delete Record Successfully",
+          "Delete Record Successfully...!!!",
           "bottom",
           "center"
         );
@@ -549,90 +171,20 @@ export class MedicineListComponent
           this.selection.select(row)
         );
   }
-  checkMin(Quan){
-    if(Quan.counter<= 1 )
-    {
-      const index = this.selectedMedicines.indexOf(Quan);
-    this.selectedMedicines.splice(index, 1);
-    this.selectedMedicinesDataSource = new MatTableDataSource(this.selectedMedicines);
-  this.changeDetectorRefs.detectChanges();
-    }
-  }
-  checkMax(Quan){
-    if(Quan.counter >= Quan.stock)
-    return true;
-  }
-  Sell()
-  {
-    
-    for (let item of this.selectedMedicines) {
-      item.stock=item.stock-item.counter;
-      this.updateTotal=this.updateTotal+(item.prix*item.counter)
-    }
-    this.medicineListService.sellMedicines(this.selectedMedicines)
-    this.medicineListService.setAddSellTotal(this.updateTotal); 
-    this.medicineListService.setAddSellCount(1)
-  }
-  checkCart(){
-    return this.selectedMedicines.length==0
-  }
-  getTotal() {
-    
-    let sum = 0;
-    for (let item of this.selectedMedicines) {
-      sum += item.prix*item.counter;
-    }
-    return sum;
- 
-  }
-  getSellsCount() {
-    this.medicineListService.getSellCount().subscribe(result => {
-      this.sellsCount = result;
-    });
-  }
-  getSellsTotal() {
-  
-    this.medicineListService.getSellTotal().subscribe(result => {
-      this.sellsTotal = result;
-    });
-  }
-  
-  addItemtoCart(row){
-    const existingItem = this.selectedMedicines.find(item => item.id === row.id);
-  if (existingItem) {
-    existingItem.counter += 1;
-  } else {
-    row.counter = 1;
-    this.selectedMedicines.push(row);
-  }
-  this.selectedMedicinesDataSource = new MatTableDataSource(this.selectedMedicines);
-  this.changeDetectorRefs.detectChanges();
-  }
-  checkStock(row)
-  {
-    if(row.stock <=0 ||row.counter >= row.stock)
-    return true;
-  }
-  removecart(row)
-  {
-    const index = this.selectedMedicines.indexOf(row);
-    this.selectedMedicines.splice(index, 1);
-    this.selectedMedicinesDataSource = new MatTableDataSource(this.selectedMedicines);
-  this.changeDetectorRefs.detectChanges();
-  }
   removeSelectedRows() {
     const totalSelect = this.selection.selected.length;
     this.selection.selected.forEach((item) => {
       const index: number = this.dataSource.renderedData.findIndex(
         (d) => d === item
-      ); 
+      );
+      // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
       this.exampleDatabase.dataChange.value.splice(index, 1);
       this.refreshTable();
       this.selection = new SelectionModel<MedicineList>(true, []);
     });
     this.showNotification(
       "snackbar-danger",
-      totalSelect + " Record Delete Successfully",
+      totalSelect + " Record Delete Successfully...!!!",
       "bottom",
       "center"
     );
@@ -661,26 +213,7 @@ export class MedicineListComponent
       panelClass: colorName,
     });
   }
-  loadchart(){
-    this.medicineListService.getMedicineListforChart().subscribe(result => {
-      this.MedListToChart = result;
-      this.doughnutChartLabels = this.MedListToChart.map((medicine) => medicine.nom);
-      this.doughnutChartData = this.MedListToChart.map((medicine) => Number((medicine.stock)));
-      this.doughnutChartColors[0].backgroundColor = this.doughnutChartData.map(() => {
-        const r = Math.floor(Math.random() * 256);
-        const g = Math.floor(Math.random() * 256);
-        const b = Math.floor(Math.random() * 256);
-        return `rgb(${r},${g},${b})`;
-        
-      });
-      this.BgColor = this.doughnutChartColors[0].backgroundColor;
-    });
-  } 
- 
 }
-
-
-
 export class ExampleDataSource extends DataSource<MedicineList> {
   filterChange = new BehaviorSubject("");
   get filter(): string {
@@ -717,9 +250,13 @@ export class ExampleDataSource extends DataSource<MedicineList> {
           .slice()
           .filter((medicineList: MedicineList) => {
             const searchStr = (
-              medicineList.nom +
-              medicineList.description +
-              medicineList.prix +
+              medicineList.m_no +
+              medicineList.m_name +
+              medicineList.category +
+              medicineList.company +
+              medicineList.p_date +
+              medicineList.price +
+              medicineList.e_date +
               medicineList.stock
             ).toLowerCase();
             return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -735,7 +272,6 @@ export class ExampleDataSource extends DataSource<MedicineList> {
         return this.renderedData;
       })
     );
-    
   }
   disconnect() {}
   /** Returns a sorted copy of the database data. */
@@ -750,14 +286,26 @@ export class ExampleDataSource extends DataSource<MedicineList> {
         case "id":
           [propertyA, propertyB] = [a.id, b.id];
           break;
-        case "nom":
-          [propertyA, propertyB] = [a.nom, b.nom];
+        case "m_no":
+          [propertyA, propertyB] = [a.m_no, b.m_no];
           break;
-        case "description":
-          [propertyA, propertyB] = [a.description, b.description];
+        case "m_name":
+          [propertyA, propertyB] = [a.m_name, b.m_name];
           break;
-        case "prix":
-          [propertyA, propertyB] = [a.prix, b.prix];
+        case "category":
+          [propertyA, propertyB] = [a.category, b.category];
+          break;
+        case "company":
+          [propertyA, propertyB] = [a.company, b.company];
+          break;
+        case "p_date":
+          [propertyA, propertyB] = [a.p_date, b.p_date];
+          break;
+        case "price":
+          [propertyA, propertyB] = [a.price, b.price];
+          break;
+        case "e_date":
+          [propertyA, propertyB] = [a.e_date, b.e_date];
           break;
         case "stock":
           [propertyA, propertyB] = [a.stock, b.stock];

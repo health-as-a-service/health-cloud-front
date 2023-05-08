@@ -1,25 +1,20 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { IssuedItems } from "./issued-items.model";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 @Injectable()
 export class IssuedItemsService extends UnsubscribeOnDestroyAdapter {
-  private readonly API_URL = "http://localhost:8082/Sample";
+  private readonly API_URL = "assets/data/issuedItems.json";
   isTblLoading = true;
   dataChange: BehaviorSubject<IssuedItems[]> = new BehaviorSubject<
     IssuedItems[]
   >([]);
   // Temporarily stores data from dialogs
   dialogData: any;
-  test:String[]=[];
-
-
   constructor(private httpClient: HttpClient) {
     super();
   }
-
-
   get data(): IssuedItems[] {
     return this.dataChange.value;
   }
@@ -28,7 +23,7 @@ export class IssuedItemsService extends UnsubscribeOnDestroyAdapter {
   }
   /** CRUD METHODS */
   getAllIssuedItemss(): void {
-    this.subs.sink = this.httpClient.get<IssuedItems[]>(`${this.API_URL}/getAllSample`).subscribe(
+    this.subs.sink = this.httpClient.get<IssuedItems[]>(this.API_URL).subscribe(
       (data) => {
         this.isTblLoading = false;
         this.dataChange.next(data);
@@ -41,58 +36,34 @@ export class IssuedItemsService extends UnsubscribeOnDestroyAdapter {
   }
   addIssuedItems(issuedItems: IssuedItems): void {
     this.dialogData = issuedItems;
-    console.log(issuedItems)
-    this.httpClient.post(`${this.API_URL}/add-sample`, issuedItems).subscribe(data => {
+
+    /*  this.httpClient.post(this.API_URL, issuedItems).subscribe(data => {
       this.dialogData = issuedItems;
       },
       (err: HttpErrorResponse) => {
      // error code here
-    });
+    });*/
   }
   updateIssuedItems(issuedItems: IssuedItems): void {
-    console.log(issuedItems)
-    this.dialogData = issuedItems;
-    this.httpClient.put(`${this.API_URL}/${issuedItems.id}`, issuedItems).subscribe(data => {
-      this.dialogData = IssuedItems;
-    },
-    (err: HttpErrorResponse) => {
-      // error code here
-    }
-  );
-  }
-  updateIssuedItemToReady(issuedItems: IssuedItems): void {
-    console.log(issuedItems);
     this.dialogData = issuedItems;
 
-     this.httpClient.put(`${this.API_URL}/setSampleReady/`,issuedItems).subscribe(data => {
+    /* this.httpClient.put(this.API_URL + issuedItems.id, issuedItems).subscribe(data => {
       this.dialogData = issuedItems;
-      console.log(issuedItems);
     },
     (err: HttpErrorResponse) => {
       // error code here
     }
-  );
+  );*/
   }
   deleteIssuedItems(id: number): void {
     console.log(id);
 
-    console.log(`deleteMedicineList(${id}) called`);
-     this.httpClient.delete(`${this.API_URL}/delete-sample/${id}`).subscribe(data => {
+    /*  this.httpClient.delete(this.API_URL + id).subscribe(data => {
+      console.log(id);
       },
       (err: HttpErrorResponse) => {
          // error code here
       }
-    );
+    );*/
   }
-  getTestTypes(): any {
-    this.httpClient.get<String[]>(`${this.API_URL}/types`).subscribe(data=>{
-      this.test=data
-    })
-    return this.test
- 
-  }
-
-  getTestTypesHames(){
-    return this.httpClient.get<String[]>(`${this.API_URL}/types`);
-  }
-} 
+}

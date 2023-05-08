@@ -15,43 +15,94 @@
   <div mat-dialog-content>
     <form class="register-form m-4" [formGroup]="medicineListForm" (ngSubmit)="submit">
       <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>No</mat-label>
+            <input matInput formControlName="m_no" type="number" required>
+            <mat-icon matSuffix>receipt</mat-icon>
+            <mat-error *ngIf="medicineListForm.get('m_no').hasError('required')">
+              No is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Medicine Name</mat-label>
-            <input matInput formControlName="nom" required>
+            <input matInput formControlName="m_name" required>
             <mat-icon matSuffix>medication</mat-icon>
-            <mat-error *ngIf="medicineListForm.get('nom').hasError('required')">
+            <mat-error *ngIf="medicineListForm.get('m_name').hasError('required')">
               Medicine Name is required
             </mat-error>
           </mat-form-field>
         </div>
       </div>
       <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width " appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category" required>
+              <mat-option [value]="'Tablet'">
+                Tablet
+              </mat-option>
+              <mat-option [value]="'Syrup'">
+                Syrup
+              </mat-option>
+              <mat-option [value]="'Injectable'">
+                Injectable
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="medicineListForm.get('category').hasError('required')">
+              Status is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Description</mat-label>
-            <input matInput formControlName="description" required>
+            <mat-label>Company Name</mat-label>
+            <input matInput formControlName="company" required>
             <mat-icon matSuffix>store</mat-icon>
-            <mat-error *ngIf="medicineListForm.get('description').hasError('required')">
-              Description is required
+            <mat-error *ngIf="medicineListForm.get('company').hasError('required')">
+              Company Name is required
             </mat-error>
           </mat-form-field>
         </div>
       </div>
       <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Purchase date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="p_date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="medicineListForm.get('p_date').hasError('required')">
+              Please select date
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Price</mat-label>
-            <input matInput formControlName="prix" required>
+            <input matInput formControlName="price" required>
             <mat-icon matSuffix>monetization_on</mat-icon>
-            <mat-error *ngIf="medicineListForm.get('prix').hasError('required')">
+            <mat-error *ngIf="medicineListForm.get('price').hasError('required')">
               Price is required
             </mat-error>
           </mat-form-field>
         </div>
       </div>
       <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Expired date</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="e_date">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+            <mat-error *ngIf="medicineListForm.get('e_date').hasError('required')">
+              Please select date
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Stock</mat-label>
             <input matInput formControlName="stock" type="number" required>

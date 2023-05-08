@@ -2,7 +2,7 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Issued Samples'" [items]="['Inventory']" [active_item]="'Issued Samples'">
+      <app-breadcrumb [title]="'Issued Items'" [items]="['Inventory']" [active_item]="'Issued Items'">
       </app-breadcrumb>
     </div>
     <div class="row">
@@ -15,7 +15,7 @@
                   <div class="col-8">
                     <ul class="header-buttons-left ms-0">
                       <li class="dropdown">
-                        <h2>Issued Samples</h2>
+                        <h2>Issued Items</h2>
                       </li>
                       <li class="dropdown m-l-20">
                         <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -71,41 +71,40 @@
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
                   <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="comment">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>patient Name
+                <ng-container matColumnDef="i_name">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Item Name
                   </mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.consultaion.comment}}</mat-cell>
+                  <mat-cell *matCellDef="let row"> {{row.i_name}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="description">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>description</mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.description}}</mat-cell>
+                <ng-container matColumnDef="category">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.category}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="testDate">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Test Date</mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.testDate | date: 'MM/dd/yyyy'}}</mat-cell>
+                <ng-container matColumnDef="issue_date">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Issue Date</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.issue_date | date: 'MM/dd/yyyy'}}</mat-cell>
                 </ng-container>
-                
-                <ng-container matColumnDef="testType">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Test Type</mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.testType}}</mat-cell>
+                <ng-container matColumnDef="return_date">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Return Date</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.return_date | date: 'MM/dd/yyyy'}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="resultat">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Resultat</mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.resultat}}</mat-cell>
+                <ng-container matColumnDef="issue_to">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Issue T0</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.issue_to}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="email">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
-                  <mat-cell *matCellDef="let row"> {{row.email}}</mat-cell>
+                <ng-container matColumnDef="qty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.qty}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="status">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Status
                   </mat-header-cell>
                   <mat-cell mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
-                    <div *ngIf="row.status=='ready'">
+                    <div *ngIf="row.status=='Returned'">
                       <span class="badge badge-solid-green">
                         {{row.status}}</span>
                     </div>
-                    <div *ngIf="row.status=='Not Ready'">
+                    <div *ngIf="row.status=='Issued'">
                       <span class="badge badge-solid-orange">
                         {{row.status}}</span>
                     </div>
@@ -122,10 +121,6 @@
                     <button mat-icon-button (click)="$event.stopPropagation()" (click)="deleteItem(row)"
                       class="tbl-action-btn">
                       <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
-                    </button>
-                    <button mat-icon-button (click)="$event.stopPropagation()" (click)="ItemtoReady(row)"
-                      class="tbl-action-btn">
-                      <app-feather-icons [icon]="'check-circle'" [class]="'tbl-fav-delete'"></app-feather-icons>
                     </button>
                   </mat-cell>
                 </ng-container>

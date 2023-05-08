@@ -10,9 +10,13 @@ export class AddMedicineComponent {
   medicineListForm: FormGroup;
   constructor(private fb: FormBuilder) {
     this.medicineListForm = this.fb.group({
-      nom: ["", [Validators.required]],
-      description: ["", [Validators.required]],
-      prix: ["", [Validators.required]],
+      m_no: ["", [Validators.required]],
+      m_name: ["", [Validators.required]],
+      category: ["", [Validators.required]],
+      company: ["", [Validators.required]],
+      p_date: ["", [Validators.required]],
+      price: ["", [Validators.required]],
+      e_date: ["", [Validators.required]],
       stock: ["", [Validators.required]],
     });
   }

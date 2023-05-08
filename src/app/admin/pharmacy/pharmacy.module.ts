@@ -27,9 +27,7 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MedicineListService } from "./medicine-list/medicine-list.service";
 import { ComponentsModule } from "src/app/shared/components/components.module";
 import { SharedModule } from "src/app/shared/shared.module";
-import { ChartsModule as chartjsModule } from "ng2-charts";
-import { NgApexchartsModule } from "ng-apexcharts";
-import { MatMenuModule } from "@angular/material/menu";
+
 @NgModule({
   declarations: [
     MedicineListComponent,
@@ -39,11 +37,8 @@ import { MatMenuModule } from "@angular/material/menu";
   ],
   imports: [
     CommonModule,
-    MatMenuModule,
     PharmacyRoutingModule,
     FormsModule,
-    chartjsModule,
-    NgApexchartsModule,
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,

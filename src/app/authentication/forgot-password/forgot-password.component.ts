@@ -13,7 +13,7 @@ export class ForgotPasswordComponent implements OnInit {
   authForm: FormGroup;
   submitted = false;
   loading = false;
-  forme : String;
+  
   returnUrl: string;
   constructor(
     private formBuilder: FormBuilder,
@@ -36,27 +36,29 @@ export class ForgotPasswordComponent implements OnInit {
   get f() {
     return this.authForm.controls;
   }
-  getEmailUser(): string {
-    return this.authForm.get('emailUser').value as string;
-  }
   onSubmit() {
+    
     this.submitted = true;
-  
+
     if (this.authForm.invalid) {
       return;
+    } else {
+      this.loading = true;
+  
+      this.ForgotPassword.send(this.f.emailUser.value).subscribe(
+        (data) => {
+          console.log(data);
+          this.router.navigate(["/authentication/signin"]);
+        },
+        (error) => {
+          console.log(error);
+          this.loading = false;
+        }
+      );
+  
+      // Trigger form submission
+      const form = document.forms["authForm"];
+      form.submit();
     }
-  
-    this.loading = true;
-    this.ForgotPassword.send(this.f.emailUser.value).subscribe(
-      (data) => {
-        console.log(data);
-        this.router.navigate(["/authentication/signin"]);
-      },
-      (error) => {
-        console.log(error);
-        this.loading = false;
-      }
-    );
   }
-  
 }

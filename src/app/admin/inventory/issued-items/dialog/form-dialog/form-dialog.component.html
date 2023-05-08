@@ -17,22 +17,21 @@
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Description</mat-label>
-            <input matInput formControlName="description" required>
-            <mat-icon matSuffix>face</mat-icon>
-            <mat-error *ngIf="issuedItemsForm.get('description').hasError('required')">
-              Description is required
+            <mat-label>Item Name</mat-label>
+            <input matInput formControlName="i_name" required>
+            <mat-icon matSuffix>receipt</mat-icon>
+            <mat-error *ngIf="issuedItemsForm.get('i_name').hasError('required')">
+              Item name is required
             </mat-error>
           </mat-form-field>
         </div>
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Test Date </mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="testDate" required>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-             <mat-datepicker #picker></mat-datepicker>  
-            <mat-error *ngIf="issuedItemsForm.get('testDate').hasError('required')">
-              Test Date is required
+            <mat-label>Category</mat-label>
+            <input matInput formControlName="category" required>
+            <mat-icon matSuffix>face</mat-icon>
+            <mat-error *ngIf="issuedItemsForm.get('category').hasError('required')">
+              Category is required
             </mat-error>
           </mat-form-field>
         </div>
@@ -40,42 +39,56 @@
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Test Type</mat-label>
-            <select matNativeControl formControlName="testType">
-              <option *ngFor="let type of tesstypes" [value]="type">{{ type }}</option>
-            </select>
-            <mat-error *ngIf="issuedItemsForm.get('testType').hasError('required')">
-              Please select a test type
-            </mat-error>  
-          </mat-form-field>          
+            <mat-label>Issue date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="issue_date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="issuedItemsForm.get('issue_date').hasError('required')">
+              Please select date
+            </mat-error>
+          </mat-form-field>
         </div>
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>resultat</mat-label>
-            <input matInput formControlName="resultat" required>
+            <mat-label>Return date</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="return_date">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+            <mat-error *ngIf="issuedItemsForm.get('return_date').hasError('required')">
+              Please select date
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Issue To</mat-label>
+            <input matInput formControlName="issue_to" required>
             <mat-icon matSuffix>account_circle</mat-icon>
-            <mat-error *ngIf="issuedItemsForm.get('resultat').hasError('required')">
+            <mat-error *ngIf="issuedItemsForm.get('issue_to').hasError('required')">
+              Issue To is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Quantity</mat-label>
+            <input matInput formControlName="qty" required>
+            <mat-icon matSuffix>account_circle</mat-icon>
+            <mat-error *ngIf="issuedItemsForm.get('qty').hasError('required')">
               Quantity is required
             </mat-error>
           </mat-form-field>
         </div>
-      </div> 
-      <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" required>
-            <mat-icon matSuffix>account_circle</mat-icon>
-          </mat-form-field>          
-        </div>
-      </div>   
+      </div>
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <div class="m-b-20">
             <mat-label class="msr-3">Status:</mat-label>
             <mat-radio-group aria-label="Select status" formControlName="status" required>
-              <mat-radio-button value="ready">Ready</mat-radio-button>
-              <mat-radio-button value="Not Ready">Not Ready</mat-radio-button>
+              <mat-radio-button value="Issued">Issued</mat-radio-button>
+              <mat-radio-button value="Returned">Returned</mat-radio-button>
               <mat-error *ngIf="issuedItemsForm.get('status').hasError('required')">
                 Select status
               </mat-error>
@@ -83,20 +96,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>email</mat-label>
-              <input matInput formControlName="email" required>
-              <mat-icon matSuffix>account_circle</mat-icon>
-              <mat-error *ngIf="issuedItemsForm.get('email').hasError('required')">
-                Email is required
-              </mat-error>
-            </mat-form-field>
-          </div>
-          </div>
-      </div> -->
       <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
           <div class="example-button-row">

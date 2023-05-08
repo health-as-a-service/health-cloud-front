@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { PatientService } from "./patient.service";
 import { HttpClient } from "@angular/common/http";
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { Patient } from "./patient.model";
@@ -13,7 +13,9 @@ import { BehaviorSubject, fromEvent, merge, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
-
+import { ShowDossierMedicaleComponent } from "./dialog/show-dossier-medicale/show-dossier-medicale.component";
+import { jsPDF } from "jspdf"
+import html2canvas  from 'html2canvas';
 @Component({
   selector: "app-allpatients",
   templateUrl: "./allpatients.component.html",
@@ -21,8 +23,7 @@ import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroy
 })
 export class AllpatientsComponent
   extends UnsubscribeOnDestroyAdapter
-  implements OnInit
-{
+  implements OnInit {
   displayedColumns = [
     "select",
     "id",
@@ -32,7 +33,7 @@ export class AllpatientsComponent
     // "last_name",
     // "role",
     "gender",
-    "mobile",
+    "gendour",
     "dateOfBirth",
     // "age",
     // "marital_status",
@@ -40,21 +41,27 @@ export class AllpatientsComponent
     "bloodGroup",
     // "blood_pressure",
     "sugger",
+    "tel",
     // "injury",
     "img",
-    "actions"
+    "actions",
+    "ok",
+    "pdf"
   ];
   exampleDatabase: PatientService | null;
   dataSource: ExampleDataSource | null;
   selection = new SelectionModel<Patient>(true, []);
   index: number;
   id: number;
-  patient: Patient | null;
+  patient: any;
+  AllPatient: any
+  showMe: boolean = false
+  data: any
   constructor(
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public patientService: PatientService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {
     super();
   }
@@ -63,10 +70,73 @@ export class AllpatientsComponent
   @ViewChild("filter", { static: true }) filter: ElementRef;
   ngOnInit() {
     this.loadData();
+    this.getAllPatientData()
   }
+
+  getAllPatientData() {
+    this.patientService.getAllPatientsService().subscribe(res => {
+      this.AllPatient = res
+      console.log(this.AllPatient)
+    })
+  }
+  getPatientArchive() {
+    this.patientService.getAllPatientArchivesService().subscribe(res => {
+      this.AllPatient = res
+      console.log(this.AllPatient)
+    })
+  }
+  // one click je laisse l'achichage s'affiche , one more click
+  generatePfd(row) {
+    console.log(row)
+    this.data = row
+    this.showMe = true
+    const op = {
+      background: 'white',
+      scale: 3
+    }
+    var div = document.getElementById("pdfpdf")
+    console.log(div)
+
+    html2canvas(div, op).then(async canvas => {
+      const contentDataURL = await canvas.toDataURL('image/png')
+      let pdf = new jsPDF('p', 'mm', 'a4');
+      var width = await pdf.internal.pageSize.getWidth();
+      var height = await canvas.height * width / canvas.width;
+      pdf.addImage(contentDataURL, 'PNG', 0, 0, width, height)
+      pdf.save('output.pdf');
+      this.showMe = false
+
+
+
+    });
+
+  }
+  filterAllAttribut(event: any) {
+    console.log(event.target.value)
+    var item = event.target.value
+    if (item == "") {
+      this.getPatientArchive()
+    } else {
+      this.patientService.getAllPatientArchivesService().subscribe(res => {
+        this.AllPatient = res
+        this.AllPatient = this.AllPatient.filter((i: any) => {
+          return (i.nomP.toLowerCase() == item.toLowerCase()) || (i.prenomP.toLowerCase() == item.toLowerCase()) || (i.sexe.toLowerCase() == item.toLowerCase()) || (i.chambre == item)
+        })
+
+        console.log(this.AllPatient)
+      })
+
+    }
+  }
+
+ 
+
+  // edheya l button eli bahdha button l ajout edheya yamel reset , si on click sur ce button o=> n3awdou namlou getAllPatient
   refresh() {
-    this.loadData();
+    this.getAllPatientData()
   }
+
+  //OPEN DIALOG [1] d'ajout patient ==> just open la form dans laquelle nmajmou namlou add => c'est open kahaw edheya mouch add
   addNew() {
     let tempDirection;
     if (localStorage.getItem("isRtl") === "true") {
@@ -83,8 +153,7 @@ export class AllpatientsComponent
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
-        // After dialog is closed we're doing frontend updates
-        // For add we're just pushing a new row inside DataService
+        this.getAllPatientData()
         this.exampleDatabase.dataChange.value.unshift(
           this.patientService.getDialogData()
         );
@@ -98,7 +167,9 @@ export class AllpatientsComponent
       }
     });
   }
+  //OPEN DIALOG [2] meme chose pour l edit , nestamlou f nafes dialog 
   editCall(row) {
+    console.log('row', row)
     this.id = row.id;
     let tempDirection;
     if (localStorage.getItem("isRtl") === "true") {
@@ -133,6 +204,8 @@ export class AllpatientsComponent
       }
     });
   }
+
+  //OPEN DIALOG [3] bech ykoun 3ana dialog de confirmation => oui ou non
   deleteItem(row) {
     this.id = row.id;
     let tempDirection;
@@ -150,17 +223,55 @@ export class AllpatientsComponent
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
           (x: any) => x.id === this.id
         );
-        // for delete we use splice in order to remove single object from DataService
-        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
-        this.refreshTable();
-        this.showNotification(
-          "snackbar-danger",
-          "Delete Record Successfully...!!!",
-          "bottom",
-          "center"
-        );
+
+
+        if (this.AllPatient.length > 0) {
+          this.AllPatient = this.AllPatient.filter((i: any) => {
+            return i.idP !== row.idP
+          })
+          this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+          this.refreshTable();
+          this.showNotification(
+            "snackbar-danger",
+            "Delete Record Successfully...!!!",
+            "bottom",
+            "center"
+          );
+        } else {
+
+          this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+          this.refreshTable();
+          this.showNotification(
+            "snackbar-danger",
+            "Patient is already auto deleted from patient class...!!!",
+            "bottom",
+            "center"
+          );
+        }
       }
     });
+  }
+
+  ShowDetailsDossier(row) {
+    this.id = row.id;
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+    const dialogConfig = new MatDialogConfig();
+
+    // Set the dialog width and height
+    dialogConfig.width = '600px';
+    dialogConfig.height = 'auto';
+
+    // Set the dialog position
+
+
+    dialogConfig.data = row
+    dialogConfig.direction = tempDirection
+    const dialogRef = this.dialog.open(ShowDossierMedicaleComponent, dialogConfig)
   }
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
@@ -177,8 +288,8 @@ export class AllpatientsComponent
     this.isAllSelected()
       ? this.selection.clear()
       : this.dataSource.renderedData.forEach((row) =>
-          this.selection.select(row)
-        );
+        this.selection.select(row)
+      );
   }
   removeSelectedRows() {
     const totalSelect = this.selection.selected.length;
@@ -283,7 +394,7 @@ export class ExampleDataSource extends DataSource<Patient> {
       })
     );
   }
-  disconnect() {}
+  disconnect() { }
   /** Returns a sorted copy of the database data. */
   sortData(data: Patient[]): Patient[] {
     if (!this._sort.active || this._sort.direction === "") {

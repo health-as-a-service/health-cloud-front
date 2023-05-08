@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ResetPass } from "./reset.service";
 
+
 @Component({
   selector: "app-reset",
   templateUrl: "./reset.component.html",

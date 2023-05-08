@@ -43,7 +43,7 @@
       "LIST": {
         "ALL-PATIENT": "All Patients",
         "ADD-PATIENT": "Add Patient",
-        "EDIT-PATIENT": "Statistique Patient",
+        "EDIT-PATIENT": "Edit Patient",
         "PROFILE": "Patient Profile"
       }
     },

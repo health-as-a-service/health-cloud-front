@@ -28,7 +28,7 @@ import {
   HTTP_INTERCEPTORS,
   HttpClient,
 } from "@angular/common/http";
-import { environment } from "../environments/environment";
+import { environment } from "../environments/environment.prod";
 
 import { LoadingBarRouterModule } from "@ngx-loading-bar/router";
 import { FormsModule } from "@angular/forms";

@@ -35,7 +35,8 @@ import { CoursesService } from "./courses.service";
 import { CourseDetailsComponent } from "./course-details/course-details.component";
 import { EditCourseComponent } from "./edit-course/edit-course.component";
 import { FormDialogComponent } from './form-dialog/form-dialog.component';
-import {FormdialogcoursesComponent}from './formdialogcourses/formdialogcourses.component'
+import {FormdialogcoursesComponent}from './formdialogcourses/formdialogcourses.component';
+
 @NgModule({
   declarations: [FormdialogcoursesComponent,CoursesComponent, CourseDetailsComponent, EditCourseComponent, FormDialogComponent],
   imports: [MultiSelectModule,

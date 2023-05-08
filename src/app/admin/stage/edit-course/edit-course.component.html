@@ -12,7 +12,7 @@
           </div>
           <div class="body">
             <form class="register-form m-4" #f="ngForm" [formGroup]="courseForm" (ngSubmit)="onSubmit()">
-              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Doctor</mat-label>
                   <mat-select formControlName="doctor" required>
@@ -21,14 +21,14 @@
                 </mat-form-field>
               </div>
 
-              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Course name</mat-label>
                   <input matInput formControlName="course_name" required />
                 </mat-form-field>
               </div>
 
-              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <input matInput formControlName="date" [ngxMatDatetimePicker]="picker" placeholder="Choose a date"
                     required>
@@ -38,13 +38,13 @@
               </div>
 
 
-              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+              <div class="col-xl-1  2 col-lg-12 col-md-12 col-sm-12 mb-3">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Description</mat-label>
                   <textarea matInput formControlName="description" required rows="4"></textarea>
                 </mat-form-field>
               </div>
-              <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
                 <mat-form-field class="example-full-width" appearance="outline">
                   <mat-label>Duration</mat-label>
                   <input matInput formControlName="duration" required />

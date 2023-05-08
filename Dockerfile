@@ -4,6 +4,6 @@ WORKDIR /app
 COPY . .
 RUN npm install --legacy-peer-deps
 RUN npm run build --prod
-# Stage 2
+# Stage 2ng s
 FROM nginx:alpine
 COPY --from=node /app/dist/main /usr/share/nginx/html

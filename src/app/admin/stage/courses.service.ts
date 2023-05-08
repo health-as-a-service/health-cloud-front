@@ -14,6 +14,7 @@ import { UserDetails } from "src/app/core/models/userDetails";
 @Injectable()
 export class CoursesService extends UnsubscribeOnDestroyAdapter {
   isTblLoading = true;
+  dialogData: any;
   private readonly url = "http://localhost:8082/api/cours/";
   dataChange: BehaviorSubject<Course[]> = new BehaviorSubject<Course[]>([]);
 
@@ -32,7 +33,9 @@ export class CoursesService extends UnsubscribeOnDestroyAdapter {
   getCoursById(id: string){
     return this.http.get<Course>(`${this.url}${id}`);
   }
-
+  getDialogData() {
+    return this.dialogData;
+  }
   getAllCourses(): void {
     this.subs.sink = this.http.get<Course[]>(this.url).subscribe(
       (data) => {
@@ -54,6 +57,19 @@ export class CoursesService extends UnsubscribeOnDestroyAdapter {
       },
       (err: HttpErrorResponse) => {
         console.log(err)
+        // error code here
+      }
+    );
+  }
+  addCourse(course: Course): void {
+    this.dialogData = course;
+    this.http.post(this.url, course).subscribe(
+      (data) => {
+        console.log(data)
+        this.dialogData = course;
+
+      },
+      (err: HttpErrorResponse) => {
         // error code here
       }
     );

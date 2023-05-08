@@ -12,6 +12,7 @@ import { CoursesService } from "../courses.service";
 import { Course } from "../courses.model";
 import { HttpClient } from "@angular/common/http";
 import { Router, ActivatedRoute } from "@angular/router";
+import {  FormDialogComponent} from "src/app/admin/stage/form-dialog/form-dialog.component"
 
 @Component({
   selector: "app-courses",
@@ -76,17 +77,75 @@ export class CoursesComponent
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
-  addNew() {}
+  addNew() {
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
 
+    const dialogRef = this.dialog.open(FormDialogComponent, {
+      data: {
+        dayOff: this.course,
+        action: "add",
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        this.exampleDatabase.dataChange.value.unshift(
+          this.coursesService.getDialogData()
+        );
+        this.refresh();
+        this.refreshTable();
+        this.showNotification(
+          "snackbar-success",
+          "Add Record Successfully...!!!",
+          "bottom",
+          "center"
+        );
+      }
+    });
+  }
   editCall(row) {
     this.id = row.id;
-    this.router.navigate(["/admin/stage/edit-course/", this.id])
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+    const dialogRef = this.dialog.open(FormDialogComponent, {
+      data: {
+        dayOff: row,
+        action: "edit",
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+          (x) => x.id === this.id
+        );
+        this.exampleDatabase.dataChange.value[foundIndex] =
+          this.coursesService.getDialogData();
+        this.refresh();
+        this.refreshTable();
+        this.showNotification(
+          "black",
+          "Edit Record Successfully...!!!",
+          "bottom",
+          "center"
+        );
+      }
+    });
   }
 
   
   public loadData() {
     this.exampleDatabase = new CoursesService(this.httpClient);
-    console.log(this.exampleDatabase);
+    
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,

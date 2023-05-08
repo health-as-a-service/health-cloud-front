@@ -1,22 +1,9 @@
-# Base image
-FROM node:14.17.0-alpine3.13
-
-# Set the working directory
+# Stage 1
+FROM node:16.16.0 as node
 WORKDIR /app
-
-# Copy the package.json and package-lock.json files to the container
-COPY package*.json ./
-
-# Install the dependencies
-RUN npm install --legacy-peer-deps
-
-# Copy the rest of the application files to the container
 COPY . .
-
-EXPOSE 4200
-
-# Build the application
+RUN npm install --legacy-peer-deps
 RUN npm run build --prod
-
-# Set the command to start the application
-CMD ["npm", "start"]
+# Stage 2
+FROM nginx:alpine
+COPY --from=node /app/dist/main /usr/share/nginx/html

@@ -10,8 +10,7 @@ import { Course } from "../courses.model";
 import { CoursesService } from "../courses.service";
 import { UserDetails } from "src/app/core/models/userDetails";
 import { formatDate } from "@angular/common";
-import { ActivatedRoute, Router } from '@angular/router';
-
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-edit-course",
@@ -19,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ["./edit-course.component.sass"],
 })
 export class EditCourseComponent implements OnInit {
+  
   courseForm: FormGroup;
   course: Course;
   doctors: UserDetails[] = [];
@@ -28,15 +28,18 @@ export class EditCourseComponent implements OnInit {
     private fb: FormBuilder,
     private courseService: CoursesService,
     private route: ActivatedRoute,
-    private router: Router,
-
+    private router: Router
   ) {
-    this.http
-      .get<UserDetails[]>("http://localhost:8082/User/role/3")
-      .subscribe((res) => {
-        this.doctors = res;
-      });
-
+    const id = this.route.snapshot.params["id"];
+    this.courseService.getDoctors().subscribe((data) => {
+      this.doctors = data;
+    });
+    this.courseService.getCoursById(id).subscribe((data) => {
+      console.log("-------" + data);
+      this.course = data;
+      console.log("________" + this.course);
+      this.courseForm = this.createContactForm();
+    });
     // this.http
     //   .get<Course>("http://localhost:8082/api/cours/2")
     //   .subscribe((res) => {
@@ -45,21 +48,10 @@ export class EditCourseComponent implements OnInit {
     //   });
   }
 
-  formControl = new FormControl("", [
-    Validators.required,
-    // Validators.email,
-  ]);
+  formControl = new FormControl("", [Validators.required]);
 
-  ngOnInit() {
-    const id = this.route.snapshot.params['id'];
-    this.courseService.getCoursById(id)
-      .subscribe((data) => {
-        this.course = data;
-        this.courseForm = this.createContactForm();
-
-      });
+  ngOnInit(): void {
   }
-  
 
   public onSubmit(): void {
     const courseData = this.courseForm.value;
@@ -73,38 +65,30 @@ export class EditCourseComponent implements OnInit {
       stagiaires: this.course.stagiaires,
     });
 
-    console.log(newCourse)
+    console.log(newCourse);
     this.courseService.updateCourse(newCourse);
 
-    // this.router.navigate(["/admin/stage/courses"])
+    this.router.navigate(["/admin/stage/courses"]);
   }
 
   createContactForm(): FormGroup {
-    const date = this.course.date
+    const date = this.course?.date
       ? formatDate(this.course.date, "yyyy-MM-dd", "en")
       : null;
     return this.fb.group({
       id: [this.course.id],
-      course_name: [this.course.course_name, [Validators.required]],
-      date: [date ,[Validators.required]],
-      duration: [this.course.duration, [Validators.required]],
-      description: [this.course.description,[Validators.required]],
-      doctor: [this.course.doctor,[Validators.required]],
+      course_name: [
+        this.course?.course_name || "My Course",
+        [Validators.required],
+      ],
+      date: [date, [Validators.required]],
+      duration: [this.course?.duration || 0],
+      description: [
+        this.course?.description || "My Course Description",
+        [Validators.required],
+      ],
+      doctor: [this.course?.doctor, [Validators.required]],
     });
   }
 
-  public confirmAdd(): void {
-    const courseData = this.courseForm.value;
-    const newCourse = new Course({
-      id: courseData.id,
-      course_name: courseData.course_name,
-      date: new Date(courseData.date),
-      description: courseData.description,
-      duration: courseData.duration,
-      doctor: new UserDetails({ idUser: courseData.doctor }),
-    });
-
-    this.courseService.updateCourse(newCourse);
-  }
 }
-

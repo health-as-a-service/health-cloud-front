@@ -86,6 +86,7 @@ export class CoursesComponent
   
   public loadData() {
     this.exampleDatabase = new CoursesService(this.httpClient);
+    console.log(this.exampleDatabase);
     this.dataSource = new ExampleDataSource(
       this.exampleDatabase,
       this.paginator,

@@ -26,6 +26,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatDividerModule } from '@angular/material/divider';
 
 import { MatRadioModule } from "@angular/material/radio";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
@@ -38,6 +39,7 @@ import { ComponentsModule } from "../shared/components/components.module";
     SupportComponent,
   ],
   imports: [
+    MatDividerModule,
     CommonModule,
     AppsRoutingModule,
     PerfectScrollbarModule,

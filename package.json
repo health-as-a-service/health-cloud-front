@@ -43,6 +43,7 @@
     "@swimlane/ngx-datatable": "^20.0.0",
     "@syncfusion/ej2-angular-dropdowns": "^21.2.3",
     "@types/d3-shape": "^3.0.2",
+    "@types/uuid": "^9.0.1",
     "acorn": "^8.6.0",
     "angular-feather": "^6.1.0",
     "angular-gauge": "^4.0.0",
@@ -74,6 +75,7 @@
     "rxjs": "^7.4.0",
     "subsink": "^1.0.2",
     "tslib": "^2.3.1",
+    "uuid": "^9.0.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

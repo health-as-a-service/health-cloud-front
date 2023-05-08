@@ -16,11 +16,14 @@ export class CoursesService extends UnsubscribeOnDestroyAdapter {
   isTblLoading = true;
   private readonly url = "http://localhost:8082/api/cours/";
   dataChange: BehaviorSubject<Course[]> = new BehaviorSubject<Course[]>([]);
-
+// Temporarily stores data from dialogs
+   dialogData: any;
   constructor(private http: HttpClient) {
     super();
   }
-
+  getDialogData() {
+    return this.dialogData;
+  }
   get data(): Course[] {
     return this.dataChange.value;
   }
@@ -30,7 +33,7 @@ export class CoursesService extends UnsubscribeOnDestroyAdapter {
   }
 
   getCoursById(id: string){
-    return this.http.get<Course>(`${this.url}${id}`);
+    return this.http.get<Course>(this.url+ `${id}`);
   }
 
   getAllCourses(): void {
@@ -50,6 +53,19 @@ export class CoursesService extends UnsubscribeOnDestroyAdapter {
   updateCourse(course: Course): void {
     this.http.put(this.url + course.id, course).subscribe(
       (data) => {
+      console.log (data);
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err)
+        // error code here
+      }
+    );
+  }
+  addCourse(course: Course): void {
+    this.dialogData = course
+    this.http.post(this.url, course).subscribe(
+      (data) => {
+        this.dialogData = course;
       console.log (data);
       },
       (err: HttpErrorResponse) => {

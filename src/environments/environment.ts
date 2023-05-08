@@ -4,13 +4,14 @@
 
 export const environment = {
   production: false,
-   clinivaAuthUrl: "http://172.17.0.3:8082",
+   clinivaAuthUrl: "http://localhost:8082",
    //clinivaAppointmentUrl: "https://lingering-forest-5081.us-east1.kalix.app:443",
   //clinivaAuthUrl: "http://127.0.0.1:9000",
   //clinivaAppointmentUrl: "http://127.0.0.1:9001",
   firebaseConfig : {
     apiKey: "AIzaSyAe6dHFOx-CsZb11Q5zBTcKSw1VPkPwGKU",
     authDomain: "healthcloud-b2935.firebaseapp.com",
+    databaseURL: "https://healthcloud-b2935-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "healthcloud-b2935",
     storageBucket: "healthcloud-b2935.appspot.com",
     messagingSenderId: "416440020663",

@@ -12,6 +12,8 @@ import { CoursesService } from "../courses.service";
 import { Course } from "../courses.model";
 import { HttpClient } from "@angular/common/http";
 import { Router, ActivatedRoute } from "@angular/router";
+import { FormDialogComponent } from "../form-dialog/form-dialog.component";
+import { DeleteDialogComponent } from "../delete/delete.component";
 
 @Component({
   selector: "app-courses",
@@ -72,16 +74,112 @@ export class CoursesComponent
     });
   }
 
-  deleteItem(row) {}
+  deleteItem(row) {
+    this.id = row.id;
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+    const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      data: row,
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+          (x) => x.id === this.id
+        );
+        // for delete we use splice in order to remove single object from DataService
+        this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
+        this.refreshTable();
+        this.showNotification(
+          "snackbar-danger",
+          "Delete Record Successfully...!!!",
+          "bottom",
+          "center"
+        );
+      }
+    });
+  }
   private refreshTable() {
     this.paginator._changePageSize(this.paginator.pageSize);
   }
-  addNew() {}
+
+  addNew() {
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+    const dialogRef = this.dialog.open(FormDialogComponent, {
+      data: {
+        course: this.course,
+        action: "add",
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        // After dialog is closed we're doing frontend updates
+        // For add we're just pushing a new row inside DataService
+        this.exampleDatabase.dataChange.value.unshift(
+          this.coursesService.getDialogData()
+        );
+        this.refreshTable();
+        this.showNotification(
+          "snackbar-success",
+          "Add Record Successfully...!!!",
+          "bottom",
+          "center"
+        );
+      }
+    });
+  }
+
 
   editCall(row) {
     this.id = row.id;
-    this.router.navigate(["/admin/stage/edit-course/", this.id])
+    let tempDirection;
+    if (localStorage.getItem("isRtl") === "true") {
+      tempDirection = "rtl";
+    } else {
+      tempDirection = "ltr";
+    }
+    const dialogRef = this.dialog.open(FormDialogComponent, {
+      data: {
+        course: row,
+        action: "edit",
+      },
+      direction: tempDirection,
+    });
+    this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
+      if (result === 1) {
+        // When using an edit things are little different, firstly we find record inside DataService by id
+        const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
+          (x) => x.id === this.id
+        );
+        // Then you update that record using data from dialogData (values you enetered)
+        this.exampleDatabase.dataChange.value[foundIndex] =
+          this.coursesService.getDialogData();
+        // And lastly refresh table
+        this.refreshTable();
+        this.showNotification(
+          "black",
+          "Edit Record Successfully...!!!",
+          "bottom",
+          "center"
+        );
+      }
+    });
   }
+
+  // editCall(row) {
+  //   this.id = row.id;
+  //   this.router.navigate(["/admin/stage/edit-course/", this.id])
+  // }
 
   
   public loadData() {

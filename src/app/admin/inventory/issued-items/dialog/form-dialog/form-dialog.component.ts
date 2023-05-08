@@ -14,14 +14,11 @@ import { formatDate } from "@angular/common";
   templateUrl: "./form-dialog.component.html",
   styleUrls: ["./form-dialog.component.sass"],
 })
-
 export class FormDialogComponent {
   action: string;
   dialogTitle: string;
   issuedItemsForm: FormGroup;
   issuedItems: IssuedItems;
-  testType:any
-  tesstypes:any;
   constructor(
     public dialogRef: MatDialogRef<FormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -50,24 +47,22 @@ export class FormDialogComponent {
       ? "Not a valid email"
       : "";
   }
-  createContactForm(): FormGroup {  
-    this.issuedItemsService.getTestTypesHames().subscribe(data=>{
-      this.tesstypes=data;
-      console.log('types',this.tesstypes)
-    })
-
-    
+  createContactForm(): FormGroup {
     return this.fb.group({
       id: [this.issuedItems.id],
-      description: [this.issuedItems.description],
-      testDate: [
-        formatDate(this.issuedItems.testDate, "yyyy-MM-dd", "en"),
+      i_name: [this.issuedItems.i_name],
+      category: [this.issuedItems.category],
+      issue_date: [
+        formatDate(this.issuedItems.issue_date, "yyyy-MM-dd", "en"),
         [Validators.required],
       ],
-      testType: [this.issuedItemsService.getTestTypes],
-      resultat: [this.issuedItems.resultat],
+      return_date: [
+        formatDate(this.issuedItems.return_date, "yyyy-MM-dd", "en"),
+        [Validators.required],
+      ],
+      issue_to: [this.issuedItems.issue_to],
+      qty: [this.issuedItems.qty],
       status: [this.issuedItems.status],
-      email:[this.issuedItems.email]
     });
   }
   submit() {

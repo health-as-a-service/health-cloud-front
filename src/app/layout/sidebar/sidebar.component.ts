@@ -1,4 +1,4 @@
-import { Router, NavigationEnd, } from "@angular/router";
+import { Router, NavigationEnd } from "@angular/router";
 import { DOCUMENT } from "@angular/common";
 import {
   Component,
@@ -8,19 +8,16 @@ import {
   Renderer2,
   HostListener,
   OnDestroy,
-
 } from "@angular/core";
 import { ROUTES } from "./sidebar-items";
 import { AuthService } from "src/app/core/service/auth.service";
 import { Role } from "src/app/core/models/role";
-import { HttpClient } from "@angular/common/http";
 @Component({
   selector: "app-sidebar",
   templateUrl: "./sidebar.component.html",
   styleUrls: ["./sidebar.component.sass"],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  http: HttpClient;
   public sidebarItems: any[];
   level1Menu = "";
   level2Menu = "";
@@ -35,9 +32,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   headerHeight = 60;
   currentRoute: string;
   routerObj = null;
-  firstname: string = "";
-  lastname: string = "";
-  imageUrl: any;
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
@@ -105,7 +99,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
-    
     if (this.authService.currentUserValue) {
       const userRole = this.authService.currentUserValue.role;
       this.userFullName =
@@ -123,30 +116,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.userType = Role.Patient;
       } else if (userRole === Role.Doctor) {
         this.userType = Role.Doctor;
-      } else if (userRole == Role.Biologiste) {
-        this.userType = Role.Biologiste;
-      } else if (userRole == Role.Pharmacien) {
-        this.userType = Role.Pharmacien;
-      }else if (userRole == Role.Stagiare) {
-        this.userType = Role.Stagiare;
+      } else {
+        this.userType = Role.Admin;
       }
     }
 
     // this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
     this.initLeftSidebar();
     this.bodyTag = this.document.body;
-    //avatar
-    // this.http.get('https://ui-avatars.com/api/?name=Heni+Nechi').subscribe((data: any) => {
-    //  this.imageUrl = data.url;
-    //  console.log(this.imageUrl)
-    // });
-    this.loadavatar();
-  }
-  loadavatar(){
-    this.firstname = this.authService.currentUserValue.firstName;
-    console.log(this.firstname)
-   this.lastname = this.authService.currentUserValue.lastName;
-  this.imageUrl = `https://ui-avatars.com/api/?background=random&name=${this.firstname}+${this.lastname}?background=random`;
   }
   ngOnDestroy() {
     this.routerObj.unsubscribe();

@@ -10,12 +10,25 @@ export class DeleteDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<DeleteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public appointmentService: AppointmentService
+    public appointmentService1: AppointmentService
   ) {}
   onNoClick(): void {
     this.dialogRef.close();
   }
+  // confirmDelete(): void {
+  //   this.appointmentService1.deleteAppointment(this.data.id);
+  // }
+
   confirmDelete(): void {
-    this.appointmentService.deleteAppointment(this.data.id);
+    console.log(this.data)
+    this.appointmentService1.deleteAppointment(this.data.id_consultation);
   }
 }
+
+
+
+
+
+
+
+

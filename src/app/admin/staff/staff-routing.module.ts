@@ -3,7 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { AllstaffComponent } from "./allstaff/allstaff.component";
 import { AddStaffComponent } from "./add-staff/add-staff.component";
 import { EditStaffComponent } from "./edit-staff/edit-staff.component";
-import { StaffProfileComponent } from "../../apps/staff-profile/staff-profile.component";
+import { StaffProfileComponent } from "./staff-profile/staff-profile.component";
 import { Page404Component } from "./../../authentication/page404/page404.component";
 const routes: Routes = [
   {
@@ -18,7 +18,10 @@ const routes: Routes = [
     path: "edit-staff",
     component: EditStaffComponent,
   },
-  
+  {
+    path: "staff-profile",
+    component: StaffProfileComponent,
+  },
   { path: "**", component: Page404Component },
 ];
 @NgModule({

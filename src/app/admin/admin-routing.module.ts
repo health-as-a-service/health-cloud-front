@@ -7,44 +7,20 @@ const routes: Routes = [
     loadChildren: () =>
       import("./dashboard/dashboard.module").then((m) => m.DashboardModule),
   },
-  {
-    path: "stage",
-    loadChildren: () =>
-      import("./stage/stage.module").then((m) => m.StageModule),
-  },
+ 
+  
   {
     path: "day-off",
     loadChildren: () =>
       import("./day-offs/day-offs.module").then((m) => m.DayOffsModule),
   },
-  {
-    path: "donateurs",
-    loadChildren: () =>
-      import("./donateurs/donateurs.module").then((m) => m.DonateursModule),
-  },
-  {
-    path: "BanqueSang",
-    loadChildren: () =>
-      import("./banquesang/banquesang.module").then((m) => m.BanquesangModule),
-  },
-  
-
-
-  {
-    path: "operations",
-    loadChildren: () =>
-      import("./operations/operations.module").then((m) => m.OperationsModule),
-  },
-  {
-    path: "logistics",
-    loadChildren: () =>
-      import("./logistics/logistics.module").then((m) => m.LogisticsModule),
-  },
 
   {
     path: "appointment",
     loadChildren: () =>
-      import("./appointment/appointment.module").then((m) => m.AppointmentModule),
+      import("./appointment/appointment.module").then(
+        (m) => m.AppointmentModule
+      ),
   },
   {
     path: "doctors",

@@ -5,8 +5,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 @Injectable()
 export class MedicineListService extends UnsubscribeOnDestroyAdapter {
-  private readonly API_URL = "http://localhost:8082/Medicament";
-  private readonly API_URL_Phar = "http://localhost:8082/Pharmacie";
+  private readonly API_URL = "assets/data/medicineList.json";
   isTblLoading = true;
   dataChange: BehaviorSubject<MedicineList[]> = new BehaviorSubject<
     MedicineList[]
@@ -25,7 +24,7 @@ export class MedicineListService extends UnsubscribeOnDestroyAdapter {
   /** CRUD METHODS */
   getAllMedicineLists(): void {
     this.subs.sink = this.httpClient
-      .get<MedicineList[]>(`${this.API_URL}/getAllMedicament`)
+      .get<MedicineList[]>(this.API_URL)
       .subscribe(
         (data) => {
           this.isTblLoading = false;
@@ -37,79 +36,36 @@ export class MedicineListService extends UnsubscribeOnDestroyAdapter {
         }
       );
   }
-  getMedicineListforChart(){
-    return this.httpClient.get<MedicineList[]>(`${this.API_URL}/getAllMedicament`);
-  }
   addMedicineList(medicineList: MedicineList): void {
     this.dialogData = medicineList;
 
-  this.httpClient.post(`${this.API_URL}/add-medicament`, medicineList).subscribe(data => {
+    /*  this.httpClient.post(this.API_URL, medicineList).subscribe(data => {
       this.dialogData = medicineList;
       },
       (err: HttpErrorResponse) => {
      // error code here
-    });
+    });*/
   }
   updateMedicineList(medicineList: MedicineList): void {
     this.dialogData = medicineList;
 
-     this.httpClient.put(`${this.API_URL}/${medicineList.id}`, medicineList).subscribe(data => {
+    /* this.httpClient.put(this.API_URL + medicineList.id, medicineList).subscribe(data => {
       this.dialogData = medicineList;
     },
     (err: HttpErrorResponse) => {
       // error code here
     }
-  );
+  );*/
   }
   deleteMedicineList(id: number): void {
-    console.log(`deleteMedicineList(${id}) called`);
-     this.httpClient.delete(`${this.API_URL}/delete-medicament/${id}`).subscribe(data => {
+    console.log(id);
+
+    /*  this.httpClient.delete(this.API_URL + id).subscribe(data => {
+      console.log(id);
       },
       (err: HttpErrorResponse) => {
          // error code here
       }
-    );
+    );*/
   }
-  sellMedicines(medicineList: MedicineList[]): void {
-    console.log(medicineList)
-    this.httpClient.put(`${this.API_URL}/update-stock`, medicineList).subscribe(data => {
-      this.dialogData = medicineList;
-    },
-    (err: HttpErrorResponse) => {
-      // error code here
-    }
-  );
-
-  }
-  getSellCount(){
-    return this.httpClient.get<number>(`${this.API_URL_Phar}/get-sells-count`);
-  }
-  getSellTotal(){
-    return this.httpClient.get<number>(`${this.API_URL_Phar}/get-sells-total`);
-  }
-  setAddSellCount(m)
-  {
-    this.httpClient.post(`${this.API_URL_Phar}/add-sells-count/${m}`,null).subscribe((response) => {
-      console.log("Response from server:", response);
-      console.log("Sells total updated successfully");
-    }, error => {
-      console.error("Error updating sells total:", error);
-    });
-  }
-  setAddSellTotal(m) {
-    console.log("sell is pushed",m);
-    this.httpClient.post(`${this.API_URL_Phar}/add-sells-total/${m}`, null)
-      .subscribe((response) => {
-        console.log("Response from server:", response);
-        console.log("Sells total updated successfully");
-      }, error => {
-        console.error("Error updating sells total:", error);
-      });
-  }
-  getMedicineTypes()
-  {
-    return this.httpClient.get<number>(`${this.API_URL}/getcounttypes`);
-  }
-  
-
 }

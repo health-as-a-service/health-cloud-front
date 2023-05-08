@@ -28,7 +28,7 @@ export class FormDialogComponent {
     // Set the defaults
     this.action = data.action;
     if (this.action === "edit") {
-      this.dialogTitle = data.staff.nom;
+      this.dialogTitle = data.staff.name;
       this.staff = data.staff;
     } else {
       this.dialogTitle = "New Staff";
@@ -49,13 +49,13 @@ export class FormDialogComponent {
   }
   createContactForm(): FormGroup {
     return this.fb.group({
-     idUser: [this.staff.idUser],
-      nom: [this.staff.nom],
+      id: [this.staff.idUser],
+      name: [this.staff.nom],
       prenom: [this.staff.prenom],
       email: [this.staff.email],
-      username:[this.staff.username],
-      password: [this.staff.password],
-      
+ 
+      specialite: [this.staff.specialite],
+      job: [this.staff.job],
     });
   }
   submit() {
@@ -65,14 +65,6 @@ export class FormDialogComponent {
     this.dialogRef.close();
   }
   public confirmAdd(): void {
-    this.staffService.updateStaff(this.staff.idUser,this.staffForm.getRawValue());
-  }
-  public block(): void {
-    if(this.staff.statut==true){
-      this.staffService.blockStaff(this.staff.idUser);
-    }
-    else{
-      this.staffService.deblockStaff(this.staff.idUser);
-    }
+    this.staffService.addStaff(this.staffForm.getRawValue());
   }
 }

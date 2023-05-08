@@ -15,8 +15,11 @@ export class AppointmentService extends UnsubscribeOnDestroyAdapter {
   constructor(private httpClient: HttpClient) {
     super();
   }
-  get data(): Appointment[] {
-    return this.dataChange.value;
+  apiUrl='http://localhost:8082/consultations/allConsultation'
+  apiurldel='http://localhost:8082/consultations/'
+  get data(): any {
+    return this.httpClient.get<any>(this.apiUrl)
+   // return this.dataChange.value;
   }
   getDialogData() {
     return this.dialogData;
@@ -34,9 +37,19 @@ export class AppointmentService extends UnsubscribeOnDestroyAdapter {
       }
     );
   }
-  addAppointment(appointment: Appointment): void {
+  ADD_URL='http://localhost:8082/consultations/addConsultation'
+  addAppointment(appointment: any): void {
     this.dialogData = appointment;
 
+    this.dialogData = appointment;
+
+     this.httpClient.post(this.ADD_URL, appointment).subscribe(data => {
+      this.dialogData = appointment;
+    },
+    (err: HttpErrorResponse) => {
+      // error code here
+    }
+  );
     /*  this.httpClient.post(this.API_URL, appointment).subscribe(data => {
       this.dialogData = appointment;
       },
@@ -44,26 +57,31 @@ export class AppointmentService extends UnsubscribeOnDestroyAdapter {
      // error code here
     });*/
   }
-  updateAppointment(appointment: Appointment): void {
+  EDIT_URL='http://localhost:8082/consultations/'
+  updateAppointment(id:any,appointment: any): void {
     this.dialogData = appointment;
 
-    /* this.httpClient.put(this.API_URL + appointment.id, appointment).subscribe(data => {
+     this.httpClient.put(this.EDIT_URL + id, appointment).subscribe(data => {
       this.dialogData = appointment;
     },
     (err: HttpErrorResponse) => {
       // error code here
     }
-  );*/
+  );
   }
   deleteAppointment(id: number): void {
-    console.log(id);
-
-    /*  this.httpClient.delete(this.API_URL + id).subscribe(data => {
-      console.log(id);
+    this.httpClient.delete<any>(this.apiurldel + id).subscribe(
+      (data) => {
+        // Remove the deleted appointment from the data source
+        const index = this.dataChange.value.findIndex((appointment: Appointment) => appointment.id === id);
+        if (index > -1) {
+          this.dataChange.value.splice(index, 1);
+          this.dataChange.next(this.dataChange.value);
+        }
       },
-      (err: HttpErrorResponse) => {
-         // error code here
+      (error: HttpErrorResponse) => {
+        console.log(error.name + " " + error.message);
       }
-    );*/
+    );
   }
 }

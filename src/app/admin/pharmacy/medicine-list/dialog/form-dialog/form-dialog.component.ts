@@ -50,9 +50,19 @@ export class FormDialogComponent {
   createContactForm(): FormGroup {
     return this.fb.group({
       id: [this.medicineList.id],
-      nom: [this.medicineList.nom],
-      description: [this.medicineList.description],
-      prix: [this.medicineList.prix],
+      m_no: [this.medicineList.m_no],
+      m_name: [this.medicineList.m_name],
+      category: [this.medicineList.category],
+      company: [this.medicineList.company],
+      p_date: [
+        formatDate(this.medicineList.p_date, "yyyy-MM-dd", "en"),
+        [Validators.required],
+      ],
+      price: [this.medicineList.price],
+      e_date: [
+        formatDate(this.medicineList.e_date, "yyyy-MM-dd", "en"),
+        [Validators.required],
+      ],
       stock: [this.medicineList.stock],
     });
   }

@@ -3,7 +3,6 @@ import { Routes, RouterModule } from "@angular/router";
 import { ChatComponent } from "./chat/chat.component";
 import { ContactGridComponent } from "./contact-grid/contact-grid.component";
 import { SupportComponent } from "./support/support.component";
-import { StaffProfileComponent} from "./staff-profile/staff-profile.component"
 const routes: Routes = [
   {
     path: "chat",
@@ -17,11 +16,6 @@ const routes: Routes = [
     path: "support",
     component: SupportComponent,
   },
-  {
-    path:"staff-profile",
-    component: StaffProfileComponent
-  }
-  
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

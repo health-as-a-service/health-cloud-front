@@ -14,6 +14,8 @@ import { DeleteDialogComponent } from "./dialogs/delete/delete.component";
 import { DateAdapter, MAT_DATE_LOCALE } from "@angular/material/core";
 import { SelectionModel } from "@angular/cdk/collections";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
+import { AppointementService } from "../appointement.service";
+import { DetailappointementComponent } from "./dialogs/detailappointement/detailappointement.component";
 
 @Component({
   selector: "app-viewappointment",
@@ -27,15 +29,15 @@ export class ViewappointmentComponent
 {
   displayedColumns = [
     "select",
-    "img",
-    "name",
+    "id",
+    "patient",
     "email",
-    "gender",
+    //"gender",
     "date",
     "time",
-    "mobile",
+    //"mobile",
     "doctor",
-    "injury",
+    //"comment",
     "actions",
   ];
   exampleDatabase: AppointmentService | null;
@@ -48,19 +50,29 @@ export class ViewappointmentComponent
     public httpClient: HttpClient,
     public dialog: MatDialog,
     public appointmentService: AppointmentService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public appointmentService1:AppointementService
   ) {
     super();
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("filter", { static: true }) filter: ElementRef;
-
+app
+del
   ngOnInit() {
     this.loadData();
+    console.log('rrrrrrrrrrrrrrrr')
+    this.appointmentService1.getUser().subscribe(data=>{
+this.app=data
+      console.log(data)
+    })
   }
   refresh() {
     this.loadData();
+  }
+  openDetails(id){
+console.log(id)
   }
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -77,25 +89,44 @@ export class ViewappointmentComponent
           this.selection.select(row)
         );
   }
+  // removeSelectedRows() {
+  //   const totalSelect = this.selection.selected.length;
+  //   this.selection.selected.forEach((item) => {
+  //     const index: number = this.dataSource.renderedData.findIndex(
+  //       (d) => d === item
+  //     );
+  //     // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
+  //     this.exampleDatabase.dataChange.value.splice(index, 1);
+  //     this.refreshTable();
+  //     this.selection = new SelectionModel<Appointment>(true, []);
+  //   });
+  //   this.showNotification(
+  //     "snackbar-danger",
+  //     totalSelect + " Record Delete Successfully...!!!",
+  //     "bottom",
+  //     "center"
+  //   );
+  // }
   removeSelectedRows() {
     const totalSelect = this.selection.selected.length;
     this.selection.selected.forEach((item) => {
       const index: number = this.dataSource.renderedData.findIndex(
         (d) => d === item
       );
-      // console.log(this.dataSource.renderedData.findIndex((d) => d === item));
       this.exampleDatabase.dataChange.value.splice(index, 1);
-      this.refreshTable();
-      this.selection = new SelectionModel<Appointment>(true, []);
+      // Call your deleteConsultation method here with the id of the selected item
+      this.appointmentService1.deleteappointement(item.id).subscribe(response => {
+        console.log('Deleted item with id', item.id);
+      }, error => {
+        console.error('Error deleting item with id', item.id, error);
+      });
     });
-    this.showNotification(
-      "snackbar-danger",
-      totalSelect + " Record Delete Successfully...!!!",
-      "bottom",
-      "center"
-    );
+    this.refreshTable();
+    this.selection = new SelectionModel<Appointment>(true, []);
   }
+  
   addNew() {
+    console.log('rererer')
     let tempDirection;
     if (localStorage.getItem("isRtl") === "true") {
       tempDirection = "rtl";
@@ -105,7 +136,7 @@ export class ViewappointmentComponent
 
     const dialogRef = this.dialog.open(FormDialogComponent, {
       data: {
-        appointment: this.appointment,
+        appointment: null,
         action: "add",
       },
       direction: tempDirection,
@@ -129,6 +160,7 @@ export class ViewappointmentComponent
   }
   editCall(row) {
     this.id = row.id;
+    console.log(row)
     let tempDirection;
     if (localStorage.getItem("isRtl") === "true") {
       tempDirection = "rtl";
@@ -192,6 +224,7 @@ export class ViewappointmentComponent
     });
   }
   private refreshTable() {
+    this.appointmentService1.getUser()
     this.paginator._changePageSize(this.paginator.pageSize);
   }
   public loadData() {
@@ -253,7 +286,7 @@ export class ExampleDataSource extends DataSource<Appointment> {
           .slice()
           .filter((appointment: Appointment) => {
             const searchStr = (
-              appointment.name +
+              appointment.id +
               appointment.email +
               appointment.gender +
               appointment.date +

@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  clinivaAuthUrl: "",
+  clinivaAuthUrl: '${API_URL}',
   clinivaAppointmentUrl: "",
   firebaseConfig : {
     apiKey: "AIzaSyAe6dHFOx-CsZb11Q5zBTcKSw1VPkPwGKU",

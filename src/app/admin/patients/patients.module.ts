@@ -30,6 +30,18 @@ import { PatientService } from "./allpatients/patient.service";
 import { ComponentsModule } from "src/app/shared/components/components.module";
 import { SharedModule } from "./../../shared/shared.module";
 import { AuthService } from "src/app/core/service/auth.service";
+import { ShowDossierMedicaleComponent } from './allpatients/dialog/show-dossier-medicale/show-dossier-medicale.component';
+
+
+//-----
+
+import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
+import { ChartsModule as chartjsModule } from "ng2-charts";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { NgApexchartsModule } from "ng-apexcharts";
+
+
+
 
 @NgModule({
   declarations: [
@@ -39,9 +51,13 @@ import { AuthService } from "src/app/core/service/auth.service";
     PatientProfileComponent,
     DeleteComponent,
     FormDialogComponent,
+    ShowDossierMedicaleComponent,
+    
+    
   ],
   imports: [
     CommonModule,
+    chartjsModule,
     PatientsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
@@ -64,7 +80,11 @@ import { AuthService } from "src/app/core/service/auth.service";
     MatProgressSpinnerModule,
     ComponentsModule,
     SharedModule,
+    PerfectScrollbarModule,
+    MatTooltipModule,
+    NgApexchartsModule,
+  
   ],
   providers: [PatientService, AuthService],
 })
-export class PatientsModule {}
+export class PatientsModule { }

@@ -3,22 +3,22 @@ import { Component, Inject } from "@angular/core";
 import { PatientService } from "../../patient.service";
 
 @Component({
-  selector: "app-delete",
-  templateUrl: "./delete.component.html",
-  styleUrls: ["./delete.component.sass"],
+  selector: 'app-show-dossier-medicale',
+  templateUrl: './show-dossier-medicale.component.html',
+  styleUrls: ['./show-dossier-medicale.component.sass']
 })
-export class DeleteComponent {
+export class ShowDossierMedicaleComponent  {
   constructor(
-    public dialogRef: MatDialogRef<DeleteComponent>,
+    public dialogRef: MatDialogRef<ShowDossierMedicaleComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public patientService: PatientService
   ) {}
+
   onNoClick(): void {
     this.dialogRef.close();
   }
-  confirmDelete(): void {
-    this.patientService.DeletePatientServices(this.data.idP).subscribe(res=>{
-      console.log('delete' , res)
-    })
-  }
+
+
+  
+
 }

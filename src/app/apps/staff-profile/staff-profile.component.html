@@ -6,7 +6,7 @@
     </div>
     <!-- Your content goes here  -->
     <div class="row clearfix">
-      <div class="col-lg-4 col-md-12">
+      <div class="col-lg-12 col-md-12">
         <div class="card">
           <div class="m-b-20">
             <div class="contact-grid">
@@ -14,199 +14,34 @@
                 <div class="user-name">{{userFullName}}</div>
                 <div class="name-center">{{userType}}</div>
               </div>
-              <img src="{{imageUrl}}" class="user-img" alt=""width="80" height="80">
-              <p>
-                456, Estern evenue, Courtage area,
-                <br />New York
-              </p>
+              <img src="{{imageUrl}}" class="user-img" alt=""width="110" height="110">
+             
               <div>
                 <span class="phone">
-                  <i class="material-icons">phone</i>58 294 469</span>
+                  <i class="material-icons"></i></span>
               </div>
               <div class="row">
                 <div class="col-4">
-                  <h5>564</h5>
-                  <small>Following</small>
+                  <h5>{{firstname}}</h5>
+                  <small>Firstname</small>
                 </div>
                 <div class="col-4">
-                  <h5>18k</h5>
-                  <small>Followers</small>
+                  <h5>{{lastname}}</h5>
+                  <small>Lastname</small>
                 </div>
                 <div class="col-4">
-                  <h5>565</h5>
-                  <small>Post</small>
+                  <h5>{{userEmail}}</h5>
+                  <small>Email</small>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="card">
-          <mat-tab-group mat-align-tabs="start">
-            <mat-tab label="About">
-              <div class="p-4">
-            
-                <small class="text-muted">Email address: </small>
-                <p>{{userEmail}}</p>
-                <hr>
-                <small class="text-muted">Phone: </small>
-                <p>+216 58 294 469</p>
-                <hr>
-              </div>
-            </mat-tab>
-            <mat-tab label="Skills">
-              <ul class="list-unstyled p-4">
-                <li>
-                  <div>observing patient</div>
-                  <div class="progress skill-progress m-b-20">
-                    <div class="progress-bar l-bg-green width-per-45" role="progressbar" aria-valuenow="45"
-                      aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </li>
-                <li>
-                  <div>Dressing</div>
-                  <div class="progress skill-progress m-b-20">
-                    <div class="progress-bar l-bg-orange width-per-38" role="progressbar" aria-valuenow="38"
-                      aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </li>
-                <li>
-                  <div>disease management</div>
-                  <div class="progress skill-progress m-b-20">
-                    <div class="progress-bar l-bg-cyan width-per-39" role="progressbar" aria-valuenow="39"
-                      aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </li>
-                <li>
-                  <div>communication</div>
-                  <div class="progress skill-progress m-b-20">
-                    <div class="progress-bar l-bg-purple width-per-70" role="progressbar" aria-valuenow="70"
-                      aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </li>
-              </ul>
-            </mat-tab>
-          </mat-tab-group>
-        </div>
+       
       </div>
-      <div class="col-lg-8 col-md-12">
+      <div class="col-lg-12 col-md-12">
         <div class="card">
           <mat-tab-group>
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon class="example-tab-icon msr-2">face</mat-icon>
-                About Me
-              </ng-template>
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="project_widget">
-                  <div class="header">
-                    <h2><strong>About</strong></h2>
-                  </div>
-                  <div class="body">
-                    <div class="row">
-                      <div class="col-md-3 col-6 b-r">
-                        <strong>Full Name</strong>
-                        <br>
-                        <p class="text-muted">{{userFullName}}</p>
-                      </div>
-                      <div class="col-md-3 col-6 b-r">
-                        <strong>Mobile</strong>
-                        <br>
-                        <p class="text-muted">+216 54 294 469</p>
-                      </div>
-                      <div class="col-md-3 col-6 b-r">
-                        <strong>Email</strong>
-                        <br>
-                        <p class="text-muted">{{userEmail}}</p>
-                      </div>
-                      
-                    </div>
-                    <p class="m-t-30">Completed my graduation in Arts from the well known and
-                      renowned institution
-                      of India – SARDAR PATEL ARTS COLLEGE, BARODA in 2000-01, which was
-                      affiliated
-                      to M.S. University. I ranker in University exams from the same
-                      university
-                      from 1996-01.</p>
-                    <p>Worked as Professor and Head of the department at Sarda Collage, Rajkot,
-                      Gujarat
-                      from 2003-2015 </p>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                      industry. Lorem
-                      Ipsum has been the industry's standard dummy text ever since the 1500s,
-                      when
-                      an unknown printer took a galley of type and scrambled it to make a
-                      type
-                      specimen book. It has survived not only five centuries, but also the
-                      leap
-                      into electronic typesetting, remaining essentially unchanged.</p>
-                    <br>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="project_widget">
-                  <div class="header">
-                    <h2><strong>Education</strong></h2>
-                  </div>
-                  <div class="body">
-                    <ul>
-                      <li>M.S.N.,Gujarat University, Ahmedabad,India.</li>
-                      <li>B.S.N.,Gujarat University, Ahmedabad, India.</li>
-                      <li>A.S.D.,Shaurashtra University, Rajkot, India</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="project_widget">
-                  <div class="header">
-                    <h2><strong>Experience</strong></h2>
-                  </div>
-                  <div class="body">
-                    <ul>
-                      <li>One year nursing internship from April-2009 to march-2010 at B. J.
-                        Medical College, Ahmedabad.</li>
-                      <li>I have worked as a part time Nursing in Apang manav mandal from 1st june
-                        2004 to 31st jan 2005.</li>
-                      <li>2.5 Years Worked at Mahatma Gandhi General Hospital, Surendranagar.</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="project_widget">
-                  <div class="header">
-                    <h2><strong>Conferences, Cources &amp; Workshop Attended</strong></h2>
-                  </div>
-                  <div class="body">
-                    <ul>
-                      <li>Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry.
-                      </li>
-                      <li>Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry.
-                      </li>
-                      <li>Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry.
-                      </li>
-                      <li>Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry.
-                      </li>
-                      <li>Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry.
-                      </li>
-                      <li>Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry.
-                      </li>
-                      <li>Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry.
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </mat-tab>
-
             <mat-tab>
               <ng-template mat-tab-label>
                 <mat-icon class="example-tab-icon msr-2">settings</mat-icon>
@@ -230,7 +65,7 @@
                     <input matInput formControlName="password" type="password" required>
                   </mat-form-field>
                 </div>
-                <button mat-raised-button color="primary">Save</button>
+             
               </div>
               <div class="header">
                 <h2>

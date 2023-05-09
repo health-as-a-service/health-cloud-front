@@ -33,7 +33,10 @@ export class StaffProfileComponent implements OnInit {
       this.staffForm = this.createContactForm();
     }
   ngOnInit(): void {
+        this.lastname= this.authservice.currentUserValue.prenom
+        this.firstname=this.authservice.currentUserValue.nom
     this.userFullName =
+        
         this.authservice.currentUserValue.firstName +
         " " +
         this.authservice.currentUserValue.lastName;

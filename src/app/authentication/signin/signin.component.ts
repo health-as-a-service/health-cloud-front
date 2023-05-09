@@ -35,8 +35,8 @@ export class SigninComponent
 
   ngOnInit() {
     this.authForm = this.formBuilder.group({
-      email: ["bringa", Validators.required],
-      password: ["bringa", Validators.required],
+      email: ["", Validators.required],
+      password: ["", Validators.required],
     });
   }
   get f() {
@@ -74,22 +74,7 @@ export class SigninComponent
           (res) => {
             if (res) {
               const role = this.authService.currentUserValue.role;
-              if (role === Role.All || role === Role.Admin || role == Role.None) {
-                this.router.navigate(["/admin/dashboard/main"]);
-              } else if (role === Role.Doctor) {
-                this.router.navigate(["/doctor/dashboard"]);
-              } else if (role === Role.Stagiare ) {
-                this.router.navigate(["/stagiaire/stage/all"]);
-              } else if (role === Role.Patient) {
-                this.router.navigate(["/patient/dashboard"]);
-              } else if (role === Role.Pharmacien) {
-                this.router.navigate(["/pharmacien/medicine-list"]);
-              }else if (role === Role.Biologiste) {
-                this.router.navigate(["/biologiste/issued-items"]);
-              }  
-              else {
-                this.router.navigate(["/authentication/signin"]);
-              }
+                this.router.navigate(["/apps/staff-profile"]); 
               this.loading = false;
               this.messagingService.requestPermission();
               this.messagingService.receiveMessage();

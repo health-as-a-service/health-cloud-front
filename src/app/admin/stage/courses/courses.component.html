@@ -62,12 +62,7 @@
                   <mat-header-cell *matHeaderCellDef mat-sort-header>time</mat-header-cell>
                   <mat-cell *matCellDef="let row">{{row?.date | date: 'hh:mm'}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="duration">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Duration</mat-header-cell>
-                  <mat-cell *matCellDef="let row">
-                    <span class="truncate-text">{{row?.duration}}</span>
-                  </mat-cell>
-                </ng-container>
+
                 <ng-container matColumnDef="doctor">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Doctor</mat-header-cell>
                   <mat-cell *matCellDef="let row"> {{row.doctor?.nom}} {{row.doctor?.prenom}}</mat-cell>

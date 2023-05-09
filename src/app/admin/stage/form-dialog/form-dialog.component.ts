@@ -9,6 +9,7 @@ import {
 } from "@angular/forms";
 import { Course } from "../../stage/courses.model";
 import { UserDetails } from "src/app/core/models/userDetails";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-form-dialog",
@@ -25,20 +26,25 @@ export class FormDialogComponent {
     public dialogRef: MatDialogRef<FormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public courseService: CoursesService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private http: HttpClient
   ) {
     // Set the defaults
     this.action = data.action;
     if (this.action === "edit") {
-      this.dialogTitle = data.course.m_name;
       this.course = data.course;
+      this.dialogTitle = this.course.course_name;
     } else {
-      this.dialogTitle = "New MedicineList";
+      this.dialogTitle = "New Coursepos";
       this.course = new Course({});
     }
-    this.courseService.getDoctors().subscribe((data) => {
-      this.doctors = data;
-    });
+
+    this.http
+      .get<UserDetails[]>("http://localhost:8082/User/role/3")
+      .subscribe((doctors) => {
+        this.doctors = doctors;
+      });
+
     this.courseForm = this.createContactForm();
   }
   formControl = new FormControl("", [
@@ -53,14 +59,12 @@ export class FormDialogComponent {
       : "";
   }
   createContactForm(): FormGroup {
-
     return this.fb.group({
       id: [this.course.id],
       course_name: [this.course.course_name],
       description: [this.course.description],
       date: [this.course.date],
-      duration: [this.course.duration],
-      doctor: [this.course?.doctor, [Validators.required]],
+      doctor: [this.course?.doctor?.idUser, [Validators.required]],
     });
   }
   submit() {
@@ -77,11 +81,10 @@ export class FormDialogComponent {
       course_name: courseData.course_name,
       date: new Date(courseData.date),
       description: courseData.description,
-      duration: courseData.duration,
       doctor: new UserDetails({ idUser: courseData.doctor }),
       stagiaires: this.course.stagiaires,
     });
     console.log(newCourse);
-    this.courseService.addCourse(  newCourse  );
+    this.courseService.addCourse(newCourse);
   }
 }

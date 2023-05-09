@@ -29,7 +29,6 @@ export class CoursesComponent
     "coursename",
     "date",
     "time",
-    "duration",
     "doctor",
     "actions",
   ];
@@ -123,11 +122,10 @@ export class CoursesComponent
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
-        // After dialog is closed we're doing frontend updates
-        // For add we're just pushing a new row inside DataService
         this.exampleDatabase.dataChange.value.unshift(
           this.coursesService.getDialogData()
         );
+        this.refresh();
         this.refreshTable();
         this.showNotification(
           "snackbar-success",
@@ -157,14 +155,12 @@ export class CoursesComponent
     });
     this.subs.sink = dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
-        // When using an edit things are little different, firstly we find record inside DataService by id
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
           (x) => x.id === this.id
         );
-        // Then you update that record using data from dialogData (values you enetered)
         this.exampleDatabase.dataChange.value[foundIndex] =
           this.coursesService.getDialogData();
-        // And lastly refresh table
+        this.refresh();
         this.refreshTable();
         this.showNotification(
           "black",
@@ -176,10 +172,6 @@ export class CoursesComponent
     });
   }
 
-  // editCall(row) {
-  //   this.id = row.id;
-  //   this.router.navigate(["/admin/stage/edit-course/", this.id])
-  // }
 
   
   public loadData() {

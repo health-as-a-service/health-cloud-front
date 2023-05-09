@@ -35,10 +35,8 @@ export class CoursesService extends UnsubscribeOnDestroyAdapter {
   }
 
   deleteCourse(id: string): void {
-    console.log(id);
     this.http.delete(this.url + `${id}`).subscribe(
       (data) => {
-        console.log(id);
       },
       (err: HttpErrorResponse) => {}
     );

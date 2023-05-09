@@ -36,6 +36,16 @@ export class CoursesService extends UnsubscribeOnDestroyAdapter {
     return this.http.get<Course>(this.url+ `${id}`);
   }
 
+  removeStFromCours(cID: string, sID: string ){
+    this.http.delete(`http://localhost:8082/api/cours/${cID}/stagiaire/${sID}`).subscribe(
+      (data) => {
+        console.log(cID);
+        console.log(sID)
+      },
+      (err: HttpErrorResponse) => {}
+    );
+  }
+
   getAllCourses(): void {
     this.subs.sink = this.http.get<Course[]>(this.url).subscribe(
       (data) => {
@@ -66,7 +76,6 @@ export class CoursesService extends UnsubscribeOnDestroyAdapter {
     this.http.post(this.url, course).subscribe(
       (data) => {
         this.dialogData = course;
-      console.log (data);
       },
       (err: HttpErrorResponse) => {
         console.log(err)
@@ -81,7 +90,9 @@ export class CoursesService extends UnsubscribeOnDestroyAdapter {
       (data) => {
         console.log(id);
       },
-      (err: HttpErrorResponse) => {}
+      (err: HttpErrorResponse) => {
+        console.log(err)
+      }
     );
   }
 }

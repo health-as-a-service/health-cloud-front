@@ -1,4 +1,4 @@
-import { Component, OnInit,  } from "@angular/core";
+import { Component, OnInit,ViewChild, ElementRef  } from "@angular/core";
 import firebase from 'firebase/compat/app';
 
 import { environment } from 'src/environments/environment'
@@ -8,6 +8,7 @@ import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Valida
 import { v4 as uuidv4 } from 'uuid';
 import { Chat } from "./chat.model";
 import { AuthService } from "src/app/core/service/auth.service";
+import { AngularFireMessaging } from "@angular/fire/compat/messaging";
 
 
 // const config = {
@@ -20,6 +21,7 @@ import { AuthService } from "src/app/core/service/auth.service";
   styleUrls: ["./chat.component.scss"],
 })
 export class ChatComponent {
+  @ViewChild('target') private myScrollContainer: ElementRef;
   
   title = 'firechat';
   app: FirebaseApp;
@@ -34,9 +36,10 @@ export class ChatComponent {
     this.db = getDatabase(this.app);
     this.form = this.formBuilder.group({
       'message' : [],
-      'username' : this.authService.currentUserValue.username
+      'username' : `${this.authService.currentUserValue.firstName} ${this.authService.currentUserValue.lastName}` 
     });
   }
+
 
   onChatSubmit(form: any) {
     const chat = form;
@@ -45,11 +48,12 @@ export class ChatComponent {
     set(ref(this.db, `chats/${chat.id}`), chat);
     this.form = this.formBuilder.group({
       'message' : [],
-      'username' : this.authService.currentUserValue.username
+      'username' : `${this.authService.currentUserValue.firstName} ${this.authService.currentUserValue.lastName}` 
     });
   }
   
   ngOnInit(): void {
+    
     const chatsRef = ref(this.db, 'chats');
     onValue(chatsRef, (snapshot: any) => {
       const data = snapshot.val();

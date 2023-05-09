@@ -2,28 +2,27 @@
   <div class="content-block">
     <div class="block-header">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="'Chat'" [items]="['Apps']" [active_item]="'Chat'"></app-breadcrumb>
+      <app-breadcrumb></app-breadcrumb>
     </div>
     <div class="row">
 
       <div class="col-xs-12 col-sm-12 col-md-9 col-lg-12">
         <div class="card">
           <div class="chat">
-           
             <div class="chat-history" id="chat-conversation" style="position: relative; max-height: 449px;"
-              [perfectScrollbar]>
-              <div id="history">
-                <div *ngFor="let chat of chats" class="mb">
-                  <mat-card>
+              [perfectScrollbar] #scrollMe [scrollTop]="scrollMe.scrollHeight">
+              <!-- <div id="history"> -->
+                <div *ngFor="let chat of chats" >
+                  <mat-card  class="mb-4">
                     <mat-card-subtitle>
-                      <span> <strong>{{chat.username}}</strong> (Sent: {{chat.timestamp | date:'medium'}})</span>
+                      <span> <strong>{{chat.username}} </strong> Sent: ({{chat.timestamp | date:'short'}})</span>
                     </mat-card-subtitle>
                     <mat-card-content>
                       <p>{{chat.message}}</p>
                     </mat-card-content>
                   </mat-card>
                 </div>
-              </div>
+              <!-- </div> -->
             </div>
           </div>
           <div class="chat-message clearfix">
@@ -41,38 +40,6 @@
               </div>
             </div>
           </div>
-
-          <!-- <div class="chat-message clearfix">
-              <div class="form-group">
-                <div class="form-line">
-                  <mat-form-field appearance="outline" class="fw">
-                    <mat-label>Enter Chat</mat-label>
-                    <input matInput formControlName="message" (ngSubmit)="onChatSubmit(form.value)">
-                    <button type="submit" matSuffix mat-icon-button aria-label="Submit">
-                      <mat-icon>send</mat-icon>
-                    </button>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="chat-upload">
-                <button mat-mini-fab class="bg-deep-orange msr-2"> <i class="material-icons">attach_file</i></button>
-                <button mat-mini-fab class="bg-deep-orange"> <i class="material-icons">insert_emoticon</i></button>
-              </div>
-            </div> -->
-
-          <!-- <div id="history">
-            <div *ngFor="let chat of chats" class="mb">
-              <mat-card>
-                <mat-card-subtitle>
-                  <span>{{chat.username}} (Sent: {{chat.timestamp | date:'long'}})</span>
-                </mat-card-subtitle>
-                <mat-card-content>
-                  <p>{{chat.message}}</p>
-                </mat-card-content>
-              </mat-card>
-            </div>
-          </div> -->
-
         </div>
       </div>
     </div>

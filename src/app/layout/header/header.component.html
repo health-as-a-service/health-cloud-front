@@ -43,14 +43,14 @@
                   <h5 class="mb-0">Notitications</h5>
                 </li>
                 <li>
-                  <a href="#" *ngFor="let notification of notifications" onClick="return false;"
+                  <a href="#" *ngFor="let notification of notifications | async" onClick="return false;"
                     [ngClass]="[notification.status]">
                     <span class="table-img msg-user ">
                       <i class="material-icons-two-tone nfc-type-icon"
                         [ngClass]="[notification.color]">{{notification.icon}}</i>
                     </span>
                     <span class="menu-info">
-                      <span class="menu-title">{{notification.message}}</span>
+                      <span class="menu-title">{{notification}}</span>
                       <span class="menu-desc mt-2">
                         <i class="material-icons">access_time</i> {{notification.time}}
                       </span>

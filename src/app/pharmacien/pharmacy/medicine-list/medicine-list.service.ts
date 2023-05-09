@@ -33,7 +33,6 @@ export class MedicineListService extends UnsubscribeOnDestroyAdapter {
         },
         (error: HttpErrorResponse) => {
           this.isTblLoading = false;
-          console.log(error.name + " " + error.message);
         }
       );
   }
@@ -62,7 +61,6 @@ export class MedicineListService extends UnsubscribeOnDestroyAdapter {
   );
   }
   deleteMedicineList(id: number): void {
-    console.log(`deleteMedicineList(${id}) called`);
      this.httpClient.delete(`${this.API_URL}/delete-medicament/${id}`).subscribe(data => {
       },
       (err: HttpErrorResponse) => {
@@ -71,7 +69,6 @@ export class MedicineListService extends UnsubscribeOnDestroyAdapter {
     );
   }
   sellMedicines(medicineList: MedicineList[]): void {
-    console.log(medicineList)
     this.httpClient.put(`${this.API_URL}/update-stock`, medicineList).subscribe(data => {
       this.dialogData = medicineList;
     },
@@ -90,20 +87,15 @@ export class MedicineListService extends UnsubscribeOnDestroyAdapter {
   setAddSellCount(m)
   {
     this.httpClient.post(`${this.API_URL_Phar}/add-sells-count/${m}`,null).subscribe((response) => {
-      console.log("Response from server:", response);
-      console.log("Sells total updated successfully");
+
     }, error => {
-      console.error("Error updating sells total:", error);
     });
   }
   setAddSellTotal(m) {
-    console.log("sell is pushed",m);
     this.httpClient.post(`${this.API_URL_Phar}/add-sells-total/${m}`, null)
       .subscribe((response) => {
-        console.log("Response from server:", response);
-        console.log("Sells total updated successfully");
+      
       }, error => {
-        console.error("Error updating sells total:", error);
       });
   }
   getMedicineTypes()

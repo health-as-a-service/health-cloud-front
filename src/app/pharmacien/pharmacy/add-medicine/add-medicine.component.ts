@@ -17,6 +17,5 @@ export class AddMedicineComponent {
     });
   }
   onSubmit() {
-    console.log("Form Value", this.medicineListForm.value);
   }
 }

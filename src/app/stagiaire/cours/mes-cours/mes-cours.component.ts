@@ -36,11 +36,9 @@ export class MesCoursComponent
   public loadData(userId: string): void {
     this.coursesService.getStagiaireCourses(1).subscribe(
       (response: Course[]) => {
-        console.log(response)
         this.courseData = response;
       },
       (error: any) => {
-        console.error("Failed to fetch API data:", error);
       }
     );
   }

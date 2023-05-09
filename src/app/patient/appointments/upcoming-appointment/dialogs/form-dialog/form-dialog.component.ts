@@ -30,7 +30,6 @@ export class FormDialogComponent {
     // Set the defaults
     this.action = data.action;
     if (this.action === "edit") {
-      console.log(data.appointment.date);
       this.dialogTitle = data.appointment.doctor;
       this.appointment = data.appointment;
     } else {

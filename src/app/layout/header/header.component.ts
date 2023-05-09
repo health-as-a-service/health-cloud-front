@@ -14,6 +14,10 @@ import { RightSidebarService } from "src/app/core/service/rightsidebar.service";
 import { LanguageService } from "src/app/core/service/language.service";
 import { UnsubscribeOnDestroyAdapter } from "src/app/shared/UnsubscribeOnDestroyAdapter";
 const document: any = window.document;
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
+
+
 
 @Component({
   selector: "app-header",
@@ -49,63 +53,16 @@ export class HeaderComponent
     public languageService: LanguageService
   ) {
     super();
+
   }
   listLang = [
     { text: "English", flag: "assets/images/flags/us.svg", lang: "en" },
     { text: "Spanish", flag: "assets/images/flags/spain.svg", lang: "es" },
     { text: "German", flag: "assets/images/flags/germany.svg", lang: "de" },
   ];
-  notifications: any[] = [
-    {
-      message: "Please check your mail",
-      time: "14 mins ago",
-      icon: "mail",
-      color: "nfc-green",
-      status: "msg-unread",
-    },
-    {
-      message: "New Patient Added..",
-      time: "22 mins ago",
-      icon: "person_add",
-      color: "nfc-blue",
-      status: "msg-read",
-    },
-    {
-      message: "Your leave is approved!! ",
-      time: "3 hours ago",
-      icon: "event_available",
-      color: "nfc-orange",
-      status: "msg-read",
-    },
-    {
-      message: "Lets break for lunch...",
-      time: "5 hours ago",
-      icon: "lunch_dining",
-      color: "nfc-blue",
-      status: "msg-read",
-    },
-    {
-      message: "Patient report generated",
-      time: "14 mins ago",
-      icon: "description",
-      color: "nfc-green",
-      status: "msg-read",
-    },
-    {
-      message: "Please check your mail",
-      time: "22 mins ago",
-      icon: "mail",
-      color: "nfc-red",
-      status: "msg-read",
-    },
-    {
-      message: "Salary credited...",
-      time: "3 hours ago",
-      icon: "paid",
-      color: "nfc-purple",
-      status: "msg-read",
-    },
-  ];
+
+  notifications: Observable<any[]>
+
   ngOnInit() {
     this.config = this.configService.configData;
     const userRole = this.authService.currentUserValue.role;

@@ -8,12 +8,13 @@ import {
   Renderer2,
   HostListener,
   OnDestroy,
-
 } from "@angular/core";
 import { ROUTES } from "./sidebar-items";
 import { AuthService } from "src/app/core/service/auth.service";
 import { Role } from "src/app/core/models/role";
 import { HttpClient } from "@angular/common/http";
+
+
 @Component({
   selector: "app-sidebar",
   templateUrl: "./sidebar.component.html",

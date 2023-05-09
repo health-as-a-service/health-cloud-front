@@ -21,7 +21,6 @@ import { AuthService } from "src/app/core/service/auth.service";
 import { Router } from "@angular/router";
 import { Role } from "src/app/core/models/role";
 import { MatDialog } from "@angular/material/dialog";
-import { UpdateDialogComponent } from "../update-dialog/update-dialog.component";
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
